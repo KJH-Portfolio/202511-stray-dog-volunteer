@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="messageMapper">
+
+	<select id="selectInbox" parameterType="string" resultType="MessageVO">
+		SELECT  MESSAGE_NO
+	           ,MESSAGE_SEND_USER_ID
+	           ,MESSAGE_RECEIVE_USER_ID
+	           ,MESSAGE_CONTENT
+	           ,MESSAGE_IS_CHECK
+	           ,MESSAGE_CREATE_DATE
+	    FROM MESSAGES
+	    WHERE MESSAGE_RECEIVE_USER_ID = #{userId}
+	    AND NOT MESSAGE_IS_CHECK = 'K'
+	    ORDER BY MESSAGE_CREATE_DATE DESC
+	</select>
+	
+	<select id="unreadCount" parameterType="string" resultType="_int">
+		SELECT COUNT(*)
+		FROM MESSAGES
+		WHERE MESSAGE_RECEIVE_USER_ID = #{userId}
+		AND MESSAGE_IS_CHECK = 'N'
+	</select>
+	
+	<insert id="insertMessage" parameterType="MessageVO">
+		INSERT INTO MESSAGES (   MESSAGE_NO
+								,MESSAGE_SEND_USER_ID
+								,MESSAGE_RECEIVE_USER_ID
+								,MESSAGE_CONTENT
+								,MESSAGE_IS_CHECK
+								,MESSAGE_CREATE_DATE)
+		VALUES(SEQ_MESSAGES.NEXTVAL
+			  ,#{messageSendUserId}
+			  ,#{messageReceiveUserId}
+			  ,#{messageContent}
+			  ,#{messageIsCheck}
+			  ,SYSDATE)
+	</insert>
+	
+	<select id="selectSent" parameterType="string" resultType="MessageVO">
+		SELECT  MESSAGE_NO
+			   ,MESSAGE_SEND_USER_ID
+			   ,MESSAGE_RECEIVE_USER_ID
+			   ,MESSAGE_CONTENT
+			   ,MESSAGE_IS_CHECK
+			   ,MESSAGE_CREATE_DATE
+		FROM MESSAGES
+		WHERE MESSAGE_SEND_USER_ID = #{userId}
+		ORDER BY MESSAGE_CREATE_DATE DESC
+	</select>
+	
+	
+	<update id="readMessage" parameterType="_int">
+		UPDATE MESSAGES
+		SET MESSAGE_IS_CHECK = 'Y'
+		WHERE MESSAGE_NO = #{messageNo}
+		AND MESSAGE_IS_CHECK = 'N'
+	</update>
+	
+	<select id="receiveListCount" parameterType="string" resultType="int">
+		SELECT COUNT(*)
+		FROM MESSAGES
+		WHERE MESSAGE_RECEIVE_USER_ID = #{userId}
+		AND NOT MESSAGE_IS_CHECK = 'K'
+	</select>
+	
+	<select id="sendListCount" parameterType="string" resultType="int">
+		SELECT COUNT(*)
+		FROM MESSAGES
+		WHERE MESSAGE_SEND_USER_ID = #{userId}
+	</select>
+</mapper>

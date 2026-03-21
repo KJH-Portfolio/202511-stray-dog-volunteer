@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="fundingMapper">
+	
+	<select id="selectFunding" resultMap="FundingVOResultMap">
+		SELECT * 
+		FROM FUNDINGS
+		ORDER BY F_NO DESC
+	</select>
+	
+	<select id="fundingListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM FUNDINGS
+	</select>
+	
+	<select id="fundingListCount2" parameterType="string" resultType="int">
+	    SELECT COUNT(*)
+	    FROM FUNDINGS
+	    WHERE USER_ID LIKE '%' || #{searchKeyword} || '%'
+	    OR F_TITLE LIKE '%' || #{searchKeyword} || '%'
+	</select>
+	
+	
+	<select id="fundingDetailView" resultMap="FundingVOResultMap">
+		SELECT * 
+		FROM FUNDINGS
+		WHERE F_NO = #{fundingNo}
+	</select>
+	
+	<select id="searchKeyword" resultMap="FundingVOResultMap" parameterType="string">
+	    SELECT * 
+	    FROM FUNDINGS
+	    WHERE USER_ID LIKE '%' || #{searchKeyword} || '%'
+	    OR F_TITLE LIKE '%' || #{searchKeyword} || '%'
+	    ORDER BY F_NO DESC
+	</select>
+
+	
+	<insert id="insertFunding" parameterType="FundingVO">
+		INSERT INTO FUNDINGS (F_NO
+							 ,USER_ID
+							 ,F_TITLE
+							 ,F_CONTENT
+							 ,F_MAX_MONEY
+							 ,F_CURRENT_MONEY)
+		VALUES (SEQ_FUNDINGS.NEXTVAL
+			   ,#{userId}
+			   ,#{fundingTitle}
+			   ,#{fundingContent}
+			   ,#{fundingMaxMoney}
+			   ,0)
+	</insert>
+	
+	<insert id="insertMoney" parameterType="FundingHistoryVO">
+		INSERT INTO FUNDING_HISTORIES (FH_NO
+									 ,USER_ID
+									 ,F_NO
+									 ,F_MONEY
+									 ,INPUT_DATE)
+		VALUES (SEQ_FUNDING_HIS.NEXTVAL
+			   ,#{userId}
+			   ,#{fundingNo}
+			   ,#{fundingMoney}
+			   ,SYSDATE)
+	</insert>
+	
+	     <!-- resultMap 정의하기 -->
+     <resultMap type="FundingVO" id="FundingVOResultMap">
+        <result column="F_NO" property="fundingNo"/>
+        <result column="USER_ID" property="userId"/>
+        <result column="F_TITLE" property="fundingTitle"/>
+        <result column="F_CONTENT" property="fundingContent"/>
+        <result column="F_MAX_MONEY" property="fundingMaxMoney"/>
+        <result column="F_CURRENT_MONEY" property="fundingCurrentMoney"/>
+     </resultMap>
+     
+     <resultMap type="FundingHistoryVO" id="FundingHistoryVOResultMap">
+        <result column="FH_NO" property="fhNo"/>
+        <result column="USER_ID" property="userId"/>
+        <result column="F_TITLE" property="fundingNo"/>
+        <result column="INPUT_DATE" property="inputDate"/>
+     </resultMap>
+     
+     
+
+
+</mapper>

@@ -1,0 +1,18 @@
+# Eclipse / STS
+.classpath
+.project
+.settings/
+.springBeans
+bin/
+
+# Maven
+target/
+pom.properties
+dependency-reduced-pom.xml
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db

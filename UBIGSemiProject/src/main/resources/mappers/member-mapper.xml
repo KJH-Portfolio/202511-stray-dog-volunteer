@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="memberMapper">
+
+	<select id="loginMember" parameterType="MemberVO" resultType="MemberVO">
+		SELECT * FROM MEMBERS
+		WHERE USER_ID = #{userId}
+		AND USER_STATUS = 'Y'
+	</select>
+	
+	<insert id="insertMember" parameterType="MemberVO">
+		INSERT INTO MEMBERS( USER_ID
+							,USER_PWD
+							,USER_NAME
+							,USER_NICKNAME
+							,USER_ADDRESS
+							,USER_CONTACT
+							,USER_GENDER
+							,USER_AGE
+							,USER_ATTENDED_COUNT
+							,USER_RESTRICT_END_DATE
+							,USER_STATUS
+							,USER_ROLE
+							,USER_ENROLL_DATE
+							,USER_MODIFY_DATE)
+		VALUES(#{userId}
+			  ,#{userPwd}
+			  ,#{userName}
+			  ,#{userNickname}
+			  ,#{userAddress}
+			  ,#{userContact}
+			  ,#{userGender}
+			  ,#{userAge}
+			  ,0
+			  ,SYSDATE
+			  ,'Y'
+			  ,'MEMBER'
+			  ,SYSDATE
+			  ,SYSDATE)
+	</insert>
+	
+	<select id="checkId" parameterType="string" resultType="_int">
+		SELECT COUNT(*)
+		FROM MEMBERS
+		WHERE USER_ID = #{userId}
+	</select>
+	
+	<!-- 메시지 보낼 때 수신인 확인용 checkId 하나 더 만들기 -->
+	<!-- 이때는 USER_STATUS까지 확인해야한다. -->
+	
+	<select id="messageCheckId" parameterType="string" resultType="_int">
+		SELECT COUNT(*)
+		FROM MEMBERS
+		WHERE USER_ID = #{userId}	
+		AND USER_STATUS = 'Y'
+	</select>
+	
+	<!-- 회원 수정 처리 -->
+	<update id="updateMember" parameterType="MemberVO">
+		UPDATE MEMBERS
+		SET USER_NAME = #{userName}
+		   ,USER_NICKNAME = #{userNickname}
+		   ,USER_CONTACT = #{userContact}
+		   ,USER_ADDRESS = #{userAddress}
+		   ,USER_GENDER = #{userGender}
+		   ,USER_MODIFY_DATE = SYSDATE
+		WHERE USER_ID = #{userId}
+	</update>
+	
+	<!-- 회원 탈퇴 처리 : USER_STATUS를 N으로 바꾼다 -->
+	<update id="deleteMember" parameterType="string">
+		UPDATE MEMBERS
+		SET USER_STATUS = 'N'
+		WHERE USER_ID = #{userId}
+	</update>
+	
+	<!-- 모든 회원의 나이에 1 더하기 -->
+	<update id="addAge">
+		UPDATE MEMBERS
+		SET USER_AGE = USER_AGE + 1
+	</update>
+	
+	<!-- 회원 아이디 오름차순으로 전부 가져오기 (어드민 제외) -->
+	<select id="selectListByUserIdAsc" resultType="MemberVO">
+		SELECT *
+		FROM MEMBERS
+		WHERE USER_STATUS = 'Y'
+		AND USER_ROLE = 'MEMBER'
+		ORDER BY USER_ID
+	</select>
+	
+	<!-- 회원 수 가져오기 (어드민 제외) -->
+	<select id="listCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM MEMBERS
+		WHERE USER_STATUS = 'Y'
+		AND USER_ROLE = 'MEMBER'
+	</select>
+</mapper>

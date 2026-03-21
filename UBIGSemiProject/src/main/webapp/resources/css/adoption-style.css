@@ -1,0 +1,431 @@
+@charset "UTF-8";
+
+/* Adoption Common Styles */
+/* Adoption Common Styles */
+.adoption-container {
+    max-width: 1200px;
+    margin: 120px auto 40px;
+    padding: 0 20px;
+}
+
+.adoption-header {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 2rem;
+    color: var(--secondary-color);
+    font-weight: 700;
+}
+
+/* Grid Layout for Main Page */
+.adoption-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+/* Adoption Card */
+.adoption-card {
+    background: var(--white);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    /* Softer, spread out shadow */
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    /* Bouncy effect */
+    cursor: pointer;
+    border: 1px solid rgba(0, 0, 0, 0.03);
+    position: relative;
+    top: 0;
+}
+
+.adoption-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(255, 159, 67, 0.15);
+    /* Orange tinted shadow */
+    border-color: rgba(255, 159, 67, 0.2);
+}
+
+.card-image-wrapper {
+    position: relative;
+    width: 100%;
+    padding-top: 100%;
+    /* 1:1 Aspect Ratio */
+    background-color: #f8f9fa;
+    overflow: hidden;
+}
+
+.card-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.adoption-card:hover .card-image {
+    transform: scale(1.08);
+}
+
+.status-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background-color: rgba(255, 255, 255, 0.95);
+    color: var(--primary-color);
+    padding: 6px 14px;
+    font-size: 0.85rem;
+    font-weight: 800;
+    border-radius: 30px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(4px);
+    z-index: 2;
+}
+
+.card-content {
+    padding: 25px 20px;
+    text-align: center;
+    background: white;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--secondary-color);
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    letter-spacing: -0.5px;
+}
+
+/* Pagination */
+#paging {
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom: 40px;
+}
+
+.pagination-btn {
+    display: inline-block;
+    padding: 8px 16px;
+    margin: 0 4px;
+    border: 1px solid var(--border-color);
+    /* Light border */
+    background-color: var(--white);
+    color: #555;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-radius: 4px;
+    font-size: 0.95rem;
+}
+
+.pagination-btn:hover:not(:disabled) {
+    background-color: #f1f1f1;
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.pagination-btn.active {
+    background-color: var(--primary-color);
+    color: var(--white);
+    border-color: var(--primary-color);
+    font-weight: bold;
+}
+
+.pagination-btn:disabled {
+    color: #ccc;
+    cursor: not-allowed;
+    border-color: #eee;
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: var(--primary-color);
+    color: var(--white);
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: 500;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-hover);
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: var(--white);
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: 500;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+.btn-group {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 30px 0;
+}
+
+/* Tables */
+.adoption-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background-color: white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.adoption-table th,
+.adoption-table td {
+    padding: 15px;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+}
+
+.adoption-table th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    color: #555;
+    white-space: nowrap;
+}
+
+.adoption-table tr:hover {
+    background-color: #fcfcfc;
+}
+
+.adoption-table img {
+    border-radius: 4px;
+    object-fit: cover;
+}
+
+/* Forms */
+/* Forms */
+/* Search Filter Box */
+.search-filter-container {
+    background-color: var(--white);
+    /* Simple white background */
+    border-radius: 15px !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05) !important;
+    /* Cleaner shadow */
+    padding: 20px !important;
+    border: 1px solid #f0f0f0 !important;
+    /* Very subtle border */
+    max-width: 1100px !important;
+    /* Increased width for 1-row layout */
+    margin: 0 auto 30px !important;
+    /* Center align */
+}
+
+.filter-label {
+    font-size: 0.85rem !important;
+    /* Reduced font size */
+    color: var(--secondary-color) !important;
+    margin-bottom: 8px !important;
+    display: block;
+    font-weight: 800 !important;
+    letter-spacing: -0.5px;
+}
+
+/* Radio Button Groups - Horizontal Layout */
+/* Radio Button Groups - Horizontal Layout */
+.bg-white.p-2.rounded.border {
+    background-color: var(--white) !important;
+    /* Explicit white background */
+    border: 1px solid #dee2e6 !important;
+    /* Standard border */
+    padding: 4px 6px !important;
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    /* Vertically center items */
+    border-radius: 8px !important;
+    height: 46px !important;
+    /* Fixed Height for Alignment */
+    box-sizing: border-box;
+}
+
+.form-check-inline {
+    margin-right: 0 !important;
+    padding: 0;
+    border: none;
+    background: transparent;
+    box-shadow: none;
+}
+
+.form-check-inline:hover {
+    background: transparent;
+}
+
+/* Hide actual radio input */
+.form-check-input {
+    display: none;
+}
+
+/* Style label as a button/chip */
+.form-check-label {
+    cursor: pointer;
+    font-weight: 500;
+    color: #555;
+    font-size: 0.85rem;
+    padding: 6px 14px;
+    border: 1px solid #ddd;
+    border-radius: 50px;
+    background-color: var(--white);
+    transition: all 0.2s;
+    display: inline-block;
+    line-height: normal;
+}
+
+.form-check-label:hover {
+    background-color: #f8f9fa;
+    border-color: #ccc;
+}
+
+/* Checked state for label */
+.form-check-input:checked+.form-check-label {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+    font-weight: 700;
+    box-shadow: 0 2px 4px rgba(255, 159, 67, 0.3);
+}
+
+/* Input Fields */
+.custom-input-group {
+    box-shadow: none !important;
+    border-radius: 6px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    height: 100%;
+}
+
+/* Small inputs for Age/Weight */
+.input-short {
+    width: 55px !important;
+    /* Slightly wider for pill shape text */
+    min-width: 55px !important;
+    max-width: 55px !important;
+    display: inline-block !important;
+    /* Fixed small width */
+    flex: none !important;
+    /* Prevent stretching */
+    text-align: center;
+    background: white !important;
+    border: 1px solid #ddd !important;
+    border-radius: 50px !important;
+    /* Pill Shape to match chips */
+    padding: 6px !important;
+    font-size: 0.85rem;
+    height: 32px !important;
+    /* Consistent height */
+}
+
+.input-short:focus {
+    border-color: var(--primary-color) !important;
+    box-shadow: 0 0 0 2px rgba(255, 159, 67, 0.2) !important;
+}
+
+.form-control {
+    border: 1px solid #ddd !important;
+    background: white !important;
+    font-size: 0.85rem;
+    /* Reduced font size */
+    border-radius: 6px !important;
+    padding: 6px 10px;
+}
+
+.form-control:focus {
+    border-color: var(--primary-color) !important;
+}
+
+.input-group-text {
+    background: transparent !important;
+    border: none !important;
+    color: #555;
+    font-weight: bold;
+    padding: 0 2px;
+    font-size: 0.85rem;
+}
+
+/* Search Button Area */
+.d-grid .btn {
+    padding: 8px;
+    font-size: 0.95rem;
+}
+
+/* Detail View Specifics */
+.detail-table {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.detail-table th {
+    background-color: #f9f9f9;
+    color: #555;
+    font-weight: 600;
+    width: 150px;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+    border-right: 1px solid #eee;
+}
+
+.detail-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+    color: #333;
+}
+
+.detail-table tr:last-child th,
+.detail-table tr:last-child td {
+    border-bottom: none;
+}
+
+.detail-image-container {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.detail-image {
+    max-width: 100%;
+    max-height: 500px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Utility */
+.text-center {
+    text-align: center;
+}
+
+.mt-20 {
+    margin-top: 20px;
+}
+
+.mb-20 {
+    margin-bottom: 20px;
+}

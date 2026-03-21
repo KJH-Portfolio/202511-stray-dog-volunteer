@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="donationMapper">
+	
+	<select id="selectDonation" resultType="DonationVO">
+		SELECT *
+		FROM DONATIONS
+		ORDER BY DONATION_NO DESC
+	</select>
+	
+	<select id="donationListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM DONATIONS
+	</select>
+	
+	<select id="donationListCount2" resultType="_int" parameterType="string">
+		SELECT COUNT(*)
+		FROM DONATIONS
+		WHERE DONATION_TYPE = 1
+		AND USER_ID = #{userId}
+	</select>
+	
+	<select id="donationListCount3" resultType="_int" parameterType="string">
+		SELECT COUNT(*)
+		FROM DONATIONS
+		WHERE DONATION_TYPE = 2
+		AND USER_ID = #{userId}
+	</select>
+	
+	<select id="donationSearchCount" parameterType="string" resultType="int">
+	    SELECT COUNT(*)
+	    FROM DONATIONS
+	    WHERE USER_ID LIKE '%' || #{searchKeyword} || '%'
+	    OR DONATION_TYPE LIKE '%' || #{searchKeyword} || '%'
+	</select>
+	
+	<select id="searchKeyword" resultType="DonationVO" parameterType="string">
+	    SELECT * 
+	    FROM DONATIONS
+	    WHERE USER_ID LIKE '%' || #{searchKeyword} || '%'
+	    OR DONATION_TYPE LIKE '%' || #{searchKeyword} || '%'
+	    ORDER BY DONATION_NO DESC
+	</select>
+	
+	<select id="myDonation" resultType="DonationVO" parameterType="string">
+	    SELECT * 
+	    FROM DONATIONS
+	    WHERE USER_ID = #{userId}
+	    AND DONATION_TYPE = 1
+	    ORDER BY DONATION_NO DESC
+	</select>
+	
+	<select id="myDonation2" resultType="DonationVO" parameterType="string">
+	    SELECT * 
+	    FROM DONATIONS
+	    WHERE USER_ID = #{userId}
+	    AND DONATION_TYPE = 2
+	    ORDER BY DONATION_NO DESC
+	</select>
+	
+	<select id="selectDetailView" resultType="int" parameterType="string">
+		SELECT COUNT(*)
+		FROM DONATIONS
+		WHERE USER_ID = #{userId}
+		AND DONATION_TYPE = 1
+	</select>
+	
+	<!-- 정기 후원 -->
+	<insert id="donation" parameterType="DonationVO">
+		INSERT INTO DONATIONS (  DONATION_NO,
+							    USER_ID,
+							    DONATION_TYPE,
+							    DONATION_MONEY,
+							    DONATION_YN,
+							    DONATION_DATE
+							)
+							VALUES (
+							    SEQ_DONATIONS.NEXTVAL,
+							    #{userId},
+							    #{donationType},          
+							    #{donationMoney},
+							    1,          
+							    SYSDATE)
+	</insert>
+	
+	<!-- 정기 후원 해제 -->
+	<delete id="cancelDonation" parameterType="string">
+		DELETE FROM DONATIONS
+		WHERE DONATION_TYPE = 1
+		AND USER_ID = #{userId}
+	</delete>
+	
+	<!-- 일시 후원 -->
+	<insert id="donation2" parameterType="DonationVO">
+		INSERT INTO DONATIONS(DONATION_NO
+							 ,USER_ID
+							 ,DONATION_TYPE
+							 ,DONATION_MONEY
+							 ,DONATION_YN	
+							 ,DONATION_DATE)
+		VALUES(SEQ_DONATIONS.NEXTVAL
+			  ,#{userId}
+			  ,#{donationType}
+			  ,#{donationMoney}
+			  ,1
+			  ,SYSDATE)
+	</insert>
+	
+	
+
+
+</mapper>

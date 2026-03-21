@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="communityMapper">
+
+    <resultMap type="com.ubig.app.vo.community.BoardVO" id="boardResultMap">
+        <id property="boardId" column="BOARD_ID"/>
+        <result property="userId" column="USER_ID"/>
+        <result property="category" column="CATEGORY"/>
+        <result property="title" column="TITLE"/>
+        <result property="content" column="CONTENT"/>
+        <result property="createDate" column="CREATE_DATE"/>
+        <result property="updateDate" column="UPDATE_DATE"/>
+        <result property="viewCount" column="VIEW_COUNT"/>
+        <result property="isDeleted" column="IS_DELETED"/>
+        <result property="isPinned" column="IS_PINNED"/>
+        <result property="hashtags" column="HASHTAGS"/>
+        <result property="likeCount" column="LIKE_COUNT"/>
+        <result property="commentCount" column="COMMENT_COUNT"/>
+    </resultMap>
+
+    <resultMap type="com.ubig.app.vo.community.CommentVO" id="commentResultMap">
+        <id property="commentId" column="COMMENT_ID"/>
+        <result property="userId" column="USER_ID"/>
+        <result property="boardId" column="BOARD_ID"/>
+        <result property="content" column="CONTENT"/>
+        <result property="createDate" column="CREATE_DATE"/>
+        <result property="updateDate" column="UPDATE_DATE"/>
+        <result property="isDeleted" column="IS_DELETED"/>
+        <result property="parentId" column="PARENT_ID"/>
+    </resultMap>
+    
+    <!-- Boards -->
+    
+    <select id="selectListCount" parameterType="hashmap" resultType="_int">
+        SELECT COUNT(*) 
+        FROM BOARDS 
+        WHERE IS_DELETED = 'N' 
+        <!-- [Step 28: 수정] category가 있을 때만 필터링 (마이페이지 내 글 조회 시 전체 카테고리 검색) -->
+        <if test="category != null and category != ''">
+            AND CATEGORY = #{category}
+        </if>
+        <if test="condition != null and keyword != null and keyword != ''">
+            <choose>
+                <when test="condition == 'writer'">
+                    AND USER_ID LIKE '%' || #{keyword} || '%'
+                </when>
+                <when test="condition == 'content'">
+                    AND CONTENT LIKE '%' || #{keyword} || '%'
+                </when>
+                <when test="condition == 'titleContent'">
+                    AND (TITLE LIKE '%' || #{keyword} || '%' OR CONTENT LIKE '%' || #{keyword} || '%')
+                </when>
+                <when test="condition == 'hashtag'">
+                    AND HASHTAGS LIKE '%' || #{keyword} || '%'
+                </when>
+            </choose>
+        </if>
+        <!-- 고정 글은 카테고리 목록에서 중복 조회되면 안 되지만, 일단 목록 카운트에는 포함 -->
+    </select>
+    
+    <select id="selectBoardList" parameterType="hashmap" resultMap="boardResultMap">
+        SELECT 
+            BOARD_ID, USER_ID, CATEGORY, TITLE, CONTENT, 
+            CREATE_DATE, UPDATE_DATE, VIEW_COUNT, IS_DELETED, IS_PINNED, HASHTAGS,
+            (SELECT COUNT(*) FROM BOARD_LIKES WHERE BOARD_ID = B.BOARD_ID) AS LIKE_COUNT,
+            (SELECT COUNT(*) FROM COMMENTS WHERE BOARD_ID = B.BOARD_ID AND IS_DELETED = 'N') AS COMMENT_COUNT
+        FROM BOARDS B
+        WHERE IS_DELETED = 'N'
+        <!-- [Step 28: 수정] category가 있을 때만 필터링 -->
+        <if test="category != null and category != ''">
+            AND CATEGORY = #{category}
+        </if>
+        <if test="condition != null and keyword != null and keyword != ''">
+            <choose>
+                <when test="condition == 'writer'">
+                    AND USER_ID LIKE '%' || #{keyword} || '%'
+                </when>
+                <when test="condition == 'content'">
+                    AND CONTENT LIKE '%' || #{keyword} || '%'
+                </when>
+                <when test="condition == 'titleContent'">
+                    AND (TITLE LIKE '%' || #{keyword} || '%' OR CONTENT LIKE '%' || #{keyword} || '%')
+                </when>
+                <when test="condition == 'hashtag'">
+                    AND HASHTAGS LIKE '%' || #{keyword} || '%'
+                </when>
+            </choose>
+        </if>
+        ORDER BY IS_PINNED DESC, BOARD_ID DESC
+    </select>
+    
+    <select id="selectBoardDetail" parameterType="_int" resultMap="boardResultMap">
+        SELECT * FROM BOARDS WHERE BOARD_ID = #{boardId}
+    </select>
+    
+    <insert id="insertBoard" parameterType="com.ubig.app.vo.community.BoardVO">
+        <selectKey keyProperty="boardId" resultType="_int" order="BEFORE">
+            SELECT SEQ_BOARDS.NEXTVAL FROM DUAL
+        </selectKey>
+        INSERT INTO BOARDS (
+            BOARD_ID, USER_ID, CATEGORY, TITLE, CONTENT, CREATE_DATE, UPDATE_DATE, VIEW_COUNT, IS_DELETED, IS_PINNED, HASHTAGS
+        ) VALUES (
+            #{boardId}, #{userId}, #{category}, #{title}, #{content}, SYSDATE, SYSDATE, 0, 'N', #{isPinned}, #{hashtags}
+        )
+    </insert>
+    
+    <update id="updateBoard" parameterType="com.ubig.app.vo.community.BoardVO">
+        UPDATE BOARDS 
+        SET TITLE = #{title}, CONTENT = #{content}, UPDATE_DATE = SYSDATE 
+        WHERE BOARD_ID = #{boardId}
+    </update>
+    
+    <update id="deleteBoard" parameterType="_int">
+        UPDATE BOARDS SET IS_DELETED = 'Y' WHERE BOARD_ID = #{boardId}
+    </update>
+
+    <!-- Rotation Logic Queries -->
+    <select id="selectPinnedCount" parameterType="string" resultType="_int">
+        SELECT COUNT(*) FROM BOARDS 
+        WHERE IS_PINNED = 'Y' 
+        AND IS_DELETED = 'N'
+        AND CATEGORY = #{category}
+    </select>
+    
+    <select id="selectOldestPinned" parameterType="string" resultMap="boardResultMap">
+        SELECT * FROM (
+            SELECT * FROM BOARDS 
+            WHERE IS_PINNED = 'Y' 
+            AND IS_DELETED = 'N' 
+            AND CATEGORY = #{category}
+            ORDER BY CREATE_DATE ASC, BOARD_ID ASC
+        ) WHERE ROWNUM = 1
+    </select>
+    
+    <update id="updateBoardPinned" parameterType="map">
+        UPDATE BOARDS 
+        SET IS_PINNED = #{isPinned}, CATEGORY = #{category}
+        WHERE BOARD_ID = #{boardId}
+    </update>
+    
+    <!-- Comments -->
+    <select id="selectCommentList" parameterType="_int" resultMap="commentResultMap">
+        SELECT 
+            C.*, 
+            LEVEL AS "LEVEL",
+            (SELECT COUNT(*) FROM COMMENT_LIKES WHERE COMMENT_ID = C.COMMENT_ID) AS LIKE_COUNT
+        FROM COMMENTS C
+        WHERE BOARD_ID = #{boardId}
+        START WITH PARENT_ID IS NULL
+        CONNECT BY PRIOR COMMENT_ID = PARENT_ID
+        ORDER SIBLINGS BY COMMENT_ID ASC
+    </select>
+    
+    <insert id="insertComment" parameterType="com.ubig.app.vo.community.CommentVO">
+        <selectKey keyProperty="commentId" resultType="_int" order="BEFORE">
+            SELECT SEQ_COMMENTS.NEXTVAL FROM DUAL
+        </selectKey>
+        INSERT INTO COMMENTS (
+            COMMENT_ID, USER_ID, BOARD_ID, CONTENT, CREATE_DATE, UPDATE_DATE, IS_DELETED, PARENT_ID
+        ) VALUES (
+            #{commentId}, #{userId}, #{boardId}, #{content}, SYSDATE, SYSDATE, 'N', #{parentId}
+        )
+    </insert>
+    
+    <update id="updateComment" parameterType="com.ubig.app.vo.community.CommentVO">
+        UPDATE COMMENTS
+        SET CONTENT = #{content}, UPDATE_DATE = SYSDATE
+        WHERE COMMENT_ID = #{commentId}
+    </update>
+    
+    <update id="deleteComment" parameterType="_int">
+        UPDATE COMMENTS SET IS_DELETED = 'Y' WHERE COMMENT_ID = #{commentId}
+    </update>
+
+    <update id="increaseCount" parameterType="_int">
+        UPDATE BOARDS
+        SET VIEW_COUNT = VIEW_COUNT + 1
+        WHERE BOARD_ID = #{boardId}
+    </update>
+    
+    <!-- Likes -->
+    <insert id="insertBoardLike" parameterType="com.ubig.app.vo.community.BoardLikeVO">
+        INSERT INTO BOARD_LIKES (
+            LIKE_ID, BOARD_ID, USER_ID, TARGET_TYPE, CREATE_DATE
+        ) VALUES (
+
+            SEQ_BOARD_LIKES.NEXTVAL, #{boardId}, #{userId}, 'BOARD', SYSDATE
+
+    
+
+        )
+    </insert>
+    
+    <delete id="deleteBoardLike" parameterType="com.ubig.app.vo.community.BoardLikeVO">
+        DELETE FROM BOARD_LIKES 
+        WHERE BOARD_ID = #{boardId} AND USER_ID = #{userId}
+    </delete>
+    
+    <select id="checkBoardLike" parameterType="com.ubig.app.vo.community.BoardLikeVO" resultType="_int">
+        SELECT COUNT(*) FROM BOARD_LIKES 
+        WHERE BOARD_ID = #{boardId} AND USER_ID = #{userId}
+    </select>
+    
+    <select id="countBoardLike" parameterType="_int" resultType="_int">
+        SELECT COUNT(*) FROM BOARD_LIKES 
+        WHERE BOARD_ID = #{boardId}
+    </select>
+    
+    <!-- Comment Likes -->
+    <insert id="insertCommentLike" parameterType="com.ubig.app.vo.community.CommentLikeVO">
+        INSERT INTO COMMENT_LIKES (
+            LIKE_ID, COMMENT_ID, USER_ID, TARGET_TYPE, CREATE_DATE
+        ) VALUES (
+
+            SEQ_COMMENT_LIKES.NEXTVAL, #{commentId}, #{userId}, 'COMMENT', SYSDATE
+
+
+        )
+    </insert>
+    
+    <delete id="deleteCommentLike" parameterType="com.ubig.app.vo.community.CommentLikeVO">
+        DELETE FROM COMMENT_LIKES 
+        WHERE COMMENT_ID = #{commentId} AND USER_ID = #{userId}
+    </delete>
+    
+    <select id="checkCommentLike" parameterType="com.ubig.app.vo.community.CommentLikeVO" resultType="_int">
+        SELECT COUNT(*) FROM COMMENT_LIKES 
+        WHERE COMMENT_ID = #{commentId} AND USER_ID = #{userId}
+    </select>
+    
+    <select id="countCommentLike" parameterType="_int" resultType="_int">
+        SELECT COUNT(*) FROM COMMENT_LIKES 
+        WHERE COMMENT_ID = #{commentId}
+    </select>
+
+    <!-- Attachments -->
+    <insert id="insertBoardAttachment" parameterType="com.ubig.app.vo.community.BoardAttachmentVO">
+        INSERT INTO BOARD_ATTACHMENTS (
+            FILE_ID, BOARD_ID, REF_TYPE, REF_ID, ORIGINAL_NAME, SAVED_NAME, FILE_PATH, FILE_SIZE, CREATE_DATE
+        ) VALUES (
+            SEQ_BOARD_ATTACH.NEXTVAL, #{boardId}, #{refType}, #{refId}, #{originalName}, #{savedName}, #{filePath}, #{fileSize}, SYSDATE
+        )
+    </insert>
+
+    <insert id="insertCommentAttachment" parameterType="com.ubig.app.vo.community.CommentAttachmentVO">
+        INSERT INTO COMMENT_ATTACHMENTS (
+            FILE_ID, COMMENT_ID, REF_TYPE, REF_ID, ORIGINAL_NAME, SAVED_NAME, FILE_PATH, FILE_SIZE, CREATE_DATE
+        ) VALUES (
+            SEQ_CMT_ATTACH.NEXTVAL, #{commentId}, #{refType}, #{refId}, #{originalName}, #{savedName}, #{filePath}, #{fileSize}, SYSDATE
+        )
+    </insert>
+    
+    <select id="selectBoardAttachment" parameterType="_int" resultType="com.ubig.app.vo.community.BoardAttachmentVO">
+        SELECT * FROM BOARD_ATTACHMENTS
+        WHERE BOARD_ID = #{boardId}
+    </select>
+    
+    <select id="selectCommentAttachment" parameterType="_int" resultType="com.ubig.app.vo.community.CommentAttachmentVO">
+        SELECT * FROM COMMENT_ATTACHMENTS
+        WHERE COMMENT_ID = #{commentId}
+    </select>
+    
+</mapper>

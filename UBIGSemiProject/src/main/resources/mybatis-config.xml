@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+  <settings>
+  	<setting name="jdbcTypeForNull" value="NULL"/>
+  	<setting name="mapUnderscoreToCamelCase" value="true"/>
+  </settings>
+  
+  
+  <typeAliases>
+		<typeAlias type="com.ubig.app.vo.volunteer.ActivityVO" alias="activity"/>
+		<typeAlias type="com.ubig.app.vo.volunteer.SignVO" alias="sign"/>
+		<typeAlias type="com.ubig.app.vo.volunteer.VolunteerCommentVO" alias="comment"/>
+		<typeAlias type="com.ubig.app.vo.volunteer.VolunteerReviewVO" alias="review"/>
+		<typeAlias type="com.ubig.app.vo.volunteer.TagVO" alias="tag"/>
+		<typeAlias type="com.ubig.app.vo.volunteer.TagInfoVO" alias="tagInfo"/>
+	    <typeAlias type="com.ubig.app.vo.adoption.AnimalDetailVO" alias="AnimalDetail"/>
+	  	<typeAlias type="com.ubig.app.vo.member.MemberVO" alias="MemberVO"/>
+	  	<typeAlias type="com.ubig.app.vo.adoption.AdoptionPostVO" alias="AdoptionBoard"/>
+	  	<typeAlias type="com.ubig.app.vo.community.BoardVO" alias="BoardVO"/>
+	  	<typeAlias type="com.ubig.app.vo.member.MessageVO" alias="MessageVO"/>
+	  	<typeAlias type="com.ubig.app.vo.adoption.AdoptionApplicationVO" alias="AdoptionApplicationVO"/>
+	  	<typeAlias type="com.ubig.app.vo.funding.DonationVO" alias="DonationVO"/>
+	  	<typeAlias type="com.ubig.app.vo.funding.FundingVO" alias="FundingVO"/>
+	  	<typeAlias type="com.ubig.app.vo.funding.FundingHistoryVO" alias="FundingHistoryVO"/>
+	  	<typeAlias type="com.ubig.app.vo.member.AdminChatHistoryVO" alias="AdminChatHistoryVO"/>
+	  	<typeAlias type="com.ubig.app.vo.member.KickVO" alias="KickVO"/>
+		<typeAlias type="com.ubig.app.vo.adoption.AdoptionPostVO" alias="AdoptionPostVO"/>
+	</typeAliases>
+</configuration>

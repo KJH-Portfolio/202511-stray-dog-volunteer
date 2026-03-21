@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="chatMapper">
+
+	<select id="chatList" resultType="MemberVO">
+		SELECT USER_ID
+		FROM MEMBERS
+		WHERE USER_STATUS = 'Y'
+		AND USER_ROLE = 'MEMBER'
+		ORDER BY USER_ID
+	</select>
+	
+	<insert id="insertChat" parameterType="AdminChatHistoryVO">
+		INSERT INTO ADMIN_CHAT_HISTORIES(    CHAT_NO
+											,CHAT_SEND_USER_ID
+											,CHAT_RECEIVE_USER_ID
+											,CHAT_CONTENT
+											,CHAT_IS_CHECK
+											,CHAT_CREATE_DATE)
+		VALUES(SEQ_ADMIN_CHAT.NEXTVAL
+			  ,#{chatSendUserId}
+			  ,#{chatReceiveUserId}
+			  ,#{chatContent}
+			  ,'N'
+			  ,SYSDATE)
+	</insert>
+	
+	<select id="selectChat" parameterType="string" resultType="AdminChatHistoryVO">
+		SELECT *
+		FROM ADMIN_CHAT_HISTORIES
+		WHERE CHAT_SEND_USER_ID = #{userId}
+		OR CHAT_RECEIVE_USER_ID = #{userId}
+		ORDER BY CHAT_CREATE_DATE DESC
+	</select>
+</mapper>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+	
+	<!-- 
+		root-context : 서버구동과 동시에 web.xml을 거쳐서 읽혀지는 문서로
+		서버구동과 동시에 세팅해야하는 준비요소들이 있다면 이곳에 작성한다.
+		주로 DB연결, 트랜잭션처리, 모듈 연결 구문들이 작성된다.
+	
+	 -->
+		
+	<!-- DB 등록작업 3단계 -->
+	
+	<!-- 1단계 : db접속 정보 등록 -->
+	
+	<bean class="org.apache.commons.dbcp2.BasicDataSource" id="dataSource">
+		<property name="driverClassName" value="oracle.jdbc.OracleDriver"></property>
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"></property>
+		<property name="username" value="UBIG"></property>
+		<property name="password" value="UBIG"></property>
+	</bean>
+	
+	<!-- 2단계 : mybatis에서 제공하는 sql명령어 실행을 위한 도구 등록 -->
+	<bean class="org.mybatis.spring.SqlSessionFactoryBean" id="sqlSessionFactory">
+		<!-- 위에서 만든 db접속 정보와 mybatis관련 설정 및 매퍼파일 위치 지정 -->
+		<property name="dataSource" ref="dataSource"></property> <!-- DB접속정보 -->
+		<!-- mybatis-config 파일 위치 넣어주기 classpath : (target)classes 폴더 최상단 시작점 -->
+		<property name="configLocation" value="classpath:mybatis-config.xml"></property>
+		<!-- mybatis-mapper 파일 위치 넣어주기 / *-mapper : *는 전체를 뜻하는 와일드카드 -->
+		<property name="mapperLocations" value="classpath:mappers/*-mapper.xml"></property>
+	</bean>
+	
+	<!-- 3단계 : sqlSessionFactory sqlSessionTemplate 도구 등록(sqlSession) -->
+	<bean class="org.mybatis.spring.SqlSessionTemplate" id="sqlSession">
+		<!-- sqlSessionFactory 넣어주기 -->
+		<constructor-arg ref="sqlSessionFactory"></constructor-arg>
+	</bean>
+	
+	<!-- 스케쥴러 사용하기 위한 task 어노테이션 활성화 태그 -->
+	<task:annotation-driven/>
+	<!-- 스케쥴러 정의 : taskScheduler라는 이름의 스케쥴러 등록
+		 pool-size : 쓰레드를 만들어놓고 사용할 수 있는 개수 (멀티쓰레드) -->
+	<task:scheduler id="tackScheduler" pool-size="10"/>
+	
+	<!-- 
+		트랜잭션 매니저 사용 설정
+		@Transactional 어노테이션 활성화 작업
+	 -->
+	 <tx:annotation-driven/>
+	 <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+	 	<property name="dataSource" ref="dataSource"></property>
+	 </bean>
+	 
+	 <!-- servlet-context가 아닌 root-context에서 읽어야하는 component들 분리하기 -->
+	 <!-- 
+	 	root-context에서 필요한 component들을 활성화 시키기 위해서
+	 	base-package 설정 및 필요한 어노테이션을 별도로 등록하기 
+	 	servlet-context보다 빠른 시점에 등록된다. 때문에 중복으로 등록되는 component들은 제외 지정하기
+	 	@Service, @Repository, @Aspect 어노테이션(컴포넌트)은 root-context에서 스캔
+	 	use-default-filters : 기본 스캔설정
+	 	지정하기 include
+	 	제외하기 exclude
+	  -->
+	 <context:component-scan base-package="com.ubig.app" use-default-filters="false">
+	 	<context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
+	 	<context:include-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
+	 	<context:include-filter type="annotation" expression="org.aspectj.lang.annotation.Aspect"/>
+	 </context:component-scan>
+</beans>

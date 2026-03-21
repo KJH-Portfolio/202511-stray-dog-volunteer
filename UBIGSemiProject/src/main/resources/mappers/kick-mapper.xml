@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kickMapper">
+
+	<select id="isKicked" parameterType="KickVO" resultType="_int">
+		SELECT COUNT(*)
+		FROM KICKS
+		WHERE KICKER = #{kicker}
+		AND KICKED_USER = #{kickedUser}
+	</select>
+	
+	<insert id="insertKick" parameterType="KickVO">
+		INSERT INTO KICKS(KICK_NO
+						 ,KICKER
+						 ,KICKED_USER)
+		VALUES(SEQ_KICKS.NEXTVAL
+			  ,#{kicker}
+			  ,#{kickedUser})	
+	</insert>
+	
+	<select id="selectKick" parameterType="string" resultType="KickVO">
+		SELECT KICK_NO
+			  ,KICKER
+			  ,KICKED_USER
+		FROM KICKS
+		WHERE KICKER = #{userId}
+		ORDER BY KICKED_USER
+	</select>
+	
+	<delete id="deleteKick" parameterType="_int">
+		DELETE FROM KICKS
+		WHERE KICK_NO = #{kickNo}
+	</delete>
+	
+	<select id="kickListCount" parameterType="string" resultType="_int">
+		SELECT COUNT(*)
+		FROM KICKS
+		WHERE KICKER = #{userId}
+	</select>
+</mapper>
