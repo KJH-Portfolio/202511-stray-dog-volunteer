@@ -22,7 +22,7 @@
 	
 	<bean class="org.apache.commons.dbcp2.BasicDataSource" id="dataSource">
 		<property name="driverClassName" value="oracle.jdbc.OracleDriver"></property>
-		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"></property>
+		<property name="url" value="jdbc:oracle:thin:@db:1521/XEPDB1"></property>
 		<property name="username" value="UBIG"></property>
 		<property name="password" value="UBIG"></property>
 	</bean>
