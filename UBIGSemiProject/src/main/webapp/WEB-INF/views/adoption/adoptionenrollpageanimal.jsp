@@ -37,7 +37,7 @@
 
                 <div class="form-wrapper"
                     style="max-width: 800px; margin: 0 auto; background: #fff; padding: 40px; border-radius: 20px; box-shadow: 0 5px 20px rgba(0,0,0,0.05);">
-                    <form action="${not empty animal ? 'adoption.update.animal.action' : 'adoption.insert.animal'}"
+                    <form action="${not empty animal.animalNo ? 'adoption.update.animal.action' : 'adoption.insert.animal'}"
                         method="POST" enctype="multipart/form-data" class="adoption-form needs-validation" novalidate>
 
                         <c:if test="${not empty animal}">
@@ -50,9 +50,11 @@
                             <div class="col-md-6">
                                 <label for="species" class="form-label fw-bold">1. 축종 (Species)</label>
                                 <select name="species" id="species" class="form-select" required>
+                                    <option value="" disabled ${empty animal ? 'selected' : '' }>축종 선택</option>
                                     <option value="1" ${animal.species eq 1 ? 'selected' : '' }>강아지</option>
                                     <option value="2" ${animal.species eq 2 ? 'selected' : '' }>고양이</option>
                                 </select>
+                                <div class="invalid-feedback">축종을 선택해주세요.</div>
                             </div>
 
                             <!-- 2. 이름 -->
@@ -61,6 +63,7 @@
                                 <input type="text" name="animalName" id="animalName" class="form-control"
                                     placeholder="예: 뽀삐" required pattern="^[가-힣a-zA-Z0-9\s]+$" title="특수문자는 사용할 수 없습니다"
                                     maxlength="33" value="<c:out value='${animal.animalName}'/>">
+                                <div class="invalid-feedback">이름을 입력해주세요 (특수문자 제외).</div>
                             </div>
 
                             <!-- 3. 품종 -->
@@ -69,6 +72,7 @@
                                 <input type="text" name="breed" id="breed" class="form-control" placeholder="예: 말티즈"
                                     required pattern="^[가-힣a-zA-Z\s]+$" title="특수문자 및 숫자는 사용할 수 없습니다" maxlength="33"
                                     value="<c:out value='${animal.breed}'/>">
+                                <div class="invalid-feedback">품종을 입력해주세요 (숫자/특수문자 제외).</div>
                             </div>
 
                             <!-- 4. 성별 -->
@@ -95,6 +99,7 @@
                                     placeholder="예: 2.5 (최대 50살)" required min="0" max="50"
                                     oninput="if(this.value<0)this.value=0; if(this.value>50)this.value=50;"
                                     value="${animal.age}">
+                                <div class="invalid-feedback">나이를 입력해주세요 (0~50살).</div>
                             </div>
 
                             <!-- 6. 체중 -->
@@ -104,6 +109,7 @@
                                     placeholder="예: 5.2 (최대 100kg)" required min="0" max="100"
                                     oninput="if(this.value<0)this.value=0; if(this.value>100)this.value=100;"
                                     value="${animal.weight}">
+                                <div class="invalid-feedback">체중을 입력해주세요 (0~100kg).</div>
                             </div>
 
                             <!-- 7. 크기 -->
@@ -113,6 +119,7 @@
                                     placeholder="크기 입력 (최대 300cm)" required min="0" max="300"
                                     oninput="if(this.value<0)this.value=0; if(this.value>300)this.value=300;"
                                     value="${animal.petSize}">
+                                <div class="invalid-feedback">크기를 입력해주세요 (0~300cm).</div>
                             </div>
 
                             <!-- 8. 중성화 여부 -->
@@ -139,6 +146,7 @@
                                 <input type="text" name="vaccinationStatus" id="vaccinationStatus" class="form-control"
                                     placeholder="예: 3차 완료" maxlength="333" required
                                     value="<c:out value='${animal.vaccinationStatus}'/>">
+                                <div class="invalid-feedback">접종 상태를 입력해주세요.</div>
                             </div>
 
                             <!-- 10. 특이사항 -->
@@ -147,6 +155,7 @@
                                 <textarea name="healthNotes" id="healthNotes" class="form-control" rows="3"
                                     placeholder="건강 상태 및 특징 작성" maxlength="333"
                                     required><c:out value='${animal.healthNotes}'/></textarea>
+                                <div class="invalid-feedback">건강 특이사항을 입력해주세요.</div>
                             </div>
 
                             <!-- 11. 입양 상태 -->
@@ -164,6 +173,7 @@
                                 <label for="deadlineDate" class="form-label fw-bold">14. 공고 마감일 (Deadline)</label>
                                 <input type="date" name="deadlineDate" id="deadlineDate" class="form-control" required
                                     value="${animal.deadlineDate}">
+                                <div class="invalid-feedback">공고 마감일을 선택해주세요.</div>
                             </div>
 
                             <!-- 12. 입양 조건 -->
@@ -173,6 +183,7 @@
                                 <textarea name="adoptionConditions" id="adoptionConditions" class="form-control"
                                     rows="3" placeholder="필수 입양 조건 작성" maxlength="333"
                                     required><c:out value='${animal.adoptionConditions}'/></textarea>
+                                <div class="invalid-feedback">입양 조건을 입력해주세요.</div>
                             </div>
 
                             <!-- 13. 입양 희망 지역 -->
@@ -187,6 +198,7 @@
                                 <input type="text" id="roadAddress" name="roadAddress" class="form-control"
                                     placeholder="도로명 주소" readonly required
                                     value="<c:out value='${animal.hopeRegion}'/>">
+                                <div class="invalid-feedback">주소 검색을 통해 지역을 선택해주세요.</div>
                                 <input type="hidden" name="hopeRegion" id="hopeRegion"
                                     value="<c:out value='${animal.hopeRegion}'/>">
                             </div>
@@ -199,6 +211,7 @@
                                 </c:if>
                                 <input type="file" name="uploadFile" id="uploadFile" class="form-control"
                                     accept="image/*" ${empty animal ? 'required' : '' }>
+                                <div class="invalid-feedback">동물 사진을 첨부해주세요.</div>
                             </div>
 
                             <!-- Submit Button -->
@@ -242,14 +255,27 @@
                     }).open();
                 }
 
-                // 폼 제출 시 주소 합치기 (상세 주소 로직 제거)
-                document.querySelector('.adoption-form').addEventListener('submit', function (e) {
-                    var roadAddr = document.getElementById('roadAddress').value;
+                // 폼 제출 시 유효성 검사 및 주소 합치기
+                (function () {
+                    'use strict'
+                    var forms = document.querySelectorAll('.needs-validation')
+                    Array.prototype.slice.call(forms).forEach(function (form) {
+                        form.addEventListener('submit', function (event) {
+                            // 1. 주소 합치기 로직
+                            var roadAddr = document.getElementById('roadAddress').value;
+                            if (roadAddr) {
+                                document.getElementById('hopeRegion').value = roadAddr;
+                            }
 
-                    if (roadAddr) {
-                        document.getElementById('hopeRegion').value = roadAddr;
-                    }
-                });
+                            // 2. 부트스트랩 유효성 체크
+                            if (!form.checkValidity()) {
+                                event.preventDefault()
+                                event.stopPropagation()
+                            }
+                            form.classList.add('was-validated')
+                        }, false)
+                    })
+                })()
             </script>
         </body>
 

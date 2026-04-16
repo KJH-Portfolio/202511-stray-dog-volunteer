@@ -13,6 +13,9 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,6 +43,15 @@ public class AdoptionController {
 
 	@Autowired
 	MessageService messageService;
+
+	@InitBinder
+	public void initBinder(WebDataBinder binder) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		dateFormat.setLenient(false);
+		// java.util.Date와 java.sql.Date 모두에 대해 커스텀 에디터 등록
+		binder.registerCustomEditor(java.util.Date.class, new CustomDateEditor(dateFormat, true));
+		binder.registerCustomEditor(java.sql.Date.class, new CustomDateEditor(dateFormat, true));
+	}
 
 	// [입양 상세] 동물 고유 번호(anino)를 사용하여 동물 상세 정보를 조회하고 반환하는 메서드
 	@RequestMapping("/adoption.detailpage")
@@ -241,7 +253,7 @@ public class AdoptionController {
 
 	// [동물 등록] 동물 상세 정보(AnimalDetailVO)와 업로드된 파일을 받아 DB에 등록하고 메인 페이지로 이동하는 메서드
 	@RequestMapping("/adoption.insert.animal")
-	public String insertAnimal(HttpSession session, MultipartFile uploadFile, AnimalDetailVO animal) {
+	public String insertAnimal(HttpSession session, MultipartFile uploadFile, AnimalDetailVO animal, Model model) {
 
 		MemberVO user = (MemberVO) session.getAttribute("loginMember");
 		animal.setUserId(user.getUserId());
@@ -273,11 +285,15 @@ public class AdoptionController {
 				} else {
 					session.setAttribute("alertMsgAd", "동물 등록 실패!");
 					new File(savePath + changeName).delete(); // 실패 시 파일 삭제
+					model.addAttribute("animal", animal);
+					return "/adoption/adoptionenrollpageanimal";
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
 				session.setAttribute("alertMsgAd", "등록 중 오류 발생: " + e.getMessage());
 				new File(savePath + changeName).delete(); // 예외 발생 시 파일 삭제
+				model.addAttribute("animal", animal);
+				return "/adoption/adoptionenrollpageanimal";
 			}
 		} else {
 			// 파일 없이 등록 시도한 경우 (기존 로직 유지)
@@ -285,10 +301,15 @@ public class AdoptionController {
 				int result = service.insertAnimal(animal);
 				if (result > 0)
 					session.setAttribute("alertMsgAd", "동물 등록 성공!");
-				else
+				else {
 					session.setAttribute("alertMsgAd", "동물 등록 실패!");
+					model.addAttribute("animal", animal);
+					return "/adoption/adoptionenrollpageanimal";
+				}
 			} catch (Exception e) {
 				session.setAttribute("alertMsgAd", "등록 중 오류 발생");
+				model.addAttribute("animal", animal);
+				return "/adoption/adoptionenrollpageanimal";
 			}
 		}
 		return "redirect:/adoption.mainpage";
@@ -304,6 +325,10 @@ public class AdoptionController {
 		String changeName = currentTime + ranNum + ext;
 
 		try {
+			File dir = new File(savePath);
+			if (!dir.exists()) {
+				dir.mkdirs(); // 디렉토리가 없으면 생성
+			}
 			uploadFile.transferTo(new File(savePath + changeName));
 			return changeName;
 		} catch (IllegalStateException | IOException e) {
@@ -343,17 +368,18 @@ public class AdoptionController {
 	public String updateAnimal(int anino, Model model, HttpSession session) {
 		AnimalDetailVO animal = service.goAdoptionDetail(anino);
 
-		// [검증] 승인되거나 입양완료된 동물은 수정 불가
-		if (animal != null) {
-			if (animal.getPostNo() != 0 || "입양완료".equals(animal.getAdoptionStatus())) {
+		// [검증] 승인되거나 입양완료된 동물은 수정 불가 (단, 관리자는 가능하도록 예외 처리)
+		MemberVO loginUser = (MemberVO) session.getAttribute("loginMember");
+		if (animal != null && loginUser != null) {
+			if ((animal.getPostNo() != 0 || "입양완료".equals(animal.getAdoptionStatus()))
+					&& !"ADMIN".equals(loginUser.getUserRole())) {
 				session.setAttribute("alertMsgAd", "승인되거나 입양 완료된 동물은 수정할 수 없습니다.");
 				return "redirect:/user/mypage.me";
 			}
 		}
 
-		// [보안] 본인 동물인지 확인
-		MemberVO loginUser = (MemberVO) session.getAttribute("loginMember");
-		if (animal != null && !animal.getUserId().equals(loginUser.getUserId())
+		// [보안] 본인 동물인지 확인 (관리자 제외)
+		if (animal != null && loginUser != null && !animal.getUserId().equals(loginUser.getUserId())
 				&& !"ADMIN".equals(loginUser.getUserRole())) {
 			session.setAttribute("alertMsgAd", "수정 권한이 없습니다.");
 			return "redirect:/adoption.detailpage?anino=" + anino;
@@ -366,7 +392,14 @@ public class AdoptionController {
 	// [동물 수정] 수정된 동물 정보(AnimalDetailVO)를 받아 DB를 업데이트하고 결과 페이지로 이동하는 메서드
 	@RequestMapping("/adoption.update.animal.action")
 	public String updateAnimalAction(HttpSession session, MultipartFile uploadFile, AnimalDetailVO animal,
-			String originalPhotoUrl) {
+			String originalPhotoUrl, Model model) {
+
+		// [안전 장치] 고유 번호가 없는데 수정 요청이 들어온 경우 (등록 실패 후 재전송 시 발생 가능)
+		if (animal.getAnimalNo() == null) {
+			session.setAttribute("alertMsgAd", "잘못된 접근입니다. 등록을 다시 시도해주세요.");
+			model.addAttribute("animal", animal);
+			return "/adoption/adoptionenrollpageanimal";
+		}
 
 		// [검증] 승인되거나 입양완료된 동물은 수정 불가 (DB 조회 필요)
 		AnimalDetailVO dbAnimal = service.goAdoptionDetail(animal.getAnimalNo());
@@ -424,6 +457,8 @@ public class AdoptionController {
 					String savePath = session.getServletContext().getRealPath("resources/download/adoption/");
 					new File(savePath + changeName).delete();
 				}
+				model.addAttribute("animal", animal);
+				return "/adoption/adoptionenrollpageanimal";
 			}
 		} catch (Exception e) {
 			session.setAttribute("alertMsgAd", "수정 중 오류 발생: " + e.getMessage());
@@ -432,6 +467,8 @@ public class AdoptionController {
 				String savePath = session.getServletContext().getRealPath("resources/download/adoption/");
 				new File(savePath + changeName).delete();
 			}
+			model.addAttribute("animal", animal);
+			return "/adoption/adoptionenrollpageanimal";
 		}
 
 		// MemberVO loginUser = (MemberVO) session.getAttribute("loginMember"); //

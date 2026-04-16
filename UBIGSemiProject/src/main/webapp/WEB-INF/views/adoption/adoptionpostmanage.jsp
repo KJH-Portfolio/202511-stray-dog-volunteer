@@ -84,7 +84,7 @@
                                                         style="padding: 5px 10px; font-size: 0.8rem;"
                                                         onclick="event.stopPropagation(); if(confirm('정말 삭제하시겠습니까?')) location.href='adoption.deleteanimal?anino=${item.animalNo}'">삭제</button>
 
-                                                    <c:if test="${item.postNo eq 0 && item.adoptionStatus ne '반려'}">
+                                                    <c:if test="${(empty item.postNo || item.postNo eq 0) && item.adoptionStatus ne '반려'}">
                                                         <button type="button" class="btn-primary"
                                                             style="padding: 5px 10px; font-size: 0.8rem;"
                                                             onclick="event.stopPropagation(); if(confirm('게시글을 등록하시겠습니까?')) location.href='adoption.insert.board.direct?anino=${item.animalNo}'">게시글
@@ -95,11 +95,11 @@
                                                         <button type="button" class="btn-primary"
                                                             style="padding: 5px 10px; font-size: 0.8rem; background-color: #ff4444; border-color: #ff4444;"
                                                             onclick="event.stopPropagation(); if(confirm('게시글을 반려하시겠습니까?')) location.href='adoption.deny.board.direct?anino=${item.animalNo}'">
-                                                            ${item.postNo eq 0 ? '등록 반려' : '게시글 반려'}
+                                                            ${(empty item.postNo || item.postNo eq 0) ? '등록 반려' : '게시글 반려'}
                                                         </button>
                                                     </c:if>
 
-                                                    <c:if test="${item.postNo ne 0 && item.adoptionStatus ne '반려'}">
+                                                    <c:if test="${not empty item.postNo && item.postNo ne 0 && item.adoptionStatus ne '반려'}">
                                                         <span
                                                             style="font-size: 0.8rem; color: green; text-align: center;">등록됨</span>
                                                     </c:if>
