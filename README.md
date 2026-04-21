@@ -9,7 +9,7 @@
 > 특히 **3번(개발 철학/로직)** 및 **4번(문제 해결/심화 분석)** 섹션에서 백엔드 엔지니어로서의 깊이 있는 통찰을 확인하실 수 있습니다.
 
 <details>
-<summary><h4><b>📝 1. 기본 정보 (개발 기간, 기술 스택, 인원 구성)</b></h4></summary>
+<summary>1. 기본 정보 (개발 기간, 기술 스택, 인원 구성)</summary>
 
 - 📅 **개발 기간:** 2025.12 ~ 2026.02 (약 2.5개월)
 - 🖥️ **플랫폼:** Web
@@ -25,7 +25,7 @@
 
 </details>
 <details>
-<summary><h4><b>🔍 2. 프로젝트 전체 개요 상세 보기 (전체 구조, ERD, IA 등)</b></h4></summary>
+<summary>2. 프로젝트 전체 개요 (전체 구조, ERD, IA 등)</summary>
 
 **🎯 1. 프로젝트 목표**
 > 동물 보호와 복지에 관심이 있는 사람들이 모여, 안전하고 체계적인 동물 입양 절차를 밟고 봉사활동 및 후원에 참여할 수 있는 커뮤니티 기능을 제공하는 것을 목표로 합니다.
@@ -66,7 +66,7 @@
 
 </details>
 <details>
-<summary><h4><b><code>CORE</code> 💎 3. 프로젝트 개인 구현 - 백엔드 설계 철학 및 로직 구현</b></h4></summary>
+<summary><h4><b>💎 [CORE] 3. 프로젝트 개인 구현 - 백엔드 설계 철학 및 로직 구현</b></h4></summary>
 
 - 🎯 **프로젝트 목표 (Foundation & Integrity):** 
   - **표준 MVC 아키텍처 수립:** 객체 지향 원칙에 따른 Controller-Service-DAO 계층화로 결합도를 낮추고, 데이터 유입 원천지부터 영속성 계층까지의 **데이터 흐름을 100% 통제**하는 것을 목표로 했습니다.
@@ -158,7 +158,7 @@
 
 </details>
 <details>
-<summary><h4><b><code>DEEP DIVE</code> 🔥 4. 기술적 깊이 - 까다로운 문제 해결 및 성능 최적화 사례</b></h4></summary>
+<summary><h4><b>🔥 [DEEP DIVE] 4. 기술적 깊이 - 까다로운 문제 해결 및 성능 최적화 사례</b></h4></summary>
 
 **🔍 핵심 로직 분석 (Core Logic Analysis)**
 
@@ -274,7 +274,7 @@ public int confirmAdoption(int adoptionAppId, int animalNo) {
 
 </details>
 <details>
-<summary><h4><b><code>GROWTH</code> 🌟 5. 회고 - 프로젝트 성찰 및 향후 기술적 지향점</b></h4></summary>
+<summary><h4><b>🌟 [GROWTH] 5. 회고 - 프로젝트 성찰 및 향후 기술적 지향점</b></h4></summary>
 
 - **🟢 Keep (Project Standards):** 
   - **코드 컨벤션 및 도메인 상수화(Constants):** 모든 입양 상태 코드와 권한 등급을 상수로 엄격히 관리하여 하드코딩으로 인한 휴먼 에러를 방지하고, 팀 프로젝트에서의 코드 가독성과 데이터 정합성을 유지한 경험을 지속하고 싶습니다.
@@ -285,7 +285,7 @@ public int confirmAdoption(int adoptionAppId, int animalNo) {
 
 </details>
 <details>
-<summary><h4><b>🚀 부록: 프로젝트 실행 방법 (Docker)</b></h4></summary>
+<summary>부록: 프로젝트 실행 방법 (Docker)</summary>
 
 > 이 프로젝트는 **Docker** 환경이 모두 세팅되어 있어 매우 간편하게 실행할 수 있습니다.
 
