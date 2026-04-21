@@ -701,24 +701,247 @@ ALTER SESSION SET CURRENT_SCHEMA = UBIG;
    COMMENT ON COLUMN "VOLUNTEER_REVIEWS"."R_CREATE" IS '작성일시';
    COMMENT ON COLUMN "VOLUNTEER_REVIEWS"."R_UPDATE" IS '수정일시';
    COMMENT ON COLUMN "VOLUNTEER_REVIEWS"."R_REMOVE" IS '후기삭제';
-REM INSERTING into ACTIVITIES
+-- ==============================================================
+-- UBIG 더미 데이터 (운영 중인 사이트 연출용)
+-- ==============================================================
+
+-- ▶ 1. MEMBERS (총 7명: admin + user01~06)
+REM INSERTING into MEMBERS
 SET DEFINE OFF;
-REM INSERTING into ADMIN_CHAT_HISTORIES
-SET DEFINE OFF;
-REM INSERTING into ADOPTION_APPLICATIONS
-SET DEFINE OFF;
-REM INSERTING into ADOPTION_POSTS
-SET DEFINE OFF;
+-- 테스트 계정 (admin/admin, user01~06/pass01) - BCrypt 10 rounds
+Insert into MEMBERS (USER_ID,USER_PWD,USER_NAME,USER_NICKNAME,USER_ADDRESS,USER_CONTACT,USER_GENDER,USER_AGE,USER_ATTENDED_COUNT,USER_RESTRICT_END_DATE,USER_STATUS,USER_ROLE,USER_ENROLL_DATE,USER_MODIFY_DATE) values ('admin','$2a$10$HrVlNcwE/Z6JGK5Caiww..LQYJCtXBDMlcTw84M2wYyCV8bza7qke','관리자','어드민','서울시 강남구','010-0000-0000','M',30,0,to_date('00/01/01','RR/MM/DD'),'Y','ADMIN',SYSDATE,SYSDATE);
+Insert into MEMBERS (USER_ID,USER_PWD,USER_NAME,USER_NICKNAME,USER_ADDRESS,USER_CONTACT,USER_GENDER,USER_AGE,USER_ATTENDED_COUNT,USER_RESTRICT_END_DATE,USER_STATUS,USER_ROLE,USER_ENROLL_DATE,USER_MODIFY_DATE) values ('user01','$2a$10$.gU0UeKyES42t8/n8bDa.Ox0GA9vSAGDSNSzZ6Y7k4z0cKGy7QoIO','테스트유저01','유저01','서울시 마포구','010-1111-1111','M',25,3,to_date('00/01/01','RR/MM/DD'),'Y','USER',SYSDATE,SYSDATE);
+Insert into MEMBERS (USER_ID,USER_PWD,USER_NAME,USER_NICKNAME,USER_ADDRESS,USER_CONTACT,USER_GENDER,USER_AGE,USER_ATTENDED_COUNT,USER_RESTRICT_END_DATE,USER_STATUS,USER_ROLE,USER_ENROLL_DATE,USER_MODIFY_DATE) values ('user02','$2a$10$mbhImpthWJ/1ipDqhLHox.wo8vGs3HhRbh9pVghAefqv1yWlePEbi','테스트유저02','유저02','서울시 서초구','010-2222-2222','F',23,2,to_date('00/01/01','RR/MM/DD'),'Y','USER',SYSDATE,SYSDATE);
+Insert into MEMBERS (USER_ID,USER_PWD,USER_NAME,USER_NICKNAME,USER_ADDRESS,USER_CONTACT,USER_GENDER,USER_AGE,USER_ATTENDED_COUNT,USER_RESTRICT_END_DATE,USER_STATUS,USER_ROLE,USER_ENROLL_DATE,USER_MODIFY_DATE) values ('user03','$2a$10$.gU0UeKyES42t8/n8bDa.Ox0GA9vSAGDSNSzZ6Y7k4z0cKGy7QoIO','김민지','민지냥','서울시 강서구','010-3333-3333','F',28,4,to_date('00/01/01','RR/MM/DD'),'Y','USER',SYSDATE,SYSDATE);
+Insert into MEMBERS (USER_ID,USER_PWD,USER_NAME,USER_NICKNAME,USER_ADDRESS,USER_CONTACT,USER_GENDER,USER_AGE,USER_ATTENDED_COUNT,USER_RESTRICT_END_DATE,USER_STATUS,USER_ROLE,USER_ENROLL_DATE,USER_MODIFY_DATE) values ('user04','$2a$10$.gU0UeKyES42t8/n8bDa.Ox0GA9vSAGDSNSzZ6Y7k4z0cKGy7QoIO','박준혁','준혁댕댕','경기도 수원시 팔달구','010-4444-4444','M',32,1,to_date('00/01/01','RR/MM/DD'),'Y','USER',SYSDATE,SYSDATE);
+Insert into MEMBERS (USER_ID,USER_PWD,USER_NAME,USER_NICKNAME,USER_ADDRESS,USER_CONTACT,USER_GENDER,USER_AGE,USER_ATTENDED_COUNT,USER_RESTRICT_END_DATE,USER_STATUS,USER_ROLE,USER_ENROLL_DATE,USER_MODIFY_DATE) values ('user05','$2a$10$.gU0UeKyES42t8/n8bDa.Ox0GA9vSAGDSNSzZ6Y7k4z0cKGy7QoIO','이수연','수연이','경기도 성남시 분당구','010-5555-5555','F',24,5,to_date('00/01/01','RR/MM/DD'),'Y','USER',SYSDATE,SYSDATE);
+Insert into MEMBERS (USER_ID,USER_PWD,USER_NAME,USER_NICKNAME,USER_ADDRESS,USER_CONTACT,USER_GENDER,USER_AGE,USER_ATTENDED_COUNT,USER_RESTRICT_END_DATE,USER_STATUS,USER_ROLE,USER_ENROLL_DATE,USER_MODIFY_DATE) values ('user06','$2a$10$.gU0UeKyES42t8/n8bDa.Ox0GA9vSAGDSNSzZ6Y7k4z0cKGy7QoIO','최지호','지호씨','서울시 은평구','010-6666-6666','M',35,0,to_date('00/01/01','RR/MM/DD'),'Y','USER',SYSDATE,SYSDATE);
+
+-- ▶ 2. ANIMAL_DETAILS (강아지 10마리 + 고양이 10마리)
+-- SPECIES: 1=강아지 2=고양이 | GENDER: 1=수컷 2=암컷 | PET_SIZE: 1=소형 2=중형 3=대형 | NEUTERED: 0=미완료 1=완료
 REM INSERTING into ANIMAL_DETAILS
 SET DEFINE OFF;
-Insert into ANIMAL_DETAILS (ANIMAL_NO,SPECIES,ANIMAL_NAME,BREED,GENDER,AGE,WEIGHT,PET_SIZE,NEUTERED,VACCINATION_STATUS,HEALTH_NOTES,ADOPTION_STATUS,ADOPTION_CONDITIONS,PHOTO_URL,HOPE_REGION,DEADLINE_DATE,USER_ID) values (1,2,'고양이','냥이',1,2.3,5.2,11,0,'11','22','대기중','33','2025122716522282993.JPG','인천 연수구 경원대로 294 14',to_date('25/12/26','RR/MM/DD'),'rlawlghks');
+Insert into ANIMAL_DETAILS (ANIMAL_NO,SPECIES,ANIMAL_NAME,BREED,GENDER,AGE,WEIGHT,PET_SIZE,NEUTERED,VACCINATION_STATUS,HEALTH_NOTES,ADOPTION_STATUS,ADOPTION_CONDITIONS,PHOTO_URL,HOPE_REGION,DEADLINE_DATE,USER_ID) values (1,1,'코코','골든 리트리버',1,2,28.5,3,1,'광견병·종합백신 완료','건강하고 활발, 하루 2회 산책 필요','대기중','넓은 공간이 있는 가정 우대','dog_01.jpg','서울특별시 마포구',to_date('26/08/31','RR/MM/DD'),'admin');
+Insert into ANIMAL_DETAILS (ANIMAL_NO,SPECIES,ANIMAL_NAME,BREED,GENDER,AGE,WEIGHT,PET_SIZE,NEUTERED,VACCINATION_STATUS,HEALTH_NOTES,ADOPTION_STATUS,ADOPTION_CONDITIONS,PHOTO_URL,HOPE_REGION,DEADLINE_DATE,USER_ID) values (2,1,'하루','말티즈',2,4,3.2,1,1,'광견병·종합백신·심장사상충 완료','긴장을 잘 하나 익숙해지면 순함','대기중','조용한 가정, 노부부 적합','dog_02.jpg','서울특별시 은평구',to_date('26/08/31','RR/MM/DD'),'admin');
+Insert into ANIMAL_DETAILS (ANIMAL_NO,SPECIES,ANIMAL_NAME,BREED,GENDER,AGE,WEIGHT,PET_SIZE,NEUTERED,VACCINATION_STATUS,HEALTH_NOTES,ADOPTION_STATUS,ADOPTION_CONDITIONS,PHOTO_URL,HOPE_REGION,DEADLINE_DATE,USER_ID) values (3,1,'두리','진돗개',1,3,20.0,2,1,'광견병·종합백신 완료','충성심 강하고 훈련 능력 우수, 외부인 경계','대기중','경험자 우대, 단독주택 또는 마당 있는 가정','dog_03.jpg','경기도 수원시',to_date('26/09/30','RR/MM/DD'),'admin');
+Insert into ANIMAL_DETAILS (ANIMAL_NO,SPECIES,ANIMAL_NAME,BREED,GENDER,AGE,WEIGHT,PET_SIZE,NEUTERED,VACCINATION_STATUS,HEALTH_NOTES,ADOPTION_STATUS,ADOPTION_CONDITIONS,PHOTO_URL,HOPE_REGION,DEADLINE_DATE,USER_ID) values (4,1,'봄이','포메라니안',2,1,2.8,1,0,'1차 예방접종 완료','어리고 활발, 낯선 사람에게도 잘 어울림','대기중','처음 반려견 키우시는 분도 환영','dog_04.jpg','서울특별시 강남구',to_date('26/10/31','RR/MM/DD'),'admin');
+Insert into ANIMAL_DETAILS (ANIMAL_NO,SPECIES,ANIMAL_NAME,BREED,GENDER,AGE,WEIGHT,PET_SIZE,NEUTERED,VACCINATION_STATUS,HEALTH_NOTES,ADOPTION_STATUS,ADOPTION_CONDITIONS,PHOTO_URL,HOPE_REGION,DEADLINE_DATE,USER_ID) values (5,1,'칸','시바이누',1,5,10.5,2,1,'광견병·종합백신 완료','독립적인 성격, 충분한 운동 필요','완료','반려견 경험자 필수, 활동적인 분','dog_05.jpg','경기도 성남시',to_date('26/05/31','RR/MM/DD'),'admin');
+Insert into ANIMAL_DETAILS (ANIMAL_NO,SPECIES,ANIMAL_NAME,BREED,GENDER,AGE,WEIGHT,PET_SIZE,NEUTERED,VACCINATION_STATUS,HEALTH_NOTES,ADOPTION_STATUS,ADOPTION_CONDITIONS,PHOTO_URL,HOPE_REGION,DEADLINE_DATE,USER_ID) values (6,1,'루나','보더콜리',2,2,18.0,3,1,'광견병·종합백신·심장사상충 완료','에너지 넘치고 지능 높음, 훈련 필수','대기중','넓은 야외 활동 공간 및 운동 시간 제공 가능한 가정','dog_06.jpg','경기도 용인시',to_date('26/09/30','RR/MM/DD'),'admin');
+Insert into ANIMAL_DETAILS (ANIMAL_NO,SPECIES,ANIMAL_NAME,BREED,GENDER,AGE,WEIGHT,PET_SIZE,NEUTERED,VACCINATION_STATUS,HEALTH_NOTES,ADOPTION_STATUS,ADOPTION_CONDITIONS,PHOTO_URL,HOPE_REGION,DEADLINE_DATE,USER_ID) values (7,1,'땅콩','비글',1,3,9.0,1,1,'광견병·종합백신 완료','호기심 강하고 활발, 큰 소리로 짖는 편','대기중','마당 있는 집 또는 층간소음 걱정 없는 환경','dog_07.jpg','인천광역시 서구',to_date('26/09/30','RR/MM/DD'),'admin');
+Insert into ANIMAL_DETAILS (ANIMAL_NO,SPECIES,ANIMAL_NAME,BREED,GENDER,AGE,WEIGHT,PET_SIZE,NEUTERED,VACCINATION_STATUS,HEALTH_NOTES,ADOPTION_STATUS,ADOPTION_CONDITIONS,PHOTO_URL,HOPE_REGION,DEADLINE_DATE,USER_ID) values (8,1,'나비','미니어처 푸들',2,6,4.5,1,1,'광견병·종합백신·스케일링 완료','나이 들었지만 건강하고 순한 성격','완료','노견에 대한 이해 있는 조용한 가정','dog_08.jpg','서울특별시 서초구',to_date('26/05/31','RR/MM/DD'),'admin');
+Insert into ANIMAL_DETAILS (ANIMAL_NO,SPECIES,ANIMAL_NAME,BREED,GENDER,AGE,WEIGHT,PET_SIZE,NEUTERED,VACCINATION_STATUS,HEALTH_NOTES,ADOPTION_STATUS,ADOPTION_CONDITIONS,PHOTO_URL,HOPE_REGION,DEADLINE_DATE,USER_ID) values (9,1,'맥스','미니어처 슈나우저',1,4,7.0,1,1,'광견병·종합백신 완료','의젓하고 청결하며 털 빠짐 거의 없음','대기중','규칙적인 생활 가능한 가정','dog_09.jpg','경기도 안양시',to_date('26/10/31','RR/MM/DD'),'admin');
+Insert into ANIMAL_DETAILS (ANIMAL_NO,SPECIES,ANIMAL_NAME,BREED,GENDER,AGE,WEIGHT,PET_SIZE,NEUTERED,VACCINATION_STATUS,HEALTH_NOTES,ADOPTION_STATUS,ADOPTION_CONDITIONS,PHOTO_URL,HOPE_REGION,DEADLINE_DATE,USER_ID) values (10,1,'구름','라브라도 리트리버',2,1,25.0,3,1,'광견병·종합백신 완료','아직 어리고 에너지 넘침, 훈련 중','대기중','활동적인 가정, 넓은 공간 필요','dog_10.jpg','서울특별시 노원구',to_date('26/10/31','RR/MM/DD'),'admin');
+Insert into ANIMAL_DETAILS (ANIMAL_NO,SPECIES,ANIMAL_NAME,BREED,GENDER,AGE,WEIGHT,PET_SIZE,NEUTERED,VACCINATION_STATUS,HEALTH_NOTES,ADOPTION_STATUS,ADOPTION_CONDITIONS,PHOTO_URL,HOPE_REGION,DEADLINE_DATE,USER_ID) values (11,2,'따뜻이','스코티시 폴드',2,3,4.2,1,1,'종합백신·광견병 완료','귀가 접힌 귀여운 외모, 얌전한 성격','대기중','고양이 첫 입양도 환영, 아파트 가능','cat_01.jpg','서울특별시 강동구',to_date('26/09/30','RR/MM/DD'),'admin');
+Insert into ANIMAL_DETAILS (ANIMAL_NO,SPECIES,ANIMAL_NAME,BREED,GENDER,AGE,WEIGHT,PET_SIZE,NEUTERED,VACCINATION_STATUS,HEALTH_NOTES,ADOPTION_STATUS,ADOPTION_CONDITIONS,PHOTO_URL,HOPE_REGION,DEADLINE_DATE,USER_ID) values (12,2,'블루','러시안 블루',1,2,4.8,1,1,'종합백신 완료','조용하고 우아, 한 사람과 깊게 교감','대기중','조용한 환경 선호, 1~2인 가구 적합','cat_02.jpg','서울특별시 용산구',to_date('26/09/30','RR/MM/DD'),'admin');
+Insert into ANIMAL_DETAILS (ANIMAL_NO,SPECIES,ANIMAL_NAME,BREED,GENDER,AGE,WEIGHT,PET_SIZE,NEUTERED,VACCINATION_STATUS,HEALTH_NOTES,ADOPTION_STATUS,ADOPTION_CONDITIONS,PHOTO_URL,HOPE_REGION,DEADLINE_DATE,USER_ID) values (13,2,'순이','코리안 숏헤어',2,5,3.9,1,1,'종합백신·중성화 완료','길냥이 출신으로 실내 적응 완료, 건강 양호','대기중','길고양이에 대한 이해 있는 가정','cat_03.jpg','경기도 부천시',to_date('26/10/31','RR/MM/DD'),'admin');
+Insert into ANIMAL_DETAILS (ANIMAL_NO,SPECIES,ANIMAL_NAME,BREED,GENDER,AGE,WEIGHT,PET_SIZE,NEUTERED,VACCINATION_STATUS,HEALTH_NOTES,ADOPTION_STATUS,ADOPTION_CONDITIONS,PHOTO_URL,HOPE_REGION,DEADLINE_DATE,USER_ID) values (14,2,'솔이','노르웨이 숲',1,4,6.5,1,1,'종합백신·스케일링 완료','털이 길고 친화력 높음, 개냥이 스타일','대기중','장모종 털 관리 가능한 가정, 다묘 가정 환영','cat_04.jpg','경기도 고양시',to_date('26/10/31','RR/MM/DD'),'admin');
+Insert into ANIMAL_DETAILS (ANIMAL_NO,SPECIES,ANIMAL_NAME,BREED,GENDER,AGE,WEIGHT,PET_SIZE,NEUTERED,VACCINATION_STATUS,HEALTH_NOTES,ADOPTION_STATUS,ADOPTION_CONDITIONS,PHOTO_URL,HOPE_REGION,DEADLINE_DATE,USER_ID) values (15,2,'두부','랙돌',2,1,4.1,1,0,'1차 예방접종 완료','아기같이 늘어지는 성격, 안아도 OK','완료','고양이 경험 없어도 OK, 사랑 줄 수 있는 분','cat_05.jpg','서울특별시 마포구',to_date('26/06/30','RR/MM/DD'),'admin');
+Insert into ANIMAL_DETAILS (ANIMAL_NO,SPECIES,ANIMAL_NAME,BREED,GENDER,AGE,WEIGHT,PET_SIZE,NEUTERED,VACCINATION_STATUS,HEALTH_NOTES,ADOPTION_STATUS,ADOPTION_CONDITIONS,PHOTO_URL,HOPE_REGION,DEADLINE_DATE,USER_ID) values (16,2,'왕자','페르시안',1,7,5.5,1,1,'종합백신·스케일링·피부관리 완료','노령묘, 조용하고 품위있는 성격','대기중','노령묘 이해하는 가정, 규칙적인 병원 방문 가능한 분','cat_06.jpg','서울특별시 강남구',to_date('26/08/31','RR/MM/DD'),'admin');
+Insert into ANIMAL_DETAILS (ANIMAL_NO,SPECIES,ANIMAL_NAME,BREED,GENDER,AGE,WEIGHT,PET_SIZE,NEUTERED,VACCINATION_STATUS,HEALTH_NOTES,ADOPTION_STATUS,ADOPTION_CONDITIONS,PHOTO_URL,HOPE_REGION,DEADLINE_DATE,USER_ID) values (17,2,'타이거','벵갈',2,2,4.3,1,1,'종합백신 완료','야생미 넘치는 외모, 활발하고 장난기 많음','대기중','놀아줄 시간 많은 가정, 캣타워 구비 가능한 분','cat_07.jpg','인천광역시 남동구',to_date('26/10/31','RR/MM/DD'),'admin');
+Insert into ANIMAL_DETAILS (ANIMAL_NO,SPECIES,ANIMAL_NAME,BREED,GENDER,AGE,WEIGHT,PET_SIZE,NEUTERED,VACCINATION_STATUS,HEALTH_NOTES,ADOPTION_STATUS,ADOPTION_CONDITIONS,PHOTO_URL,HOPE_REGION,DEADLINE_DATE,USER_ID) values (18,2,'첨이','아비시니안',1,3,4.0,1,1,'종합백신 완료','호기심 많고 지능 높음, 활발','대기중','자극적 환경 제공 가능한 가정','cat_08.jpg','경기도 의정부시',to_date('26/10/31','RR/MM/DD'),'admin');
+Insert into ANIMAL_DETAILS (ANIMAL_NO,SPECIES,ANIMAL_NAME,BREED,GENDER,AGE,WEIGHT,PET_SIZE,NEUTERED,VACCINATION_STATUS,HEALTH_NOTES,ADOPTION_STATUS,ADOPTION_CONDITIONS,PHOTO_URL,HOPE_REGION,DEADLINE_DATE,USER_ID) values (19,2,'단풍이','메인쿤',2,4,7.2,2,1,'종합백신·스케일링 완료','대형 고양이, 강아지처럼 애교 많음','대기중','넓은 공간, 메인쿤 이해하는 가정','cat_09.jpg','경기도 파주시',to_date('26/11/30','RR/MM/DD'),'admin');
+Insert into ANIMAL_DETAILS (ANIMAL_NO,SPECIES,ANIMAL_NAME,BREED,GENDER,AGE,WEIGHT,PET_SIZE,NEUTERED,VACCINATION_STATUS,HEALTH_NOTES,ADOPTION_STATUS,ADOPTION_CONDITIONS,PHOTO_URL,HOPE_REGION,DEADLINE_DATE,USER_ID) values (20,2,'달이','브리티시 숏헤어',1,6,5.8,1,1,'종합백신·스케일링 완료','통통하고 여유로운 성격, 낮잠 선호','대기중','조용한 가정, 고양이 경험자 우대','cat_10.jpg','서울특별시 송파구',to_date('26/11/30','RR/MM/DD'),'admin');
+
+-- ▶ 3. ADOPTION_POSTS (동물 20마리 각 1건씩)
+REM INSERTING into ADOPTION_POSTS
+SET DEFINE OFF;
+Insert into ADOPTION_POSTS (POST_NO,ANIMAL_NO,USER_ID,POST_TITLE,POST_REG_DATE,POST_UPDATE_DATE,VIEWS) values (1,1,'admin','[강아지/대형] 쾌활한 골든리트리버 2살 남아, 새 가족 찾아요!',to_date('26/01/01','RR/MM/DD'),to_date('26/01/01','RR/MM/DD'),215);
+Insert into ADOPTION_POSTS (POST_NO,ANIMAL_NO,USER_ID,POST_TITLE,POST_REG_DATE,POST_UPDATE_DATE,VIEWS) values (2,2,'admin','[강아지/소형] 온순한 말티즈 4살 암컷, 조용한 가정 원해요',to_date('26/01/03','RR/MM/DD'),to_date('26/01/03','RR/MM/DD'),187);
+Insert into ADOPTION_POSTS (POST_NO,ANIMAL_NO,USER_ID,POST_TITLE,POST_REG_DATE,POST_UPDATE_DATE,VIEWS) values (3,3,'admin','[강아지/중형] 충성스러운 진돗개 3살 수컷, 경험자 환영!',to_date('26/01/05','RR/MM/DD'),to_date('26/01/05','RR/MM/DD'),143);
+Insert into ADOPTION_POSTS (POST_NO,ANIMAL_NO,USER_ID,POST_TITLE,POST_REG_DATE,POST_UPDATE_DATE,VIEWS) values (4,4,'admin','[강아지/소형] 활발한 포메라니안 1살 암컷, 사람 좋아해요!',to_date('26/01/08','RR/MM/DD'),to_date('26/01/08','RR/MM/DD'),298);
+Insert into ADOPTION_POSTS (POST_NO,ANIMAL_NO,USER_ID,POST_TITLE,POST_REG_DATE,POST_UPDATE_DATE,VIEWS) values (5,5,'admin','[강아지/중형] 독립적인 시바이누 5살 수컷 (입양완료)',to_date('26/01/10','RR/MM/DD'),to_date('26/02/15','RR/MM/DD'),122);
+Insert into ADOPTION_POSTS (POST_NO,ANIMAL_NO,USER_ID,POST_TITLE,POST_REG_DATE,POST_UPDATE_DATE,VIEWS) values (6,6,'admin','[강아지/대형] 영리한 보더콜리 2살 암컷, 넓은 공간 필요!',to_date('26/01/12','RR/MM/DD'),to_date('26/01/12','RR/MM/DD'),176);
+Insert into ADOPTION_POSTS (POST_NO,ANIMAL_NO,USER_ID,POST_TITLE,POST_REG_DATE,POST_UPDATE_DATE,VIEWS) values (7,7,'admin','[강아지/소형] 호기심 많은 비글 3살 수컷, 같이 뛸 친구!',to_date('26/01/15','RR/MM/DD'),to_date('26/01/15','RR/MM/DD'),201);
+Insert into ADOPTION_POSTS (POST_NO,ANIMAL_NO,USER_ID,POST_TITLE,POST_REG_DATE,POST_UPDATE_DATE,VIEWS) values (8,8,'admin','[강아지/소형] 도도한 미니푸들 6살 암컷, 노견 입양도 의미있어요',to_date('26/01/18','RR/MM/DD'),to_date('26/01/18','RR/MM/DD'),94);
+Insert into ADOPTION_POSTS (POST_NO,ANIMAL_NO,USER_ID,POST_TITLE,POST_REG_DATE,POST_UPDATE_DATE,VIEWS) values (9,9,'admin','[강아지/소형] 의젓한 미니어처 슈나우저 4살 수컷',to_date('26/01/20','RR/MM/DD'),to_date('26/01/20','RR/MM/DD'),110);
+Insert into ADOPTION_POSTS (POST_NO,ANIMAL_NO,USER_ID,POST_TITLE,POST_REG_DATE,POST_UPDATE_DATE,VIEWS) values (10,10,'admin','[강아지/대형] 순수한 라브라도 1살 암컷, 첫 입양자 환영!',to_date('26/01/22','RR/MM/DD'),to_date('26/01/22','RR/MM/DD'),334);
+Insert into ADOPTION_POSTS (POST_NO,ANIMAL_NO,USER_ID,POST_TITLE,POST_REG_DATE,POST_UPDATE_DATE,VIEWS) values (11,11,'admin','[고양이/소형] 귀여운 스코티시폴드 3살 암컷 입양 공고',to_date('26/02/01','RR/MM/DD'),to_date('26/02/01','RR/MM/DD'),267);
+Insert into ADOPTION_POSTS (POST_NO,ANIMAL_NO,USER_ID,POST_TITLE,POST_REG_DATE,POST_UPDATE_DATE,VIEWS) values (12,12,'admin','[고양이/소형] 조용하고 우아한 러시안블루 2살 수컷',to_date('26/02/03','RR/MM/DD'),to_date('26/02/03','RR/MM/DD'),198);
+Insert into ADOPTION_POSTS (POST_NO,ANIMAL_NO,USER_ID,POST_TITLE,POST_REG_DATE,POST_UPDATE_DATE,VIEWS) values (13,13,'admin','[고양이/소형] 길냥이 출신 코숏 5살 암컷, 실내 적응 완료!',to_date('26/02/05','RR/MM/DD'),to_date('26/02/05','RR/MM/DD'),145);
+Insert into ADOPTION_POSTS (POST_NO,ANIMAL_NO,USER_ID,POST_TITLE,POST_REG_DATE,POST_UPDATE_DATE,VIEWS) values (14,14,'admin','[고양이/소형] 털 풍성한 노르웨이숲 4살 수컷, 친화력 최고',to_date('26/02/08','RR/MM/DD'),to_date('26/02/08','RR/MM/DD'),183);
+Insert into ADOPTION_POSTS (POST_NO,ANIMAL_NO,USER_ID,POST_TITLE,POST_REG_DATE,POST_UPDATE_DATE,VIEWS) values (15,15,'admin','[고양이/소형] 아기같은 랙돌 1살 암컷 (입양완료)',to_date('26/02/10','RR/MM/DD'),to_date('26/02/10','RR/MM/DD'),421);
+Insert into ADOPTION_POSTS (POST_NO,ANIMAL_NO,USER_ID,POST_TITLE,POST_REG_DATE,POST_UPDATE_DATE,VIEWS) values (16,16,'admin','[고양이/소형] 노령묘 페르시안 7살 수컷, 조용한 분과 함께해요',to_date('26/02/12','RR/MM/DD'),to_date('26/02/12','RR/MM/DD'),87);
+Insert into ADOPTION_POSTS (POST_NO,ANIMAL_NO,USER_ID,POST_TITLE,POST_REG_DATE,POST_UPDATE_DATE,VIEWS) values (17,17,'admin','[고양이/소형] 장난기 많은 벵갈 2살 암컷, 액티브한 분!',to_date('26/02/15','RR/MM/DD'),to_date('26/02/15','RR/MM/DD'),312);
+Insert into ADOPTION_POSTS (POST_NO,ANIMAL_NO,USER_ID,POST_TITLE,POST_REG_DATE,POST_UPDATE_DATE,VIEWS) values (18,18,'admin','[고양이/소형] 호리호리한 아비시니안 3살 수컷, 똑똑해요',to_date('26/02/18','RR/MM/DD'),to_date('26/02/18','RR/MM/DD'),156);
+Insert into ADOPTION_POSTS (POST_NO,ANIMAL_NO,USER_ID,POST_TITLE,POST_REG_DATE,POST_UPDATE_DATE,VIEWS) values (19,19,'admin','[고양이/중형] 품격있는 메인쿤 4살 암컷, 강아지 같은 고양이',to_date('26/02/20','RR/MM/DD'),to_date('26/02/20','RR/MM/DD'),244);
+Insert into ADOPTION_POSTS (POST_NO,ANIMAL_NO,USER_ID,POST_TITLE,POST_REG_DATE,POST_UPDATE_DATE,VIEWS) values (20,20,'admin','[고양이/소형] 통통하고 귀여운 브리티시숏헤어 6살 수컷',to_date('26/02/22','RR/MM/DD'),to_date('26/02/22','RR/MM/DD'),203);
+
+-- ▶ 4. ADOPTION_APPLICATIONS (입양 신청 10건)
+REM INSERTING into ADOPTION_APPLICATIONS
+SET DEFINE OFF;
+Insert into ADOPTION_APPLICATIONS (ADOPTION_APP_ID,ANIMAL_NO,USER_ID,ADOPT_STATUS,APPLY_DT) values (1,3,'user01',0,to_date('26/03/10','RR/MM/DD'));
+Insert into ADOPTION_APPLICATIONS (ADOPTION_APP_ID,ANIMAL_NO,USER_ID,ADOPT_STATUS,APPLY_DT) values (2,5,'user02',1,to_date('26/02/15','RR/MM/DD'));
+Insert into ADOPTION_APPLICATIONS (ADOPTION_APP_ID,ANIMAL_NO,USER_ID,ADOPT_STATUS,APPLY_DT) values (3,7,'user03',0,to_date('26/03/25','RR/MM/DD'));
+Insert into ADOPTION_APPLICATIONS (ADOPTION_APP_ID,ANIMAL_NO,USER_ID,ADOPT_STATUS,APPLY_DT) values (4,1,'user04',2,to_date('26/01/20','RR/MM/DD'));
+Insert into ADOPTION_APPLICATIONS (ADOPTION_APP_ID,ANIMAL_NO,USER_ID,ADOPT_STATUS,APPLY_DT) values (5,10,'user01',0,to_date('26/04/01','RR/MM/DD'));
+Insert into ADOPTION_APPLICATIONS (ADOPTION_APP_ID,ANIMAL_NO,USER_ID,ADOPT_STATUS,APPLY_DT) values (6,12,'user05',0,to_date('26/04/10','RR/MM/DD'));
+Insert into ADOPTION_APPLICATIONS (ADOPTION_APP_ID,ANIMAL_NO,USER_ID,ADOPT_STATUS,APPLY_DT) values (7,15,'user02',1,to_date('26/03/01','RR/MM/DD'));
+Insert into ADOPTION_APPLICATIONS (ADOPTION_APP_ID,ANIMAL_NO,USER_ID,ADOPT_STATUS,APPLY_DT) values (8,18,'user03',0,to_date('26/04/05','RR/MM/DD'));
+Insert into ADOPTION_APPLICATIONS (ADOPTION_APP_ID,ANIMAL_NO,USER_ID,ADOPT_STATUS,APPLY_DT) values (9,2,'user06',0,to_date('26/04/12','RR/MM/DD'));
+Insert into ADOPTION_APPLICATIONS (ADOPTION_APP_ID,ANIMAL_NO,USER_ID,ADOPT_STATUS,APPLY_DT) values (10,8,'user04',1,to_date('26/02/28','RR/MM/DD'));
+
+-- ▶ 5. ACTIVITIES 봉사활동 (완료3 + 모집중4 + 예정3)
+REM INSERTING into ACTIVITIES
+SET DEFINE OFF;
+Insert into ACTIVITIES (ACT_ID,ADMIN_ID,ACT_DATE,ACT_END,ACT_ADDRESS,ACT_LAT,ACT_LON,ACT_LOAD,ACT_TITLE,ACT_MAX,ACT_CUR,ACT_MONEY,ACT_RATE) values (1,'admin',to_date('25/11/10','RR/MM/DD'),to_date('25/11/10','RR/MM/DD'),'서울특별시 마포구 상암동 1595',37.5622810,126.9086100,to_date('25/10/25','RR/MM/DD'),'[완료] 상암 유기견 돌봄봉사',20,20,0,4.7);
+Insert into ACTIVITIES (ACT_ID,ADMIN_ID,ACT_DATE,ACT_END,ACT_ADDRESS,ACT_LAT,ACT_LON,ACT_LOAD,ACT_TITLE,ACT_MAX,ACT_CUR,ACT_MONEY,ACT_RATE) values (2,'admin',to_date('25/12/07','RR/MM/DD'),to_date('25/12/07','RR/MM/DD'),'경기도 성남시 분당구 황새울로 200',37.3820140,127.1217370,to_date('25/11/20','RR/MM/DD'),'[완료] 성남 유기묘 임시보호',15,15,0,4.3);
+Insert into ACTIVITIES (ACT_ID,ADMIN_ID,ACT_DATE,ACT_END,ACT_ADDRESS,ACT_LAT,ACT_LON,ACT_LOAD,ACT_TITLE,ACT_MAX,ACT_CUR,ACT_MONEY,ACT_RATE) values (3,'admin',to_date('26/01/18','RR/MM/DD'),to_date('26/01/18','RR/MM/DD'),'인천광역시 연수구 경원대로 294',37.4087410,126.6836200,to_date('25/12/20','RR/MM/DD'),'[완료] 인천 보호소 청소봉사',25,24,0,4.8);
+Insert into ACTIVITIES (ACT_ID,ADMIN_ID,ACT_DATE,ACT_END,ACT_ADDRESS,ACT_LAT,ACT_LON,ACT_LOAD,ACT_TITLE,ACT_MAX,ACT_CUR,ACT_MONEY,ACT_RATE) values (4,'admin',to_date('26/03/15','RR/MM/DD'),to_date('26/03/15','RR/MM/DD'),'서울특별시 노원구 공릉로 232',37.6250000,127.0930000,to_date('26/02/20','RR/MM/DD'),'[모집중] 노원 유기견 산책봉사',30,18,0,0);
+Insert into ACTIVITIES (ACT_ID,ADMIN_ID,ACT_DATE,ACT_END,ACT_ADDRESS,ACT_LAT,ACT_LON,ACT_LOAD,ACT_TITLE,ACT_MAX,ACT_CUR,ACT_MONEY,ACT_RATE) values (5,'admin',to_date('26/03/22','RR/MM/DD'),to_date('26/03/22','RR/MM/DD'),'서울특별시 성동구 뚝섬로 273',37.5477000,127.0467000,to_date('26/02/28','RR/MM/DD'),'[모집중] 뚝섬 유기묘 미용봉사',20,12,0,0);
+Insert into ACTIVITIES (ACT_ID,ADMIN_ID,ACT_DATE,ACT_END,ACT_ADDRESS,ACT_LAT,ACT_LON,ACT_LOAD,ACT_TITLE,ACT_MAX,ACT_CUR,ACT_MONEY,ACT_RATE) values (6,'admin',to_date('26/04/05','RR/MM/DD'),to_date('26/04/05','RR/MM/DD'),'경기도 안양시 동안구 관양동 1591',37.3949000,126.9570000,to_date('26/03/01','RR/MM/DD'),'[모집중] 안양 입양캠프 서포터',40,31,0,0);
+Insert into ACTIVITIES (ACT_ID,ADMIN_ID,ACT_DATE,ACT_END,ACT_ADDRESS,ACT_LAT,ACT_LON,ACT_LOAD,ACT_TITLE,ACT_MAX,ACT_CUR,ACT_MONEY,ACT_RATE) values (7,'admin',to_date('26/04/19','RR/MM/DD'),to_date('26/04/19','RR/MM/DD'),'서울특별시 광진구 능동로 90',37.5481000,127.0748000,to_date('26/03/10','RR/MM/DD'),'[모집중] 입양홍보 행사 스태프',50,44,10000,0);
+Insert into ACTIVITIES (ACT_ID,ADMIN_ID,ACT_DATE,ACT_END,ACT_ADDRESS,ACT_LAT,ACT_LON,ACT_LOAD,ACT_TITLE,ACT_MAX,ACT_CUR,ACT_MONEY,ACT_RATE) values (8,'admin',to_date('26/05/10','RR/MM/DD'),to_date('26/05/10','RR/MM/DD'),'부산광역시 해운대구 해운대해변로 264',35.1580000,129.1603000,to_date('26/04/01','RR/MM/DD'),'[예정] 해운대 보호소 환경개선',15,5,0,0);
+Insert into ACTIVITIES (ACT_ID,ADMIN_ID,ACT_DATE,ACT_END,ACT_ADDRESS,ACT_LAT,ACT_LON,ACT_LOAD,ACT_TITLE,ACT_MAX,ACT_CUR,ACT_MONEY,ACT_RATE) values (9,'admin',to_date('26/05/24','RR/MM/DD'),to_date('26/05/24','RR/MM/DD'),'대전광역시 유성구 대학로 99',36.3763000,127.3597000,to_date('26/04/10','RR/MM/DD'),'[예정] 대전 길냥이 TNR 봉사',10,2,0,0);
+Insert into ACTIVITIES (ACT_ID,ADMIN_ID,ACT_DATE,ACT_END,ACT_ADDRESS,ACT_LAT,ACT_LON,ACT_LOAD,ACT_TITLE,ACT_MAX,ACT_CUR,ACT_MONEY,ACT_RATE) values (10,'admin',to_date('26/06/07','RR/MM/DD'),to_date('26/06/07','RR/MM/DD'),'광주광역시 서구 상무중앙로 110',35.1543000,126.8519000,to_date('26/04/15','RR/MM/DD'),'[예정] 광주 입양 문화 축제봉사',60,8,0,0);
+
+-- ▶ 6. SIGNS 봉사신청 (15건)
+REM INSERTING into SIGNS
+SET DEFINE OFF;
+Insert into SIGNS (SIGNS_NO,ACT_ID,SIGNS_ID,SIGNS_WAIT,SIGNS_STATUS,SIGNS_DATE) values (1,1,'user01',0,1,to_date('25/10/26','RR/MM/DD'));
+Insert into SIGNS (SIGNS_NO,ACT_ID,SIGNS_ID,SIGNS_WAIT,SIGNS_STATUS,SIGNS_DATE) values (2,1,'user02',0,1,to_date('25/10/27','RR/MM/DD'));
+Insert into SIGNS (SIGNS_NO,ACT_ID,SIGNS_ID,SIGNS_WAIT,SIGNS_STATUS,SIGNS_DATE) values (3,2,'user01',0,1,to_date('25/11/21','RR/MM/DD'));
+Insert into SIGNS (SIGNS_NO,ACT_ID,SIGNS_ID,SIGNS_WAIT,SIGNS_STATUS,SIGNS_DATE) values (4,2,'user03',0,1,to_date('25/11/22','RR/MM/DD'));
+Insert into SIGNS (SIGNS_NO,ACT_ID,SIGNS_ID,SIGNS_WAIT,SIGNS_STATUS,SIGNS_DATE) values (5,3,'user02',0,1,to_date('25/12/21','RR/MM/DD'));
+Insert into SIGNS (SIGNS_NO,ACT_ID,SIGNS_ID,SIGNS_WAIT,SIGNS_STATUS,SIGNS_DATE) values (6,4,'user01',0,1,to_date('26/02/21','RR/MM/DD'));
+Insert into SIGNS (SIGNS_NO,ACT_ID,SIGNS_ID,SIGNS_WAIT,SIGNS_STATUS,SIGNS_DATE) values (7,4,'user04',0,0,to_date('26/02/22','RR/MM/DD'));
+Insert into SIGNS (SIGNS_NO,ACT_ID,SIGNS_ID,SIGNS_WAIT,SIGNS_STATUS,SIGNS_DATE) values (8,4,'user05',0,1,to_date('26/02/23','RR/MM/DD'));
+Insert into SIGNS (SIGNS_NO,ACT_ID,SIGNS_ID,SIGNS_WAIT,SIGNS_STATUS,SIGNS_DATE) values (9,5,'user03',0,0,to_date('26/02/28','RR/MM/DD'));
+Insert into SIGNS (SIGNS_NO,ACT_ID,SIGNS_ID,SIGNS_WAIT,SIGNS_STATUS,SIGNS_DATE) values (10,6,'user06',0,1,to_date('26/03/02','RR/MM/DD'));
+Insert into SIGNS (SIGNS_NO,ACT_ID,SIGNS_ID,SIGNS_WAIT,SIGNS_STATUS,SIGNS_DATE) values (11,6,'user02',0,0,to_date('26/03/03','RR/MM/DD'));
+Insert into SIGNS (SIGNS_NO,ACT_ID,SIGNS_ID,SIGNS_WAIT,SIGNS_STATUS,SIGNS_DATE) values (12,7,'user01',0,1,to_date('26/03/11','RR/MM/DD'));
+Insert into SIGNS (SIGNS_NO,ACT_ID,SIGNS_ID,SIGNS_WAIT,SIGNS_STATUS,SIGNS_DATE) values (13,7,'user05',0,0,to_date('26/03/12','RR/MM/DD'));
+Insert into SIGNS (SIGNS_NO,ACT_ID,SIGNS_ID,SIGNS_WAIT,SIGNS_STATUS,SIGNS_DATE) values (14,8,'user04',1,0,to_date('26/04/02','RR/MM/DD'));
+Insert into SIGNS (SIGNS_NO,ACT_ID,SIGNS_ID,SIGNS_WAIT,SIGNS_STATUS,SIGNS_DATE) values (15,9,'user06',1,0,to_date('26/04/11','RR/MM/DD'));
+
+-- ▶ 7. VOLUNTEER_REVIEWS 봉사 후기 (완료된 봉사 3건)
+REM INSERTING into VOLUNTEER_REVIEWS
+SET DEFINE OFF;
+Insert into VOLUNTEER_REVIEWS (REVIEW_NO,ACT_ID,R_ID,R_TITLE,R_REVIEW,R_RATE,R_CREATE,R_UPDATE,R_REMOVE) values (1,1,'user01','상암 봉사 후기 - 정말 따뜻한 하루','처음으로 유기동물 봉사를 다녀왔습니다. 긴장했지만 스태프분들이 친절히 안내해 주셔서 금방 적응했에요. 강아지들과 산책하고 밥을 주는 단순한 시간이지만 정말 보람찼어요.',4.7,to_date('25/11/12','RR/MM/DD'),to_date('25/11/12','RR/MM/DD'),0);
+Insert into VOLUNTEER_REVIEWS (REVIEW_NO,ACT_ID,R_ID,R_TITLE,R_REVIEW,R_RATE,R_CREATE,R_UPDATE,R_REMOVE) values (2,2,'user03','성남 유기묘 봉사 참여 후기','고양이를 오랫동안 키워봤는데도 유기묘 보호소는 또 다른 경험이었어요. 겁 많은 아이들이 조금씩 마음을 열어가는 걸 보면서 많은 것을 느꼈습니다.',4.3,to_date('25/12/09','RR/MM/DD'),to_date('25/12/09','RR/MM/DD'),0);
+Insert into VOLUNTEER_REVIEWS (REVIEW_NO,ACT_ID,R_ID,R_TITLE,R_REVIEW,R_RATE,R_CREATE,R_UPDATE,R_REMOVE) values (3,3,'user02','인천 보호소 청소 봉사 - 힘들었지만 보람차요','날씨가 추웠지만 다들 힘을 합쳐 보호소를 깨끗이 청소했어요. 청소 후 동물들이 더 활발해진 것 같아서 뿌듯했습니다. 다음에도 꼭 참여하고 싶어요.',4.8,to_date('26/01/20','RR/MM/DD'),to_date('26/01/20','RR/MM/DD'),0);
+
+-- ▶ 8. VOLUNTEER_BOARD_COMMENTS 봉사활동 댓글
+REM INSERTING into VOLUNTEER_BOARD_COMMENTS
+SET DEFINE OFF;
+Insert into VOLUNTEER_BOARD_COMMENTS (CMT_NO,ACT_ID,USER_ID,CMT_ANSWER,CMT_DATE,CMT_UPDATE,CMT_REMOVE,CMT_RATE,REVIEW_NO) values (1,1,'user01','정말 보람있는 하루였어요! 강아지들이 너무 귀엽고 사랑스러웠습니다.',to_date('25/11/10','RR/MM/DD'),to_date('25/11/10','RR/MM/DD'),0,5,1);
+Insert into VOLUNTEER_BOARD_COMMENTS (CMT_NO,ACT_ID,USER_ID,CMT_ANSWER,CMT_DATE,CMT_UPDATE,CMT_REMOVE,CMT_RATE,REVIEW_NO) values (2,1,'user02','처음 봉사였는데 진행이 잘 되어 좋았어요. 다음에도 꼭 참여하겠습니다!',to_date('25/11/10','RR/MM/DD'),to_date('25/11/10','RR/MM/DD'),0,4,1);
+Insert into VOLUNTEER_BOARD_COMMENTS (CMT_NO,ACT_ID,USER_ID,CMT_ANSWER,CMT_DATE,CMT_UPDATE,CMT_REMOVE,CMT_RATE,REVIEW_NO) values (3,2,'user01','고양이들이 처음엔 긴장했지만 나중엔 잘 따라줬어요. 감사합니다!',to_date('25/12/07','RR/MM/DD'),to_date('25/12/07','RR/MM/DD'),0,5,2);
+Insert into VOLUNTEER_BOARD_COMMENTS (CMT_NO,ACT_ID,USER_ID,CMT_ANSWER,CMT_DATE,CMT_UPDATE,CMT_REMOVE,CMT_RATE,REVIEW_NO) values (4,3,'user02','보호소 환경이 개선되어 정말 기쁩니다. 동물들이 더 편안하게 지낼 것 같아요.',to_date('26/01/18','RR/MM/DD'),to_date('26/01/18','RR/MM/DD'),0,5,3);
+Insert into VOLUNTEER_BOARD_COMMENTS (CMT_NO,ACT_ID,USER_ID,CMT_ANSWER,CMT_DATE,CMT_UPDATE,CMT_REMOVE,CMT_RATE,REVIEW_NO) values (5,3,'user03','눈도 오는데 다들 열심히 청소해주셔서 정말 감동이었어요!',to_date('26/01/18','RR/MM/DD'),to_date('26/01/18','RR/MM/DD'),0,4,3);
+
+-- ▶ 9. FUNDINGS 펀딩 (완료3 + 진행중5)
+REM INSERTING into FUNDINGS
+SET DEFINE OFF;
+Insert into FUNDINGS (F_NO,USER_ID,F_TITLE,F_CONTENT,F_MAX_MONEY,F_CURRENT_MONEY) values (1,'admin','유기견 수술비 지원','서울 마포구에서 발견된 유기견이 교통사고로 큰 부상을 입었습니다. 긴급 수술과 재활치료 비용을 지원해 주세요.',2000000,1875000);
+Insert into FUNDINGS (F_NO,USER_ID,F_TITLE,F_CONTENT,F_MAX_MONEY,F_CURRENT_MONEY) values (2,'admin','보호소 의료용품 지원','현재 보호소 유기동물 50마리를 위한 의료용품(주사기, 붕대, 소독약 등)이 부족합니다.',500000,387000);
+Insert into FUNDINGS (F_NO,USER_ID,F_TITLE,F_CONTENT,F_MAX_MONEY,F_CURRENT_MONEY) values (3,'admin','노령견 백내장 수술비','14살 노령견 뭉치가 백내장으로 시력을 잃어가고 있습니다. 수술을 통해 다시 볼 수 있는 기회를 주세요.',1500000,1500000);
+Insert into FUNDINGS (F_NO,USER_ID,F_TITLE,F_CONTENT,F_MAX_MONEY,F_CURRENT_MONEY) values (4,'admin','보호소 환경 개선','낡고 비좁은 보호소 환경을 개선합니다. 넓고 따뜻한 공간에서 아이들이 행복하게 입양을 기다릴 수 있도록 도와주세요.',3000000,2340000);
+Insert into FUNDINGS (F_NO,USER_ID,F_TITLE,F_CONTENT,F_MAX_MONEY,F_CURRENT_MONEY) values (5,'admin','길냥이 TNR 사업','길거리 고양이 개체 수 조절을 위한 TNR(포획-중성화-방사) 사업을 지원합니다.',1000000,620000);
+Insert into FUNDINGS (F_NO,USER_ID,F_TITLE,F_CONTENT,F_MAX_MONEY,F_CURRENT_MONEY) values (6,'admin','대형견 운동장 설치','보호소에 대형견이 뛰어놀 운동장이 없습니다. 대형견 전용 운동장을 설치하여 스트레스를 해소시켜 주세요!',5000000,1890000);
+Insert into FUNDINGS (F_NO,USER_ID,F_TITLE,F_CONTENT,F_MAX_MONEY,F_CURRENT_MONEY) values (7,'admin','여름철 냉방 지원','올여름 폭염으로부터 보호소 동물들을 지켜주세요. 쿨링 패드와 에어컨 설치를 위한 후원금을 모집합니다.',800000,430000);
+Insert into FUNDINGS (F_NO,USER_ID,F_TITLE,F_CONTENT,F_MAX_MONEY,F_CURRENT_MONEY) values (8,'admin','고양이 허피스 치료','보호소 고양이 5마리가 허피스 바이러스에 감염되어 치료가 필요합니다.',600000,600000);
+
+-- ▶ 10. FUNDING_HISTORIES 후원 내역 (15건)
+REM INSERTING into FUNDING_HISTORIES
+SET DEFINE OFF;
+Insert into FUNDING_HISTORIES (FH_NO,USER_ID,F_NO,F_MONEY,INPUT_DATE) values (1,'user01',1,30000,to_date('26/01/10','RR/MM/DD'));
+Insert into FUNDING_HISTORIES (FH_NO,USER_ID,F_NO,F_MONEY,INPUT_DATE) values (2,'user02',1,50000,to_date('26/01/11','RR/MM/DD'));
+Insert into FUNDING_HISTORIES (FH_NO,USER_ID,F_NO,F_MONEY,INPUT_DATE) values (3,'user03',1,100000,to_date('26/01/12','RR/MM/DD'));
+Insert into FUNDING_HISTORIES (FH_NO,USER_ID,F_NO,F_MONEY,INPUT_DATE) values (4,'user04',3,200000,to_date('26/01/15','RR/MM/DD'));
+Insert into FUNDING_HISTORIES (FH_NO,USER_ID,F_NO,F_MONEY,INPUT_DATE) values (5,'user05',3,300000,to_date('26/01/16','RR/MM/DD'));
+Insert into FUNDING_HISTORIES (FH_NO,USER_ID,F_NO,F_MONEY,INPUT_DATE) values (6,'user01',3,500000,to_date('26/01/17','RR/MM/DD'));
+Insert into FUNDING_HISTORIES (FH_NO,USER_ID,F_NO,F_MONEY,INPUT_DATE) values (7,'user02',4,100000,to_date('26/02/01','RR/MM/DD'));
+Insert into FUNDING_HISTORIES (FH_NO,USER_ID,F_NO,F_MONEY,INPUT_DATE) values (8,'user06',4,150000,to_date('26/02/05','RR/MM/DD'));
+Insert into FUNDING_HISTORIES (FH_NO,USER_ID,F_NO,F_MONEY,INPUT_DATE) values (9,'user03',5,50000,to_date('26/03/01','RR/MM/DD'));
+Insert into FUNDING_HISTORIES (FH_NO,USER_ID,F_NO,F_MONEY,INPUT_DATE) values (10,'user04',5,70000,to_date('26/03/05','RR/MM/DD'));
+Insert into FUNDING_HISTORIES (FH_NO,USER_ID,F_NO,F_MONEY,INPUT_DATE) values (11,'user05',6,200000,to_date('26/03/10','RR/MM/DD'));
+Insert into FUNDING_HISTORIES (FH_NO,USER_ID,F_NO,F_MONEY,INPUT_DATE) values (12,'user01',7,50000,to_date('26/03/20','RR/MM/DD'));
+Insert into FUNDING_HISTORIES (FH_NO,USER_ID,F_NO,F_MONEY,INPUT_DATE) values (13,'user02',8,100000,to_date('26/04/01','RR/MM/DD'));
+Insert into FUNDING_HISTORIES (FH_NO,USER_ID,F_NO,F_MONEY,INPUT_DATE) values (14,'user06',8,200000,to_date('26/04/02','RR/MM/DD'));
+Insert into FUNDING_HISTORIES (FH_NO,USER_ID,F_NO,F_MONEY,INPUT_DATE) values (15,'user04',2,87000,to_date('26/02/20','RR/MM/DD'));
+
+-- ▶ 11. BOARDS 게시글 (NOTICE5 + FREE8 + REVIEW5 + REQUEST2)
 REM INSERTING into BOARDS
+SET DEFINE OFF;
+Insert into BOARDS (BOARD_ID,USER_ID,CATEGORY,TITLE,CONTENT,CREATE_DATE,UPDATE_DATE,VIEW_COUNT,IS_DELETED,IS_PINNED,HASHTAGS) values (1,'admin','NOTICE','[공지] UBIG 서비스 이용 규칙 안내','안녕하세요. UBIG 운영팀입니다. 서비스를 이용하시는 모든 회원 여러분께 이용 규칙을 안내드립니다. 1. 허위 입양 신청 금지 2. 동물 학대 관련 게시물 금지 3. 상업적 목적의 게시물 금지. 위반 시 계정이 정지될 수 있습니다.',to_date('26/01/01','RR/MM/DD'),to_date('26/01/01','RR/MM/DD'),892,'N','Y','공지,이용규칙');
+Insert into BOARDS (BOARD_ID,USER_ID,CATEGORY,TITLE,CONTENT,CREATE_DATE,UPDATE_DATE,VIEW_COUNT,IS_DELETED,IS_PINNED,HASHTAGS) values (2,'admin','NOTICE','[공지] 입양 신청 절차 개선 안내','회원 여러분의 소중한 의견을 반영하여 입양 신청 프로세스를 개선하였습니다. 신청서 작성 후 진행 상황을 마이페이지에서 실시간으로 확인하실 수 있습니다.',to_date('26/01/15','RR/MM/DD'),to_date('26/01/15','RR/MM/DD'),654,'N','Y','공지,입양신청');
+Insert into BOARDS (BOARD_ID,USER_ID,CATEGORY,TITLE,CONTENT,CREATE_DATE,UPDATE_DATE,VIEW_COUNT,IS_DELETED,IS_PINNED,HASHTAGS) values (3,'admin','NOTICE','[공지] 2월 봉사활동 모집 일정 안내','2026년 2월 봉사활동 일정을 안내드립니다. 봉사활동 탭에서 확인하시고 미리 신청해 주세요. 선착순 마감이니 서두르세요!',to_date('26/01/28','RR/MM/DD'),to_date('26/01/28','RR/MM/DD'),423,'N','Y','공지,봉사활동');
+Insert into BOARDS (BOARD_ID,USER_ID,CATEGORY,TITLE,CONTENT,CREATE_DATE,UPDATE_DATE,VIEW_COUNT,IS_DELETED,IS_PINNED,HASHTAGS) values (4,'admin','NOTICE','[공지] 후원금 사용 내역 투명 공개 안내','지난 분기 여러분이 보내주신 소중한 후원금 사용 내역을 공개합니다. 유기견 치료비 사용 내역과 보호소 운영 현황을 확인해 주세요.',to_date('26/02/01','RR/MM/DD'),to_date('26/02/01','RR/MM/DD'),315,'N','Y','공지,후원,투명경영');
+Insert into BOARDS (BOARD_ID,USER_ID,CATEGORY,TITLE,CONTENT,CREATE_DATE,UPDATE_DATE,VIEW_COUNT,IS_DELETED,IS_PINNED,HASHTAGS) values (5,'admin','NOTICE','[공지] 시스템 점검 안내 (3월 5일 새벽 2~4시)','서비스 안정성 향상을 위해 시스템 점검을 진행합니다. 3월 5일 새벽 2시~4시 동안 서비스 이용이 일시적으로 제한됩니다.',to_date('26/03/01','RR/MM/DD'),to_date('26/03/01','RR/MM/DD'),287,'N','Y','공지,점검');
+Insert into BOARDS (BOARD_ID,USER_ID,CATEGORY,TITLE,CONTENT,CREATE_DATE,UPDATE_DATE,VIEW_COUNT,IS_DELETED,IS_PINNED,HASHTAGS) values (6,'user01','FREE','우리 강아지가 드디어 새 가족을 찾았어요! 🎉','임시보호하던 믹스견 초코가 드디어 새 가족을 만났어요. UBIG 덕분에 좋은 인연이 이어진 것 같아 감사합니다.',to_date('26/02/10','RR/MM/DD'),to_date('26/02/10','RR/MM/DD'),234,'N','N','입양성공,임시보호');
+Insert into BOARDS (BOARD_ID,USER_ID,CATEGORY,TITLE,CONTENT,CREATE_DATE,UPDATE_DATE,VIEW_COUNT,IS_DELETED,IS_PINNED,HASHTAGS) values (7,'user02','FREE','고양이 화장실 추천 부탁드려요','랙돌 고양이를 막 입양했는데 화장실이 너무 작은 것 같아서요. 대형 고양이 화장실 추천 부탁드립니다!',to_date('26/02/20','RR/MM/DD'),to_date('26/02/20','RR/MM/DD'),187,'N','N','고양이,화장실,추천');
+Insert into BOARDS (BOARD_ID,USER_ID,CATEGORY,TITLE,CONTENT,CREATE_DATE,UPDATE_DATE,VIEW_COUNT,IS_DELETED,IS_PINNED,HASHTAGS) values (8,'user03','FREE','강아지 산책 코스 공유해요 - 한강공원','보더콜리를 키우고 있는데 한강공원 상암 코스가 정말 좋더라고요. 혹시 좋은 산책 코스 아시는 분 있으면 댓글로 알려주세요!',to_date('26/03/01','RR/MM/DD'),to_date('26/03/01','RR/MM/DD'),412,'N','N','강아지,산책,한강');
+Insert into BOARDS (BOARD_ID,USER_ID,CATEGORY,TITLE,CONTENT,CREATE_DATE,UPDATE_DATE,VIEW_COUNT,IS_DELETED,IS_PINNED,HASHTAGS) values (9,'user04','FREE','유기견을 처음 입양했는데 적응 기간이 너무 힘드네요...','처음으로 유기견을 입양했는데, 적응 기간이 생각보다 훨씬 힘드네요. 밤에 짖고, 밥도 안 먹고... 경험자 분들의 조언 부탁드립니다.',to_date('26/03/10','RR/MM/DD'),to_date('26/03/10','RR/MM/DD'),356,'N','N','유기견,입양,적응');
+Insert into BOARDS (BOARD_ID,USER_ID,CATEGORY,TITLE,CONTENT,CREATE_DATE,UPDATE_DATE,VIEW_COUNT,IS_DELETED,IS_PINNED,HASHTAGS) values (10,'user05','FREE','봉사활동 처음 다녀왔는데 너무 보람찼어요!','어제 상암 봉사활동 다녀왔는데 정말 보람차고 좋았어요. 강아지들이 너무 사랑스러워서 오히려 제가 위로받은 것 같아요.',to_date('26/03/15','RR/MM/DD'),to_date('26/03/15','RR/MM/DD'),298,'N','N','봉사활동,후기,유기견');
+Insert into BOARDS (BOARD_ID,USER_ID,CATEGORY,TITLE,CONTENT,CREATE_DATE,UPDATE_DATE,VIEW_COUNT,IS_DELETED,IS_PINNED,HASHTAGS) values (11,'user01','FREE','고양이 다이어트 어떻게 하세요?','우리 브숏 달이가 너무 통통해져서... 수의사 선생님이 다이어트 필요하다고 하시는데, 사료 추천이나 급식기 추천 부탁드려요.',to_date('26/03/20','RR/MM/DD'),to_date('26/03/20','RR/MM/DD'),176,'N','N','고양이,다이어트,사료');
+Insert into BOARDS (BOARD_ID,USER_ID,CATEGORY,TITLE,CONTENT,CREATE_DATE,UPDATE_DATE,VIEW_COUNT,IS_DELETED,IS_PINNED,HASHTAGS) values (12,'user06','FREE','펀딩 참여 후기 - 치료비 지원 프로젝트','이번 UBIG 유기동물 치료비 지원 펀딩에 참여했는데요. 목표 금액의 150%가 달성됐다고 해서 정말 감동받았습니다.',to_date('26/04/01','RR/MM/DD'),to_date('26/04/01','RR/MM/DD'),143,'N','N','펀딩,후기,치료비');
+Insert into BOARDS (BOARD_ID,USER_ID,CATEGORY,TITLE,CONTENT,CREATE_DATE,UPDATE_DATE,VIEW_COUNT,IS_DELETED,IS_PINNED,HASHTAGS) values (13,'user02','FREE','서울 강동구 주변 동물병원 추천해 주세요','강동구로 이사 왔는데 믿을만한 동물병원을 찾고 있어요. 고양이 두 마리 키우고 있는데 스케일링이나 중성화 수술 예정입니다.',to_date('26/04/05','RR/MM/DD'),to_date('26/04/05','RR/MM/DD'),201,'N','N','동물병원,강동구,고양이');
+Insert into BOARDS (BOARD_ID,USER_ID,CATEGORY,TITLE,CONTENT,CREATE_DATE,UPDATE_DATE,VIEW_COUNT,IS_DELETED,IS_PINNED,HASHTAGS) values (14,'user03','REVIEW','드디어 두리를 입양했어요! 진돗개 첫 달 후기','진돗개 두리를 입양한 지 한 달이 지났어요. 처음엔 낯을 많이 가려서 힘들었지만 이제는 완전히 저를 가족으로 받아들인 것 같아요. UBIG에서 좋은 인연 만났습니다!',to_date('26/03/20','RR/MM/DD'),to_date('26/03/20','RR/MM/DD'),415,'N','N','진돗개,입양후기,두리');
+Insert into BOARDS (BOARD_ID,USER_ID,CATEGORY,TITLE,CONTENT,CREATE_DATE,UPDATE_DATE,VIEW_COUNT,IS_DELETED,IS_PINNED,HASHTAGS) values (15,'user04','REVIEW','랙돌 두부 입양 후기 - 고양이 초보자의 3개월 기록','두부를 입양한 지 3개월이 지났어요. 처음엔 고양이가 이렇게 큰 존재감을 차지할 줄 몰랐어요. UBIG 덕분에 정말 사랑스러운 가족을 얻었습니다.',to_date('26/03/25','RR/MM/DD'),to_date('26/03/25','RR/MM/DD'),378,'N','N','랙돌,입양후기,고양이초보');
+Insert into BOARDS (BOARD_ID,USER_ID,CATEGORY,TITLE,CONTENT,CREATE_DATE,UPDATE_DATE,VIEW_COUNT,IS_DELETED,IS_PINNED,HASHTAGS) values (16,'user05','REVIEW','보더콜리 루나와 보낸 1년 - 감사 인사 드려요','루나를 입양한 지 어느덧 1년이 됐어요. 처음엔 에너지를 감당하기 버거웠는데 이제는 함께 달리는 게 우리 둘의 일상이 됐어요.',to_date('26/04/01','RR/MM/DD'),to_date('26/04/01','RR/MM/DD'),267,'N','N','보더콜리,입양1주년,루나');
+Insert into BOARDS (BOARD_ID,USER_ID,CATEGORY,TITLE,CONTENT,CREATE_DATE,UPDATE_DATE,VIEW_COUNT,IS_DELETED,IS_PINNED,HASHTAGS) values (17,'user06','REVIEW','임시보호에서 정식 입양까지 - 말티즈 하루 이야기','처음엔 임시보호로 시작했는데, 결국 정식 입양을 결정했어요. 겁쟁이였던 하루가 이제는 당당하게 집을 누비고 있어요.',to_date('26/04/08','RR/MM/DD'),to_date('26/04/08','RR/MM/DD'),192,'N','N','말티즈,임시보호,입양후기');
+Insert into BOARDS (BOARD_ID,USER_ID,CATEGORY,TITLE,CONTENT,CREATE_DATE,UPDATE_DATE,VIEW_COUNT,IS_DELETED,IS_PINNED,HASHTAGS) values (18,'user01','REVIEW','봉사활동 정기 참여 1년 후 느낀 점','UBIG 봉사활동을 정기적으로 참여한 지 1년이 됐어요. 어느새 유기동물 문제에 대해 진지하게 생각하게 됐고, 봉사가 저를 더 성장시켜 준 것 같아요.',to_date('26/04/10','RR/MM/DD'),to_date('26/04/10','RR/MM/DD'),156,'N','N','봉사활동,1년,유기동물');
+Insert into BOARDS (BOARD_ID,USER_ID,CATEGORY,TITLE,CONTENT,CREATE_DATE,UPDATE_DATE,VIEW_COUNT,IS_DELETED,IS_PINNED,HASHTAGS) values (19,'user02','REQUEST','노원구에도 봉사활동 자리 만들어 주세요!','저는 노원구에 살고 있는데요, 봉사활동이 대부분 마포구나 성동구 쪽에 몰려 있어서 교통이 불편해요. 노원구나 도봉구 쪽도 추가해 주시면 좋겠습니다!',to_date('26/03/10','RR/MM/DD'),to_date('26/03/10','RR/MM/DD'),234,'N','N','건의,봉사활동,노원구');
+Insert into BOARDS (BOARD_ID,USER_ID,CATEGORY,TITLE,CONTENT,CREATE_DATE,UPDATE_DATE,VIEW_COUNT,IS_DELETED,IS_PINNED,HASHTAGS) values (20,'user05','REQUEST','펀딩 항목에 사료 지원 카테고리도 추가해 주세요','현재 펀딩은 치료비 중심인 것 같은데요, 보호소에서 가장 필요한 게 사료인 경우도 많더라고요. 사료 지원 목적의 펀딩 카테고리도 추가해 주시면 좋겠습니다!',to_date('26/04/02','RR/MM/DD'),to_date('26/04/02','RR/MM/DD'),187,'N','N','건의,펀딩,사료');
+
+-- ▶ 12. COMMENTS 댓글 (20건)
+REM INSERTING into COMMENTS
+SET DEFINE OFF;
+Insert into COMMENTS (COMMENT_ID,USER_ID,BOARD_ID,CONTENT,CREATE_DATE,UPDATE_DATE,IS_DELETED,PARENT_ID) values (1,'user02',6,'정말 축하드려요! 좋은 가족을 만났으면 다행이에요.',to_date('26/02/10','RR/MM/DD'),to_date('26/02/10','RR/MM/DD'),'N',null);
+Insert into COMMENTS (COMMENT_ID,USER_ID,BOARD_ID,CONTENT,CREATE_DATE,UPDATE_DATE,IS_DELETED,PARENT_ID) values (2,'user03',6,'저도 임시보호 중인데 너무 좋은 소식이네요!',to_date('26/02/11','RR/MM/DD'),to_date('26/02/11','RR/MM/DD'),'N',null);
+Insert into COMMENTS (COMMENT_ID,USER_ID,BOARD_ID,CONTENT,CREATE_DATE,UPDATE_DATE,IS_DELETED,PARENT_ID) values (3,'admin',6,'입양이 성사되어 정말 기쁩니다! 앞으로도 좋은 인연이 이어지길 바랍니다.',to_date('26/02/11','RR/MM/DD'),to_date('26/02/11','RR/MM/DD'),'N',null);
+Insert into COMMENTS (COMMENT_ID,USER_ID,BOARD_ID,CONTENT,CREATE_DATE,UPDATE_DATE,IS_DELETED,PARENT_ID) values (4,'user04',7,'아이캣 모던캣 화장실 쓰는데 괜찮아요!',to_date('26/02/21','RR/MM/DD'),to_date('26/02/21','RR/MM/DD'),'N',null);
+Insert into COMMENTS (COMMENT_ID,USER_ID,BOARD_ID,CONTENT,CREATE_DATE,UPDATE_DATE,IS_DELETED,PARENT_ID) values (5,'user06',7,'런택 자동 화장실 추천드려요. 세척도 편하고 냄새도 잘 잡아줘서 만족해요.',to_date('26/02/21','RR/MM/DD'),to_date('26/02/21','RR/MM/DD'),'N',null);
+Insert into COMMENTS (COMMENT_ID,USER_ID,BOARD_ID,CONTENT,CREATE_DATE,UPDATE_DATE,IS_DELETED,PARENT_ID) values (6,'user01',8,'저도 한강 뚝섬 코스 자주 가요! 야외 애견 카페도 근처에 있어서 좋더라고요.',to_date('26/03/02','RR/MM/DD'),to_date('26/03/02','RR/MM/DD'),'N',null);
+Insert into COMMENTS (COMMENT_ID,USER_ID,BOARD_ID,CONTENT,CREATE_DATE,UPDATE_DATE,IS_DELETED,PARENT_ID) values (7,'user05',8,'서울숲 쪽도 강아지들에게 인기 있는 코스예요! 잔디밭에서 뛰어다닐 수 있어요.',to_date('26/03/03','RR/MM/DD'),to_date('26/03/03','RR/MM/DD'),'N',null);
+Insert into COMMENTS (COMMENT_ID,USER_ID,BOARD_ID,CONTENT,CREATE_DATE,UPDATE_DATE,IS_DELETED,PARENT_ID) values (8,'admin',9,'너무 힘드실 때 저희에게 연락 주셔도 됩니다. 입양 후 케어 상담 서비스도 운영합니다.',to_date('26/03/11','RR/MM/DD'),to_date('26/03/11','RR/MM/DD'),'N',null);
+Insert into COMMENTS (COMMENT_ID,USER_ID,BOARD_ID,CONTENT,CREATE_DATE,UPDATE_DATE,IS_DELETED,PARENT_ID) values (9,'user02',9,'저도 초반에 너무 힘들었어요. 2~3개월만 버티면 정말 다르게 느껴질 거예요! 화이팅!',to_date('26/03/11','RR/MM/DD'),to_date('26/03/11','RR/MM/DD'),'N',null);
+Insert into COMMENTS (COMMENT_ID,USER_ID,BOARD_ID,CONTENT,CREATE_DATE,UPDATE_DATE,IS_DELETED,PARENT_ID) values (10,'user03',9,'저도 처음에 2주 동안 잠을 제대로 못 잤어요. 지금은 빵빵 만족 중입니다. 포기 마세요!',to_date('26/03/12','RR/MM/DD'),to_date('26/03/12','RR/MM/DD'),'N',null);
+Insert into COMMENTS (COMMENT_ID,USER_ID,BOARD_ID,CONTENT,CREATE_DATE,UPDATE_DATE,IS_DELETED,PARENT_ID) values (11,'user04',10,'저도 이번 봉사 같이 갔었는데 정말 좋았죠! 다음에도 함께해요.',to_date('26/03/15','RR/MM/DD'),to_date('26/03/15','RR/MM/DD'),'N',null);
+Insert into COMMENTS (COMMENT_ID,USER_ID,BOARD_ID,CONTENT,CREATE_DATE,UPDATE_DATE,IS_DELETED,PARENT_ID) values (12,'user01',11,'사료 양 조금 줄이고 그릇 높은 걸 써봤어요. 효과 있었습니다!',to_date('26/03/21','RR/MM/DD'),to_date('26/03/21','RR/MM/DD'),'N',null);
+Insert into COMMENTS (COMMENT_ID,USER_ID,BOARD_ID,CONTENT,CREATE_DATE,UPDATE_DATE,IS_DELETED,PARENT_ID) values (13,'user06',14,'방금 후기 보고 눈물이 났어요. 두리 정말 좋은 가족 만났네요!',to_date('26/03/21','RR/MM/DD'),to_date('26/03/21','RR/MM/DD'),'N',null);
+Insert into COMMENTS (COMMENT_ID,USER_ID,BOARD_ID,CONTENT,CREATE_DATE,UPDATE_DATE,IS_DELETED,PARENT_ID) values (14,'admin',14,'입양 후기 남겨주셔서 감사합니다! 두리와 행복한 시간 보내세요.',to_date('26/03/22','RR/MM/DD'),to_date('26/03/22','RR/MM/DD'),'N',null);
+Insert into COMMENTS (COMMENT_ID,USER_ID,BOARD_ID,CONTENT,CREATE_DATE,UPDATE_DATE,IS_DELETED,PARENT_ID) values (15,'user02',15,'랙돌 진짜 귀엽죠! 저도 두부처럼 행복하게 해줘야겠다는 다짐을 하게 되네요.',to_date('26/03/26','RR/MM/DD'),to_date('26/03/26','RR/MM/DD'),'N',null);
+Insert into COMMENTS (COMMENT_ID,USER_ID,BOARD_ID,CONTENT,CREATE_DATE,UPDATE_DATE,IS_DELETED,PARENT_ID) values (16,'user05',16,'루나 정말 부럽다! 저도 보더콜리 너무 키우고 싶어요!',to_date('26/04/02','RR/MM/DD'),to_date('26/04/02','RR/MM/DD'),'N',null);
+Insert into COMMENTS (COMMENT_ID,USER_ID,BOARD_ID,CONTENT,CREATE_DATE,UPDATE_DATE,IS_DELETED,PARENT_ID) values (17,'admin',19,'노원구 봉사활동 일정 검토해보겠습니다. 소중한 의견 감사드려요.',to_date('26/03/11','RR/MM/DD'),to_date('26/03/11','RR/MM/DD'),'N',null);
+Insert into COMMENTS (COMMENT_ID,USER_ID,BOARD_ID,CONTENT,CREATE_DATE,UPDATE_DATE,IS_DELETED,PARENT_ID) values (18,'user03',19,'저도 동봉해요! 노원구 주민들도 봉사하고 싶어요!',to_date('26/03/12','RR/MM/DD'),to_date('26/03/12','RR/MM/DD'),'N',null);
+Insert into COMMENTS (COMMENT_ID,USER_ID,BOARD_ID,CONTENT,CREATE_DATE,UPDATE_DATE,IS_DELETED,PARENT_ID) values (19,'admin',20,'사료 지원 펀딩 카테고리 추가 적극 검토하겠습니다!',to_date('26/04/03','RR/MM/DD'),to_date('26/04/03','RR/MM/DD'),'N',null);
+Insert into COMMENTS (COMMENT_ID,USER_ID,BOARD_ID,CONTENT,CREATE_DATE,UPDATE_DATE,IS_DELETED,PARENT_ID) values (20,'user04',12,'저도 펀딩 참여했어요! 목표 금액 초과 달성이라니 정말 대단하네요.',to_date('26/04/01','RR/MM/DD'),to_date('26/04/01','RR/MM/DD'),'N',null);
+
+-- ▶ 13. TAG_INFOS + TAGS
+REM INSERTING into TAG_INFOS
+SET DEFINE OFF;
+Insert into TAG_INFOS (TAG_ID,TAG_NAME) values (1,'유기견');
+Insert into TAG_INFOS (TAG_ID,TAG_NAME) values (2,'유기묘');
+Insert into TAG_INFOS (TAG_ID,TAG_NAME) values (3,'중성화');
+Insert into TAG_INFOS (TAG_ID,TAG_NAME) values (4,'보호소');
+Insert into TAG_INFOS (TAG_ID,TAG_NAME) values (5,'산책');
+Insert into TAG_INFOS (TAG_ID,TAG_NAME) values (6,'입양캠프');
+Insert into TAG_INFOS (TAG_ID,TAG_NAME) values (7,'캠페인');
+Insert into TAG_INFOS (TAG_ID,TAG_NAME) values (8,'치료지원');
+REM INSERTING into TAGS
+SET DEFINE OFF;
+Insert into TAGS (TAG_NO,ACT_ID,TAG_ID) values (1,1,1);
+Insert into TAGS (TAG_NO,ACT_ID,TAG_ID) values (2,1,5);
+Insert into TAGS (TAG_NO,ACT_ID,TAG_ID) values (3,2,2);
+Insert into TAGS (TAG_NO,ACT_ID,TAG_ID) values (4,2,3);
+Insert into TAGS (TAG_NO,ACT_ID,TAG_ID) values (5,3,1);
+Insert into TAGS (TAG_NO,ACT_ID,TAG_ID) values (6,3,4);
+Insert into TAGS (TAG_NO,ACT_ID,TAG_ID) values (7,4,1);
+Insert into TAGS (TAG_NO,ACT_ID,TAG_ID) values (8,4,5);
+Insert into TAGS (TAG_NO,ACT_ID,TAG_ID) values (9,5,2);
+Insert into TAGS (TAG_NO,ACT_ID,TAG_ID) values (10,5,3);
+Insert into TAGS (TAG_NO,ACT_ID,TAG_ID) values (11,6,6);
+Insert into TAGS (TAG_NO,ACT_ID,TAG_ID) values (12,7,6);
+Insert into TAGS (TAG_NO,ACT_ID,TAG_ID) values (13,8,4);
+Insert into TAGS (TAG_NO,ACT_ID,TAG_ID) values (14,9,3);
+Insert into TAGS (TAG_NO,ACT_ID,TAG_ID) values (15,10,7);
+
+REM INSERTING into ADMIN_CHAT_HISTORIES
 SET DEFINE OFF;
 REM INSERTING into BOARD_ATTACHMENTS
 SET DEFINE OFF;
 REM INSERTING into BOARD_LIKES
-SET DEFINE OFF;
-REM INSERTING into COMMENTS
 SET DEFINE OFF;
 REM INSERTING into COMMENT_ATTACHMENTS
 SET DEFINE OFF;
@@ -728,30 +951,38 @@ REM INSERTING into DONATIONS
 SET DEFINE OFF;
 REM INSERTING into DONATION_FILES
 SET DEFINE OFF;
-REM INSERTING into FUNDINGS
-SET DEFINE OFF;
-REM INSERTING into FUNDING_HISTORIES
-SET DEFINE OFF;
 REM INSERTING into KICKS
 SET DEFINE OFF;
-REM INSERTING into MEMBERS
-SET DEFINE OFF;
--- 테스트 계정 (admin/admin, user01/pass01, user02/pass02) - BCrypt 10 rounds
-Insert into MEMBERS (USER_ID,USER_PWD,USER_NAME,USER_NICKNAME,USER_ADDRESS,USER_CONTACT,USER_GENDER,USER_AGE,USER_ATTENDED_COUNT,USER_RESTRICT_END_DATE,USER_STATUS,USER_ROLE,USER_ENROLL_DATE,USER_MODIFY_DATE) values ('admin','$2a$10$HrVlNcwE/Z6JGK5Caiww..LQYJCtXBDMlcTw84M2wYyCV8bza7qke','관리자','어드민','서울시 강남구','010-0000-0000','M',30,0,to_date('00/01/01','RR/MM/DD'),'Y','ADMIN',SYSDATE,SYSDATE);
-Insert into MEMBERS (USER_ID,USER_PWD,USER_NAME,USER_NICKNAME,USER_ADDRESS,USER_CONTACT,USER_GENDER,USER_AGE,USER_ATTENDED_COUNT,USER_RESTRICT_END_DATE,USER_STATUS,USER_ROLE,USER_ENROLL_DATE,USER_MODIFY_DATE) values ('user01','$2a$10$.gU0UeKyES42t8/n8bDa.Ox0GA9vSAGDSNSzZ6Y7k4z0cKGy7QoIO','테스트유저01','유저01','서울시 마포구','010-1111-1111','M',25,0,to_date('00/01/01','RR/MM/DD'),'Y','USER',SYSDATE,SYSDATE);
-Insert into MEMBERS (USER_ID,USER_PWD,USER_NAME,USER_NICKNAME,USER_ADDRESS,USER_CONTACT,USER_GENDER,USER_AGE,USER_ATTENDED_COUNT,USER_RESTRICT_END_DATE,USER_STATUS,USER_ROLE,USER_ENROLL_DATE,USER_MODIFY_DATE) values ('user02','$2a$10$mbhImpthWJ/1ipDqhLHox.wo8vGs3HhRbh9pVghAefqv1yWlePEbi','테스트유저02','유저02','서울시 서초구','010-2222-2222','F',23,0,to_date('00/01/01','RR/MM/DD'),'Y','USER',SYSDATE,SYSDATE);
 REM INSERTING into MESSAGES
 SET DEFINE OFF;
-REM INSERTING into SIGNS
-SET DEFINE OFF;
-REM INSERTING into TAGS
-SET DEFINE OFF;
-REM INSERTING into TAG_INFOS
-SET DEFINE OFF;
-REM INSERTING into VOLUNTEER_BOARD_COMMENTS
-SET DEFINE OFF;
-REM INSERTING into VOLUNTEER_REVIEWS
-SET DEFINE OFF;
+
+-- ▶ 14. 시퀀스 리셋 (더미 데이터 이후 연속성 보장)
+DROP SEQUENCE "SEQ_ACTIVITIES";
+CREATE SEQUENCE "SEQ_ACTIVITIES" MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 11 NOCACHE NOORDER NOCYCLE;
+DROP SEQUENCE "SEQ_ANIMAL_DETAILS";
+CREATE SEQUENCE "SEQ_ANIMAL_DETAILS" MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 21 NOCACHE NOORDER NOCYCLE;
+DROP SEQUENCE "SEQ_ADOPTION_POSTS";
+CREATE SEQUENCE "SEQ_ADOPTION_POSTS" MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 21 NOCACHE NOORDER NOCYCLE;
+DROP SEQUENCE "SEQ_ADOPTION_APPS";
+CREATE SEQUENCE "SEQ_ADOPTION_APPS" MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 11 NOCACHE NOORDER NOCYCLE;
+DROP SEQUENCE "SEQ_BOARDS";
+CREATE SEQUENCE "SEQ_BOARDS" MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 21 NOCACHE NOORDER NOCYCLE;
+DROP SEQUENCE "SEQ_COMMENTS";
+CREATE SEQUENCE "SEQ_COMMENTS" MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 21 NOCACHE NOORDER NOCYCLE;
+DROP SEQUENCE "SEQ_FUNDINGS";
+CREATE SEQUENCE "SEQ_FUNDINGS" MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 9 NOCACHE NOORDER NOCYCLE;
+DROP SEQUENCE "SEQ_FUNDING_HIS";
+CREATE SEQUENCE "SEQ_FUNDING_HIS" MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 16 NOCACHE NOORDER NOCYCLE;
+DROP SEQUENCE "SEQ_SIGNS";
+CREATE SEQUENCE "SEQ_SIGNS" MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 16 NOCACHE NOORDER NOCYCLE;
+DROP SEQUENCE "SEQ_TAGS";
+CREATE SEQUENCE "SEQ_TAGS" MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 16 NOCACHE NOORDER NOCYCLE;
+DROP SEQUENCE "SEQ_TAG_INFOS";
+CREATE SEQUENCE "SEQ_TAG_INFOS" MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 9 NOCACHE NOORDER NOCYCLE;
+DROP SEQUENCE "SEQ_VOL_COMMENTS";
+CREATE SEQUENCE "SEQ_VOL_COMMENTS" MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 6 NOCACHE NOORDER NOCYCLE;
+DROP SEQUENCE "SEQ_VOL_REVIEWS";
+CREATE SEQUENCE "SEQ_VOL_REVIEWS" MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 4 NOCACHE NOORDER NOCYCLE;
 --------------------------------------------------------
 --  DDL for Index PK_ACTIVITIES
 --------------------------------------------------------
