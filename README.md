@@ -3,15 +3,13 @@
 > 🐶 **유기동물 입양, 봉사 및 펀딩을 연결하여 유기동물과 새로운 가족을 이어주는 종합 플랫폼** 🐱
 
 <br>
-
 > [!IMPORTANT]
 > **아래 섹션을 클릭하여 지원자의 핵심 역량과 고민의 흔적을 확인해 보세요.**  
 > 특히 **3번(개발 철학/로직)** 및 **4번(문제 해결/심화 분석)** 섹션에서 백엔드 엔지니어로서의 깊이 있는 통찰을 확인하실 수 있습니다.
 
 <details>
-<summary><h4><b>📝 1. 기본 정보 (Basic Information)</b></h4></summary>
+<summary><h4><b>📝 1. 기본 정보 (개발 기간, 기술 스택, 인원 구성)</b></h4></summary>
 
-## 📝 1. 기본 정보 (Basic Information)
 - 📅 **개발 기간:** 2025.12 ~ 2026.02 (약 2.5개월)
 - 🖥️ **플랫폼:** Web
 - 👥 **개발 인원:** 팀 프로젝트 (4명)
@@ -27,9 +25,7 @@
 </details>
 
 <details>
-<summary>🔍 2. 프로젝트 전체 개요 상세 보기 (전체 구조, ERD, IA 등)</summary>
-
-## 🔭 2. 프로젝트 전체 개요 (Project Overview)
+<summary><h4><b>🔍 2. 프로젝트 전체 개요 상세 보기 (전체 구조, ERD, IA 등)</b></h4></summary>
 
 **🎯 1. 프로젝트 목표**
 > 동물 보호와 복지에 관심이 있는 사람들이 모여, 안전하고 체계적인 동물 입양 절차를 밟고 봉사활동 및 후원에 참여할 수 있는 커뮤니티 기능을 제공하는 것을 목표로 합니다.
@@ -72,13 +68,10 @@
 
 ---
 
+<br>
+
 <details>
-<summary><h4><b>💎 [핵심 역량] 3. 프로젝트 개인 구현 - 백엔드 설계 철학 및 로직 구현</b></h4></summary>
-
-## 💻 3. 프로젝트 개인 구현 (Personal Contribution)
----
-
-
+<summary><h4><b>💎 $\color{#3182ce}{\text{[핵심 역량] 3. 프로젝트 개인 구현 - 백엔드 설계 철학 및 로직 구현}}$</b></h4></summary>
 
 - 🎯 **프로젝트 목표 (Foundation & Integrity):** 
   - **표준 MVC 아키텍처 수립:** 객체 지향 원칙에 따른 Controller-Service-DAO 계층화로 결합도를 낮추고, 데이터 유입 원천지부터 영속성 계층까지의 **데이터 흐름을 100% 통제**하는 것을 목표로 했습니다.
@@ -167,20 +160,13 @@
 - 본인이 등록한 동물의 신청자 목록을 확인하고, 상세 심사 후 수락/반려를 결정하는 통합 관리 인터페이스를 제공합니다.
 > `![마이페이지 관리 화면](화면_캡처_경로를_여기에_넣어주세요.png)`
 
-<br>
-
-
----
-
 
 </details>
 
----
+<br>
 
 <details>
-<summary><h4><b>🔥 [심화 분석] 4. 기술적 깊이 - 까다로운 문제 해결 및 성능 최적화 사례</b></h4></summary>
-
-## 🛠️ 4. 기술적 깊이 (Technical Depth)
+<summary><h4><b>🔥 $\color{#dd6b20}{\text{[심화 분석] 4. 기술적 깊이 - 까다로운 문제 해결 및 성능 최적화 사례}}$</b></h4></summary>
 
 **🔍 핵심 로직 분석 (Core Logic Analysis)**
 
@@ -294,17 +280,13 @@ public int confirmAdoption(int adoptionAppId, int animalNo) {
   - **Problem:** 한 번 관리자의 승인을 받은 게시글이라도 사용자가 내용을 수정할 경우, 승인되지 않은 부적절한 내용이 '승인' 상태로 노출될 위험이 있음.
   - **Solution:** 게시글 수정 로직 실행 시 현재 상태와 관계없이 **상태값을 자동으로 '대기(Waiting)'로 롤백**하도록 설계했습니다. 이를 통해 어떤 수정 사항이 발생하더라도 반드시 관리자의 재검토를 거치게 함으로써, 서비스의 신뢰성과 데이터의 무결성을 동시에 확보했습니다.
 
----
-
-
 </details>
 
----
+<br>
 
 <details>
-<summary><h4><b>🌟 [성장 기록] 5. 회고 - 프로젝트 성찰 및 향후 기술적 지향점</b></h4></summary>
+<summary><h4><b>🌟 $\color{#38a169}{\text{[성장 기록] 5. 회고 - 프로젝트 성찰 및 향후 기술적 지향점}}$</b></h4></summary>
 
-## 🌱 5. 회고 (Retrospective)
 - **🟢 Keep (Project Standards):** 
   - **코드 컨벤션 및 도메인 상수화(Constants):** 모든 입양 상태 코드와 권한 등급을 상수로 엄격히 관리하여 하드코딩으로 인한 휴먼 에러를 방지하고, 팀 프로젝트에서의 코드 가독성과 데이터 정합성을 유지한 경험을 지속하고 싶습니다.
 - **🔴 Problem (Architecture Trade-off):** 
@@ -312,17 +294,13 @@ public int confirmAdoption(int adoptionAppId, int animalNo) {
 - **🔵 Try (Future Optimization):** 
   - **전략적 역정규화 및 캐싱 도입:** 차기 프로젝트에서는 빈번한 조회가 발생하는 데이터에 대해 읽기 성능 최적화를 위한 **전략적 역정규화(Denormalization)**를 고려하거나, **Redis와 같은 In-memory 캐시 레이어**를 도입하여 DB 부하를 분산시키는 고도화된 아키텍처 설계를 시도할 계획입니다.
 
----
-
-
 </details>
 
----
+<br>
 
 <details>
-<summary>🚀 부록: 프로젝트 실행 방법 (Docker) 상세보기</summary>
+<summary><h4><b>🚀 부록: 프로젝트 실행 방법 (Docker)</b></h4></summary>
 
-## 🚀 부록: 프로젝트 실행 방법 (Docker)
 > 이 프로젝트는 **Docker** 환경이 모두 세팅되어 있어 매우 간편하게 실행할 수 있습니다.
 
 1. **사전 준비**: 로컬 환경에 `Docker Desktop` 설치 및 실행
