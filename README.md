@@ -13,13 +13,7 @@
 
 ---
 
-## 📋 목차 (Table of Contents)
-1. [📝 1. 기본 정보 (Basic Information)](#-1-기본-정보-basic-information)
-2. [🔭 2. 프로젝트 전체 개요 (Project Overview)](#-2-프로젝트-전체-개요-project-overview)
-3. [💻 3. 프로젝트 개인 구현 (Personal Contribution)](#-3-프로젝트-개인-구현-personal-contribution)
-4. [🛠️ 4. 기술적 깊이 (Technical Depth)](#️-4-기술적-깊이-technical-depth)
-5. [🌱 5. 회고 (Retrospective)](#-5-회고-retrospective)
-6. [🚀 부록: 프로젝트 실행 방법 (Docker)](#-부록-프로젝트-실행-방법-docker)
+---
 
 ---
 
@@ -83,6 +77,9 @@
 </details>
 
 ---
+
+<details open>
+<summary>💻 3. 프로젝트 개인 구현 (Personal Contribution) 상세보기</summary>
 
 ## 💻 3. 프로젝트 개인 구현 (Personal Contribution)
 ---
@@ -180,6 +177,14 @@
 
 
 ---
+
+
+</details>
+
+---
+
+<details>
+<summary>🛠️ 4. 기술적 깊이 (Technical Depth) 상세보기</summary>
 
 ## 🛠️ 4. 기술적 깊이 (Technical Depth)
 
@@ -297,6 +302,14 @@ public int confirmAdoption(int adoptionAppId, int animalNo) {
 
 ---
 
+
+</details>
+
+---
+
+<details>
+<summary>🌱 5. 회고 (Retrospective) 상세보기</summary>
+
 ## 🌱 5. 회고 (Retrospective)
 - **🟢 Keep (Project Standards):** 
   - **코드 컨벤션 및 도메인 상수화(Constants):** 모든 입양 상태 코드와 권한 등급을 상수로 엄격히 관리하여 하드코딩으로 인한 휴먼 에러를 방지하고, 팀 프로젝트에서의 코드 가독성과 데이터 정합성을 유지한 경험을 지속하고 싶습니다.
@@ -306,6 +319,14 @@ public int confirmAdoption(int adoptionAppId, int animalNo) {
   - **전략적 역정규화 및 캐싱 도입:** 차기 프로젝트에서는 빈번한 조회가 발생하는 데이터에 대해 읽기 성능 최적화를 위한 **전략적 역정규화(Denormalization)**를 고려하거나, **Redis와 같은 In-memory 캐시 레이어**를 도입하여 DB 부하를 분산시키는 고도화된 아키텍처 설계를 시도할 계획입니다.
 
 ---
+
+
+</details>
+
+---
+
+<details>
+<summary>🚀 부록: 프로젝트 실행 방법 (Docker) 상세보기</summary>
 
 ## 🚀 부록: 프로젝트 실행 방법 (Docker)
 > 이 프로젝트는 **Docker** 환경이 모두 세팅되어 있어 매우 간편하게 실행할 수 있습니다.
@@ -322,3 +343,5 @@ public int confirmAdoption(int adoptionAppId, int animalNo) {
    ```
 4. **접속하기**
    - 브라우저에서 `http://localhost:8080` 으로 접속하여 메인 화면 확인.
+
+</details>
