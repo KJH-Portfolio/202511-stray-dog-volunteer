@@ -66,7 +66,7 @@
 
 </details>
 <details>
-<summary><h4><b>💎 [CORE] 3. 프로젝트 개인 구현 - 백엔드 설계 철학 및 로직 구현</b></h4></summary>
+<summary>3. 프로젝트 개인 구현 - 백엔드 설계 철학 및 로직 구현 [CORE] 💎</summary>
 
 - 🎯 **프로젝트 목표 (Foundation & Integrity):** 
   - **표준 MVC 아키텍처 수립:** 객체 지향 원칙에 따른 Controller-Service-DAO 계층화로 결합도를 낮추고, 데이터 유입 원천지부터 영속성 계층까지의 **데이터 흐름을 100% 통제**하는 것을 목표로 했습니다.
@@ -158,7 +158,7 @@
 
 </details>
 <details>
-<summary><h4><b>🔥 [DEEP DIVE] 4. 기술적 깊이 - 까다로운 문제 해결 및 성능 최적화 사례</b></h4></summary>
+<summary>4. 기술적 깊이 - 까다로운 문제 해결 및 성능 최적화 사례 [DEEP DIVE] 🔥</summary>
 
 **🔍 핵심 로직 분석 (Core Logic Analysis)**
 
@@ -274,7 +274,7 @@ public int confirmAdoption(int adoptionAppId, int animalNo) {
 
 </details>
 <details>
-<summary><h4><b>🌟 [GROWTH] 5. 회고 - 프로젝트 성찰 및 향후 기술적 지향점</b></h4></summary>
+<summary>5. 회고 - 프로젝트 성찰 및 향후 기술적 지향점 [GROWTH] 🌟</summary>
 
 - **🟢 Keep (Project Standards):** 
   - **코드 컨벤션 및 도메인 상수화(Constants):** 모든 입양 상태 코드와 권한 등급을 상수로 엄격히 관리하여 하드코딩으로 인한 휴먼 에러를 방지하고, 팀 프로젝트에서의 코드 가독성과 데이터 정합성을 유지한 경험을 지속하고 싶습니다.
