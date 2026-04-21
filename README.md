@@ -4,6 +4,10 @@
 
 <br>
 
+> [!IMPORTANT]
+> **아래 섹션을 클릭하여 지원자의 핵심 역량과 고민의 흔적을 확인해 보세요.**  
+> 특히 **3번(개발 철학/로직)**과 **4번(문제 해결/심화 분석)** 섹션에서 백엔드 엔지니어로서의 깊이 있는 통찰을 확인하실 수 있습니다.
+
 ---
 
 ## 📝 1. 기본 정보 (Basic Information)
@@ -18,10 +22,6 @@
   - **IDE:** `Eclipse`, `VS Code`
   - **API/Library:** `MyBatis`, `Spring Security 5`, `JSTL`, `jQuery`, `DBCP2 Connection Pool`
   - **Infra:** `Docker`, `Docker Compose`, `Maven 3`
-
-> [!IMPORTANT]
-> **아래 섹션을 클릭하여 지원자의 핵심 역량과 고민의 흔적을 확인해 보세요.**  
-> 특히 **3번(개발 철학/로직)**과 **4번(문제 해결/심화 분석)** 섹션에서 백엔드 엔지니어로서의 깊이 있는 통찰을 확인하실 수 있습니다.
 
 <details>
 <summary>🔍 2. 프로젝트 전체 개요 상세 보기 (전체 구조, ERD, IA 등)</summary>
