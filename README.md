@@ -70,7 +70,7 @@
 ---
 
 <details>
-<summary><b><img src="https://img.shields.io/badge/CORE-💎%20핵심%20역량-blue?style=flat-square" /> 3. 프로젝트 개인 구현 - 백엔드 설계 철학 및 로직 구현 (클릭하여 확인)</b></summary>
+<summary><h4><b>💎 [핵심 역량] 3. 프로젝트 개인 구현 - 백엔드 설계 철학 및 로직 구현 (클릭하여 확인)</b></h4></summary>
 
 ## 💻 3. 프로젝트 개인 구현 (Personal Contribution)
 ---
@@ -299,7 +299,7 @@ public int confirmAdoption(int adoptionAppId, int animalNo) {
 ---
 
 <details>
-<summary><b><code>🌟 [성장 기록] 5. 회고 - 프로젝트 성찰 및 향후 기술적 지향점 (클릭하여 확인)</code></b></summary>
+<summary><h4><b>🌟 [성장 기록] 5. 회고 - 프로젝트 성찰 및 향후 기술적 지향점 (클릭하여 확인)</b></h4></summary>
 
 ## 🌱 5. 회고 (Retrospective)
 - **🟢 Keep (Project Standards):** 
