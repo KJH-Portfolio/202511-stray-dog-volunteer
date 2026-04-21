@@ -24,7 +24,6 @@
   - **Infra:** `Docker`, `Docker Compose`, `Maven 3`
 
 </details>
-
 <details>
 <summary><h4><b>🔍 2. 프로젝트 전체 개요 상세 보기 (전체 구조, ERD, IA 등)</b></h4></summary>
 
@@ -66,7 +65,6 @@
   - 입양 후기 작성 및 등업 시스템, 자유게시판 운영
 
 </details>
-
 <details>
 <summary><h4><b><code>CORE</code> 💎 3. 프로젝트 개인 구현 - 백엔드 설계 철학 및 로직 구현</b></h4></summary>
 
@@ -159,9 +157,6 @@
 
 
 </details>
-
-<br>
-
 <details>
 <summary><h4><b><code>DEEP DIVE</code> 🔥 4. 기술적 깊이 - 까다로운 문제 해결 및 성능 최적화 사례</b></h4></summary>
 
@@ -278,9 +273,6 @@ public int confirmAdoption(int adoptionAppId, int animalNo) {
   - **Solution:** 게시글 수정 로직 실행 시 현재 상태와 관계없이 **상태값을 자동으로 '대기(Waiting)'로 롤백**하도록 설계했습니다. 이를 통해 어떤 수정 사항이 발생하더라도 반드시 관리자의 재검토를 거치게 함으로써, 서비스의 신뢰성과 데이터의 무결성을 동시에 확보했습니다.
 
 </details>
-
-<br>
-
 <details>
 <summary><h4><b><code>GROWTH</code> 🌟 5. 회고 - 프로젝트 성찰 및 향후 기술적 지향점</b></h4></summary>
 
@@ -292,9 +284,6 @@ public int confirmAdoption(int adoptionAppId, int animalNo) {
   - **전략적 역정규화 및 캐싱 도입:** 차기 프로젝트에서는 빈번한 조회가 발생하는 데이터에 대해 읽기 성능 최적화를 위한 **전략적 역정규화(Denormalization)**를 고려하거나, **Redis와 같은 In-memory 캐시 레이어**를 도입하여 DB 부하를 분산시키는 고도화된 아키텍처 설계를 시도할 계획입니다.
 
 </details>
-
-<br>
-
 <details>
 <summary><h4><b>🚀 부록: 프로젝트 실행 방법 (Docker)</b></h4></summary>
 
