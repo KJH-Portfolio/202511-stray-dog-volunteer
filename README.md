@@ -8,7 +8,8 @@
 > **아래 섹션을 클릭하여 지원자의 핵심 역량과 고민의 흔적을 확인해 보세요.**  
 > 특히 **3번(개발 철학/로직)** 및 **4번(문제 해결/심화 분석)** 섹션에서 백엔드 엔지니어로서의 깊이 있는 통찰을 확인하실 수 있습니다.
 
----
+<details>
+<summary><h4><b>📝 1. 기본 정보 (Basic Information)</b></h4></summary>
 
 ## 📝 1. 기본 정보 (Basic Information)
 - 📅 **개발 기간:** 2025.12 ~ 2026.02 (약 2.5개월)
@@ -22,6 +23,8 @@
   - **IDE:** `Eclipse`, `VS Code`
   - **API/Library:** `MyBatis`, `Spring Security 5`, `JSTL`, `jQuery`, `DBCP2 Connection Pool`
   - **Infra:** `Docker`, `Docker Compose`, `Maven 3`
+
+</details>
 
 <details>
 <summary>🔍 2. 프로젝트 전체 개요 상세 보기 (전체 구조, ERD, IA 등)</summary>
@@ -70,7 +73,7 @@
 ---
 
 <details>
-<summary><h4><b>💎 [핵심 역량] 3. 프로젝트 개인 구현 - 백엔드 설계 철학 및 로직 구현 (클릭하여 확인)</b></h4></summary>
+<summary><h4><b>💎 [핵심 역량] 3. 프로젝트 개인 구현 - 백엔드 설계 철학 및 로직 구현</b></h4></summary>
 
 ## 💻 3. 프로젝트 개인 구현 (Personal Contribution)
 ---
@@ -175,7 +178,7 @@
 ---
 
 <details>
-<summary><h4><b>🔥 [심화 분석] 4. 기술적 깊이 - 까다로운 문제 해결 및 성능 최적화 사례 (클릭하여 확인)</b></h4></summary>
+<summary><h4><b>🔥 [심화 분석] 4. 기술적 깊이 - 까다로운 문제 해결 및 성능 최적화 사례</b></h4></summary>
 
 ## 🛠️ 4. 기술적 깊이 (Technical Depth)
 
@@ -299,7 +302,7 @@ public int confirmAdoption(int adoptionAppId, int animalNo) {
 ---
 
 <details>
-<summary><h4><b>🌟 [성장 기록] 5. 회고 - 프로젝트 성찰 및 향후 기술적 지향점 (클릭하여 확인)</b></h4></summary>
+<summary><h4><b>🌟 [성장 기록] 5. 회고 - 프로젝트 성찰 및 향후 기술적 지향점</b></h4></summary>
 
 ## 🌱 5. 회고 (Retrospective)
 - **🟢 Keep (Project Standards):** 
