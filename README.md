@@ -32,6 +32,8 @@
 
 ---
 
+> 💡 **Tip:** 아래 섹션들을 클릭하여 상세 내용을 확인해 보세요. 특히 **3번(핵심 역량)**과 **4번(심화 분석)** 섹션에서 지원자의 개발 철학과 기술적 고민의 흔적을 확인하실 수 있습니다.
+
 <details>
 <summary>🔍 2. 프로젝트 전체 개요 상세 보기 (전체 구조, ERD, IA 등)</summary>
 
@@ -78,8 +80,8 @@
 
 ---
 
-<details open>
-<summary>💻 3. 프로젝트 개인 구현 (Personal Contribution) 상세보기</summary>
+<details>
+<summary>💎 [핵심 역량] 3. 프로젝트 개인 구현 - 백엔드 설계 철학 및 로직 구현 (클릭하여 확인)</summary>
 
 ## 💻 3. 프로젝트 개인 구현 (Personal Contribution)
 ---
@@ -184,7 +186,7 @@
 ---
 
 <details>
-<summary>🛠️ 4. 기술적 깊이 (Technical Depth) 상세보기</summary>
+<summary>🔥 [심화 분석] 4. 기술적 깊이 - 까다로운 문제 해결 및 성능 최적화 사례 (클릭하여 확인)</summary>
 
 ## 🛠️ 4. 기술적 깊이 (Technical Depth)
 
@@ -308,7 +310,7 @@ public int confirmAdoption(int adoptionAppId, int animalNo) {
 ---
 
 <details>
-<summary>🌱 5. 회고 (Retrospective) 상세보기</summary>
+<summary>🌟 [성장 기록] 5. 회고 - 프로젝트 성찰 및 향후 기술적 지향점 (클릭하여 확인)</summary>
 
 ## 🌱 5. 회고 (Retrospective)
 - **🟢 Keep (Project Standards):** 
