@@ -38,6 +38,9 @@
 
 ---
 
+<details>
+<summary>🔍 2. 프로젝트 전체 개요 상세 보기 (전체 구조, ERD, IA 등)</summary>
+
 ## 🔭 2. 프로젝트 전체 개요 (Project Overview)
 
 **🎯 1. 프로젝트 목표**
@@ -76,6 +79,8 @@
   - 유기동물 치료비나 보호소 운영 등을 위한 크라우드 펀딩 개설 및 참여
 - 🗣️ **커뮤니티 (`Community`)**
   - 입양 후기 작성 및 등업 시스템, 자유게시판 운영
+
+</details>
 
 ---
 
@@ -138,6 +143,14 @@
           U4 -.->|"⏳ 대기중"| U5["조건부 접근:\n신청서 수정 및 취소 가능"]
           U4 -.->|"✅ 승인/반려"| U6["접근 차단: 데이터 열람 및\n최종 결과만 안내"]
       end
+      style U2 fill:#4CAF50,color:#fff
+      style U3 fill:#2196F3,color:#fff
+  ```
+
+  ---
+
+  ```mermaid
+  flowchart TD
       subgraph ADMIN_FLOW ["⚙️ 관리자 및 등록자 프로세스"]
           A1(관리자 전용 로그인) --> A2[입양 홍보글 게시\n승인/반려]
           A2 --> A3[일반 사용자의\n신청 리스트 검토]
@@ -145,8 +158,6 @@
           A4 -- "확정(Confirm)" --> A5["트랜잭션: 동물 상태 완료 +\n타 신청자 자동 반려"]
           A5 --> A6["자동 알림: 확정/반려\n대상자별 맞춤 쪽지 발송"]
       end
-      style U2 fill:#4CAF50,color:#fff
-      style U3 fill:#2196F3,color:#fff
       style A1 fill:#F44336,color:#fff
       style A4 fill:#FF9800,color:#fff
   ```
@@ -179,7 +190,7 @@
 - **실시간 상태 동기화:** 입양 신청 성공 시, 별도의 추가 조작 없이도 해당 동물의 마스터 상태를 '대기중'에서 '신청중'으로 **자동 업데이트하여 데이터 정합성**을 보장했습니다.
 - 👉 **[검증 및 동기화 로직 보러가기](./UBIGSemiProject/src/main/java/com/ubig/app/adoption/controller/AdoptionController.java#L212)**
 <details>
-<summary>핵심 검증 로직 보기</summary>
+<summary>🔍 핵심 검증 로직 보기 (클릭)</summary>
 
 ```java
 // AdoptionController.java 中
@@ -202,7 +213,7 @@ if (animal != null && ("마감".equals(animal.getAdoptionStatus()) || "입양완
 - **자동 메시징 시스템:** 입양 프로세스의 상태가 변경될 때마다(`신청`, `승인`, `반려`, `확정`), 시스템이 자동으로 관련 유저에게 안내 쪽지를 발송하는 비즈니스 이벤트를 통합 구현했습니다.
 - 👉 **[자동 알림 핸들러 보러가기](./UBIGSemiProject/src/main/java/com/ubig/app/adoption/service/AdoptionServiceImpl.java#L334)**
 <details>
-<summary>메시징 핸들러 소스 보기</summary>
+<summary>🔍 메시징 핸들러 소스 보기 (클릭)</summary>
 
 ```java
 // AdoptionServiceImpl.java 中
@@ -227,7 +238,7 @@ private void sendMessage(String senderId, String receiverId, String content) {
 - **데이터 생명주기 관리:** 마감 시한이 만료된 공고들을 일괄적으로 '마감' 처리하는 로직을 통해, 시스템의 데이터를 능동적으로 정제하고 프로세스의 완결성을 높였습니다.
 - 👉 **[입양 확정 코어 로직 보러가기](./UBIGSemiProject/src/main/java/com/ubig/app/adoption/service/AdoptionServiceImpl.java#L286)**
 <details>
-<summary>트랜잭션 확정 로직 보기</summary>
+<summary>🔍 트랜잭션 확정 로직 보기 (클릭)</summary>
 
 ```java
 // AdoptionServiceImpl.java 中
