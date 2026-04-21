@@ -70,7 +70,7 @@
 ---
 
 <details>
-<summary><b><code>💎 [핵심 역량] 3. 프로젝트 개인 구현 - 백엔드 설계 철학 및 로직 구현 (클릭하여 확인)</code></b></summary>
+<summary><b><img src="https://img.shields.io/badge/CORE-💎%20핵심%20역량-blue?style=flat-square" /> 3. 프로젝트 개인 구현 - 백엔드 설계 철학 및 로직 구현 (클릭하여 확인)</b></summary>
 
 ## 💻 3. 프로젝트 개인 구현 (Personal Contribution)
 ---
@@ -175,7 +175,7 @@
 ---
 
 <details>
-<summary><b><code>🔥 [심화 분석] 4. 기술적 깊이 - 까다로운 문제 해결 및 성능 최적화 사례 (클릭하여 확인)</code></b></summary>
+<summary><h4><b>🔥 [심화 분석] 4. 기술적 깊이 - 까다로운 문제 해결 및 성능 최적화 사례 (클릭하여 확인)</b></h4></summary>
 
 ## 🛠️ 4. 기술적 깊이 (Technical Depth)
 
