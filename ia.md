@@ -23,7 +23,6 @@
 ```mermaid
 graph TD
     ROOT["🏠 UBIG 메인"]
-
     ROOT --> NAV_ADOPT["🐾 입양"]
     ROOT --> NAV_VOL["🌱 봉사활동"]
     ROOT --> NAV_FUND["💰 펀딩"]
@@ -112,14 +111,14 @@ graph LR
 
 ```mermaid
 graph TD
-    subgraph MyPage ["📋 마이페이지 (로그인 필요)"]
+    subgraph "📋 마이페이지 (로그인 필요)"
         MY1["내 정보 수정"]
         MY2["신청 내역\n(입양/봉사/펀딩)"]
         MY3["쪽지함\n(받은/보낸)"]
         MY4["회원 탈퇴"]
     end
 
-    subgraph Admin ["⚙️ 관리자 권한 (ADMIN)"]
+    subgraph "⚙️ 관리자 권한 (ADMIN)"
         AD1["회원 관리\n(정지·탈퇴)"]
         AD2["동물/봉사/펀딩 관리\n(등록·삭제·승인)"]
         AD3["커뮤니티 관리\n(공지등록·신고처리)"]
