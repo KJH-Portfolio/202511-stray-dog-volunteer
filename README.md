@@ -141,6 +141,17 @@
       style A4 fill:#FF9800,color:#fff
   ```
 
+#### 🔧 핵심 구현 소스 코드 (Core Implementation)
+> 입양 도메인의 **전체 생명주기(공고 등록 ➡️ 신청 ➡️ 심사 및 매니징 ➡️ 확정)**를 직접 설계하고 구현한 핵심 파일들입니다.
+
+- **Presentation & Control**: [AdoptionController.java](./UBIGSemiProject/src/main/java/com/ubig/app/adoption/controller/AdoptionController.java)
+- **Business Logic**: [AdoptionService.java](./UBIGSemiProject/src/main/java/com/ubig/app/adoption/service/AdoptionService.java) / [AdoptionServiceImpl.java](./UBIGSemiProject/src/main/java/com/ubig/app/adoption/service/AdoptionServiceImpl.java)
+- **Persistence (DB Access)**: [AdoptionDao.java](./UBIGSemiProject/src/main/java/com/ubig/app/adoption/dao/AdoptionDao.java) / [adoption-mapper.xml](./UBIGSemiProject/src/main/resources/mappers/adoption-mapper.xml)
+- **Domain Models (VO)**: [AnimalDetailVO.java](./UBIGSemiProject/src/main/java/com/ubig/app/vo/adoption/AnimalDetailVO.java) / [AdoptionApplicationVO.java](./UBIGSemiProject/src/main/java/com/ubig/app/vo/adoption/AdoptionApplicationVO.java)
+- **View (JSP/JSTL)**: 
+  - **사용자향**: [메인 목록](./UBIGSemiProject/src/main/webapp/WEB-INF/views/adoption/adoptionmainpage.jsp) / [상세 보기](./UBIGSemiProject/src/main/webapp/WEB-INF/views/adoption/adoptiondetailpage.jsp) / [입양 신청](./UBIGSemiProject/src/main/webapp/WEB-INF/views/adoption/adoptionapplication.jsp)
+  - **매니징/관리**: [입양 공고 및 신청자 관리](./UBIGSemiProject/src/main/webapp/WEB-INF/views/adoption/adoptionpostmanage.jsp) / [동물 정보 등록](./UBIGSemiProject/src/main/webapp/WEB-INF/views/adoption/adoptionenrollpageanimal.jsp)
+
 #### ✨ 주요 기능 하이라이트 (Functional Highlights)
 
 **1) 입양 공고 검색 및 상세 조회**
@@ -242,20 +253,41 @@ public int confirmAdoption(int adoptionAppId, int animalNo) {
 ```
 </details>
 
+**4️⃣ [Performance] JOIN을 활용한 데이터 조회 최적화 (N+1 문제 방지)**
+- **SQL JOIN 기반 설계:** 리스트 조회 시 게시글 정보와 동물 정보를 각각 따로 조회하는 대신, **JOIN 문을 사용하여 단 1회의 쿼리로 모든 데이터를 통합 조회**하도록 설계했습니다.
+- **성능 이점:** 이를 통해 게시글 수만큼 추가 쿼리가 발생하는 **N+1 문제를 사전에 방지**하였으며, 데이터 양이 많아져도 DB I/O 부하가 늘어나지 않는 안정적인 성능을 확보했습니다.
+<details>
+<summary>🔍 효율적인 JOIN 쿼리 구조 보기 (클릭)</summary>
+
+```xml
+<!-- adoption-mapper.xml -->
+<!-- 리스트 조회 시 연관된 테이블을 한 번에 JOIN하여 N+1 발생을 원천 차단 -->
+<select id="selectAdoptionMainList" resultType="com.ubig.app.vo.adoption.AdoptionMainListVO">
+    SELECT P.POST_NO, P.POST_TITLE, P.VIEWS, 
+           A.ANIMAL_NAME, A.PHOTO_URL, A.ADOPTION_STATUS
+    FROM ADOPTION_POSTS P
+    JOIN ANIMAL_DETAILS A ON P.ANIMAL_NO = A.ANIMAL_NO
+    ORDER BY P.POST_REG_DATE DESC
+</select>
+```
+</details>
+
 ---
 
 **🤔 1. Decision Making (Technical Rationale)**
 - **Spring Legacy & MyBatis (Persistence Strategy):** 
-  - **SQL 직접 제어를 통한 성능 최적화:** JPA의 추상화된 쿼리보다는, 데이터 도메인이 복잡해질수록 명시적인 SQL 관리가 유리한 MyBatis를 선택했습니다. 특히 **복잡한 1:N 조인 상황에서 발생하는 쿼리 실행 계획을 직접 통제**하여 DB I/O 비용을 줄이는 능력을 배양하고자 했습니다.
+  - **불필요한 추상화보다 '백엔드의 본질'에 집중:** 편리한 최신 문법이나 자동화된 프레임워크를 사용하기에 앞서, 설정 하나하나를 직접 제어해야 하는 **레거시 스택(Legacy Stack)**을 통해 서버의 구동 원리를 깊이 있게 이해하고자 했습니다.
+  - **SQL 직접 제어를 통한 데이터 핸들링 역량 강화:** 쿼리 자동 생성의 편리함 대신, MyBatis를 통해 **직접 SQL을 작성하고 매핑**하며 데이터의 흐름과 실행 계획을 명시적으로 통제하는 '기초 체력'을 기르는 데 집중했습니다. 이는 어떤 개발 환경에서도 흔들리지 않는 백엔드 엔지니어의 기본기를 증명하기 위한 선택이었습니다.
 - **Oracle DB & Docker (Infrastructure):**
   - **엔터프라이즈 환경 경험:** 강력한 트랜잭션 관리와 정합성을 지원하는 Oracle을 선택하여 대규모 서비스 환경의 DB 설계를 경험했습니다.
-  - **인프라의 코드화(IaC) 기초:** `Dockerfile`과 `docker-compose.yml`을 통해 개발 환경을 컨테이너화함으로써, **"어느 환경에서나 동일하게 작동하는 서버 가시성"**을 확보하고 배포 자동화의 기초를 마련했습니다.
+  - **[Self-Improvement] 프로젝트 영구 보존을 위한 Docker 도입:** 프로젝트 정규 과정이 종료된 후, 완성된 결과물을 어느 환경에서도 즉시 실행하고 **영구적으로 보존하기 위해 개인적으로 Docker 환경을 구축**했습니다.
+  - **이식성 및 재현성 확보:** `Dockerfile`과 `docker-compose.yml`을 직접 설계하여 인프라를 코드화(IaC)함으로써, 로컬 설정에 구애받지 않고 포트폴리오를 안정적으로 시연할 수 있도록 최적화했습니다.
 
-**⚡ 2. Performance & Integrity (성능 및 정합성)**
-- **N+1 쿼리 문제 해결 및 다중 테이블 트랜잭션 보장**
-  - 🚨 **현상:** 관리자 대시보드에서 신청서와 연관된 다수의 테이블(회원, 동물 등)을 조회할 때 발생하는 성능 저하 확인.
-  - ✨ **최적화:** MyBatis `ResultMap` 조인을 통해 쿼리 횟수를 1회로 최적화하여 응답 속도를 개선했습니다.
-  - 🛡️ **정합성:** 특히 **'입양 확정'** 시점에서 **신청자 상태 변경, 타 신청자 일괄 반려, 동물 상태 갱신**이라는 세 가지 작업이 동시에 수행되어야 하므로, `@Transactional`을 통해 어느 하나라도 실패할 경우 전체를 롤백하여 데이터 정합성을 완벽히 보장했습니다.
+**⚡ 2. Summary: Performance & Integrity (핵심 성과 요약)**
+
+- **성능 최적화**: N+1 쿼리 문제를 JOIN으로 해결하여 DB I/O 비용을 획기적으로 줄이고 응답 속도를 개선했습니다.
+- **데이터 정합성**: `@Transactional`을 통해 입양 확정 및 연쇄 삭제 프로세스의 전 과정을 원자적으로 처리, 데이터 불일치를 원천 차단했습니다.
+- **방어적 설계**: Service 계층의 비즈니스 검증과 자동 상태 동기화를 통해 시스템 안정성과 사용자 편의성을 동시에 확보했습니다.
 
 **🔥 3. Troubleshooting (트러블 슈팅)**
 - **대량의 폼 데이터 유효성 검증 및 무결성 확보**
