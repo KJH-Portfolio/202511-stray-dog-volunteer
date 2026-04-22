@@ -13,7 +13,7 @@
 </p>
 
 <p align="center">
-  <img src="./image/01.메인%20페이지.png" width="90% shadow="true" />
+  <video src="./.메인화면%20내리기.mp4" width="90%" autoplay muted loop playsinline></video>
 </p>
 
 ---
@@ -28,7 +28,7 @@
 
 ---
 <details>
-<summary><b><h3>1. 기본 정보 (개발 기간, 기술 스택, 인원 구성) 📅</h3></b></summary>
+<summary><b>1. 기본 정보 (개발 기간, 기술 스택, 인원 구성) 📅</b></summary>
 <br>
 
 - 📅 **개발 기간:** 2025.12 ~ 2026.02 (약 2.5개월)
@@ -50,7 +50,7 @@
 
 ---
 <details>
-<summary><b><h3>2. 프로젝트 전체 개요 (전체 구조, ERD, IA 등) 📊</h3></b></summary>
+<summary><b>2. 프로젝트 전체 개요 (전체 구조, ERD, IA 등) 📊</b></summary>
 <br>
 
 **🎯 1. 프로젝트 목표**
@@ -80,21 +80,30 @@
   - 일반 사용자, 관리자 등급에 따른 권한 분리 (Spring Security 적용)
   - 마이페이지를 통한 본인의 입양/봉사/후원 내역 조회
   - 관리자 대시보드를 통한 사이트 전반의 컨텐츠 및 회원 관리
+  <br><video src="./.회원.mp4" width="100%" autoplay muted loop playsinline></video>
+
 - 🏠 **반려동물 입양 (`Adoption`)**
   - 유기동물 프로필 리스트업 및 상세 정보 확인
   - 입양 신청 및 심사/승인 프로세스
+  <br><video src="./.입양.mp4" width="100%" autoplay muted loop playsinline></video>
+
 - 🤝 **봉사활동 (`Volunteer`)**
   - 동물 보호소나 기관의 봉사 프로그램 모집 공고 및 스케줄 관리
+  <br><video src="./.봉사.mp4" width="100%" autoplay muted loop playsinline></video>
+
 - 💰 **후원/펀딩 (`Funding`)**
   - 유기동물 치료비나 보호소 운영 등을 위한 크라우드 펀딩 개설 및 참여
+  <br><video src="./.후원.mp4" width="100%" autoplay muted loop playsinline></video>
+
 - 🗣️ **커뮤니티 (`Community`)**
   - 입양 후기 작성 및 등업 시스템, 자유게시판 운영
+  <br><video src="./.커뮤니티.mp4" width="100%" autoplay muted loop playsinline></video>
 
 </details>
 
 ---
 <details id="core-contributions">
-<summary><b><h3>3. 프로젝트 개인 구현 - 백엔드 설계 철학 및 로직 구현 [CORE] 💎</h3></b></summary>
+<summary><b>3. 프로젝트 개인 구현 - 백엔드 설계 철학 및 로직 구현 [CORE] 💎</b></summary>
 <br>
 
 - 🎯 **프로젝트 목표 (Foundation & Integrity):** 
@@ -187,22 +196,22 @@
 
 **1) 입양 공고 검색 및 상세 조회**
 - 사용자는 다양한 필터(종류, 지역, 나이 등)를 통해 유기동물을 검색하고, 상세한 건강 상태 및 입양 조건을 확인할 수 있습니다.
-> `![입양 상세 화면](화면_캡처_경로를_여기에_넣어주세요.png)`
+<br><video src="./.입양.mp4" width="100%" autoplay muted loop playsinline></video>
 
 **2) 맞춤형 입양 신청 프로세스**
 - 직관적인 폼을 통해 입양 신청서를 제출하며, 본인의 신청 내역을 마이페이지에서 실시간으로 추적하고 관리할 수 있습니다.
-> `![입양 신청 과정 화면](화면_캡처_경로를_여기에_넣어주세요.png)`
+<br><video src="./.입양.mp4" width="100%" autoplay muted loop playsinline></video>
 
 **3) 마이페이지: 입양 관리 대시보드**
 - 본인이 등록한 동물의 신청자 목록을 확인하고, 상세 심사 후 수락/반려를 결정하는 통합 관리 인터페이스를 제공합니다.
-> `![마이페이지 관리 화면](화면_캡처_경로를_여기에_넣어주세요.png)`
+<br><video src="./.회원.mp4" width="100%" autoplay muted loop playsinline></video>
 
 
 </details>
 
 ---
 <details id="technical-deepdive">
-<summary><b><h3>4. 기술적 깊이 - 까다로운 문제 해결 및 성능 최적화 사례 [DEEP DIVE] 🔥</h3></b></summary>
+<summary><b>4. 기술적 깊이 - 까다로운 문제 해결 및 성능 최적화 사례 [DEEP DIVE] 🔥</b></summary>
 <br>
 
 **🔍 핵심 로직 분석 (Core Logic Analysis)**
@@ -395,7 +404,7 @@ public int deleteAnimalFull(int anino) {
 
 ---
 <details id="retrospective-growth">
-<summary><b><h3>5. 회고 - 프로젝트 성찰 및 향후 기술적 지향점 [GROWTH] 🌟</h3></b></summary>
+<summary><b>5. 회고 - 프로젝트 성찰 및 향후 기술적 지향점 [GROWTH] 🌟</b></summary>
 <br>
 
 - **🟢 Keep (Project Standards): 표준 MVC 아키텍처 준수와 방어적 설계 습관**

@@ -57,9 +57,9 @@
                             <!-- Term 1 -->
                             <div class="term-box mb-4 bg-white p-3 rounded-3 border"
                                 style="border-color: #eee !important;">
-                                <label class="fw-bold mb-2 text-dark">약관 1</label>
+                                <label class="fw-bold mb-2 text-dark">제1조 (동물 보호 및 관리 의무)</label>
                                 <textarea class="form-control rounded-3 border-0 bg-light mb-2" readonly
-                                    style="height: 100px; resize: none; color: #666; font-size: 0.9rem;">약관1 어쩌구 저쩌구약관 어쩌구 저쩌구약관 어쩌구 저쩌구약관 어쩌구 저쩌구약관 어쩌구 저쩌구약관 어쩌구 저쩌구</textarea>
+                                    style="height: 100px; resize: none; color: #666; font-size: 0.9rem;">입양자는 동물을 생명의 존엄성을 가진 생명체로 존중하며, 학대하거나 방치하지 않고 기본적인 의식주와 필요한 의료 서비스를 제공할 책임이 있습니다. 특히 예방접종 및 정기적인 검진을 통해 동물의 건강 상태를 최상으로 유지해야 합니다.</textarea>
                                 <div class="form-check d-flex justify-content-end align-items-center">
                                     <input class="form-check-input me-2" type="checkbox" name="agree1" id="agree1"
                                         required>
@@ -70,9 +70,9 @@
                             <!-- Term 2 -->
                             <div class="term-box mb-4 bg-white p-3 rounded-3 border"
                                 style="border-color: #eee !important;">
-                                <label class="fw-bold mb-2 text-dark">약관 2</label>
+                                <label class="fw-bold mb-2 text-dark">제2조 (유기 및 무단 양도 금지)</label>
                                 <textarea class="form-control rounded-3 border-0 bg-light mb-2" readonly
-                                    style="height: 100px; resize: none; color: #666; font-size: 0.9rem;">약관2 어쩌구 저쩌구약관 어쩌구 저쩌구약관 어쩌구 저쩌구약관 어쩌구 저쩌구약관 어쩌구 저쩌구약관 어쩌구 저쩌구</textarea>
+                                    style="height: 100px; resize: none; color: #666; font-size: 0.9rem;">입양자는 어떠한 사유로도 입양한 동물을 유기하거나, 보호소와의 사전 협의 없이 제3자에게 무단으로 양도 또는 판매해서는 안 됩니다. 만약 부득이한 사정으로 더 이상 보호가 불가능할 경우, 반드시 본 보호소로 연락하여 사후 대책을 논의해야 합니다.</textarea>
                                 <div class="form-check d-flex justify-content-end align-items-center">
                                     <input class="form-check-input me-2" type="checkbox" name="agree2" id="agree2"
                                         required>
@@ -83,9 +83,9 @@
                             <!-- Term 3 -->
                             <div class="term-box mb-4 bg-white p-3 rounded-3 border"
                                 style="border-color: #eee !important;">
-                                <label class="fw-bold mb-2 text-dark">약관 3</label>
+                                <label class="fw-bold mb-2 text-dark">제3조 (사후 모니터링 협조)</label>
                                 <textarea class="form-control rounded-3 border-0 bg-light mb-2" readonly
-                                    style="height: 100px; resize: none; color: #666; font-size: 0.9rem;">약관3 어쩌구 저쩌구약관 어쩌구 저쩌구약관 어쩌구 저쩌구약관 어쩌구 저쩌구약관 어쩌구 저쩌구약관 어쩌구 저쩌구</textarea>
+                                    style="height: 100px; resize: none; color: #666; font-size: 0.9rem;">입양자는 입양 후 일정 기간 동안 동물의 적응 상태와 관리 현황을 보호소에 정기적으로 보고(사진 전송 또는 유선 상담 등)하는 데 동의합니다. 또한, 보호소의 상담이나 모니터링 요청에 적극적으로 협조하여 동물의 복지를 보장해야 합니다.</textarea>
                                 <div class="form-check d-flex justify-content-end align-items-center">
                                     <input class="form-check-input me-2" type="checkbox" name="agree3" id="agree3"
                                         required>
