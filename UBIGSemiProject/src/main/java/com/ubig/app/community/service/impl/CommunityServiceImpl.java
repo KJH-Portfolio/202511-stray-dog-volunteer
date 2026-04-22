@@ -14,11 +14,6 @@ public class CommunityServiceImpl implements CommunityService {
     @Autowired
     private CommunityDao communityDao;
 
-    /*
-     * [Step 4: Service 구현체 수정]
-     * 실제로 동작하는 Service 코드입니다.
-     * 매개변수로 받은 category를 DAO에게 그대로 토스(toss)해줍니다.
-     */
 
     @Override
     public int getBoardListCount(java.util.Map<String, Object> map) {
@@ -37,7 +32,6 @@ public class CommunityServiceImpl implements CommunityService {
 
     @Override
     public int insertBoard(BoardVO board) {
-        // [Step 30: 공지사항 상단 고정 및 로테이션]
         if ("Y".equals(board.getIsPinned())) {
             // 1. 현재 카테고리의 고정된 글 개수 확인
             int pinnedCount = communityDao.selectPinnedCount(board.getCategory());

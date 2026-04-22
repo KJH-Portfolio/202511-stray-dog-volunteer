@@ -53,7 +53,7 @@ public class AdoptionController {
 		binder.registerCustomEditor(java.sql.Date.class, new CustomDateEditor(dateFormat, true));
 	}
 
-	// [입양 상세] 동물 고유 번호(anino)를 사용하여 동물 상세 정보를 조회하고 반환하는 메서드
+	// 동물 고유 번호(anino)를 사용하여 동물 상세 정보를 조회하고 반환하는 메서드
 	@RequestMapping("/adoption.detailpage")
 	public String goAdoptionDetail(int anino, Model model, HttpSession session) {
 
@@ -85,13 +85,13 @@ public class AdoptionController {
 		return "/adoption/adoptiondetailpage";
 	}
 
-	// [동물 등록] 동물 등록 페이로 이동하는 메서드
+	// 동물 등록 페이로 이동하는 메서드
 	@RequestMapping("/adoption.enrollpageanimal")
 	public String goAdoptionInsertPage() {
 		return "/adoption/adoptionenrollpageanimal";
 	}
 
-	// [입양 신청] 동물 번호(anino)를 사용하여 입양 신청 페이지로 이동하는 메서드
+	// 동물 번호(anino)를 사용하여 입양 신청 페이지로 이동하는 메서드
 	@RequestMapping("/adoption.applicationpage")
 	public String goAdoptionApplicationPage(int anino, HttpSession session, Model model) {
 
@@ -136,7 +136,7 @@ public class AdoptionController {
 		return "/adoption/adoptionapplication";
 	}
 
-	// [게시글 등록] 동물 번호(anino)를 사용하여 게시글 등록 페이지로 이동하는 메서드
+	// 동물 번호(anino)를 사용하여 게시글 등록 페이지로 이동하는 메서드
 	@RequestMapping("/adoption.enrollpagepost")
 	public String goAdoptionEnrollPostPage(@RequestParam(value = "anino", required = false) Integer anino,
 			Model model) {
@@ -146,7 +146,7 @@ public class AdoptionController {
 		return "/adoption/adoptionenrollpagepost";
 	}
 
-	// [게시글 등록] 입양 게시글 정보(AdoptionPostVO)를 받아 DB에 등록하고 결과 페이지로 이동하는 메서드
+	// 입양 게시글 정보(AdoptionPostVO)를 받아 DB에 등록하고 결과 페이지로 이동하는 메서드
 	@RequestMapping("/adoption.insert.board")
 	public String insertBoard(AdoptionPostVO post, HttpSession session) {
 		int result = service.insertBoard(post);
@@ -158,7 +158,7 @@ public class AdoptionController {
 		return "redirect:/adoption.postmanage";
 	}
 
-	// [게시글 등록] 동물 번호(anino)를 사용하여 기본 제목으로 게시글을 즉시 등록하는 메서드
+	// 동물 번호(anino)를 사용하여 기본 제목으로 게시글을 즉시 등록하는 메서드
 	@RequestMapping("/adoption.insert.board.direct")
 	public String insertBoardDirect(int anino, HttpSession session) {
 		MemberVO user = (MemberVO) session.getAttribute("loginMember");
@@ -202,7 +202,7 @@ public class AdoptionController {
 		return "redirect:/adoption.postmanage";
 	}
 
-	// [입양 신청] 입양 신청 정보(AdoptionApplicationVO)를 받아 DB에 등록하고 결과 페이지로 이동하는 메서드
+	// 입양 신청 정보(AdoptionApplicationVO)를 받아 DB에 등록하고 결과 페이지로 이동하는 메서드
 	@RequestMapping("/adoption.insertapplication")
 	public String insertapplication(AdoptionApplicationVO application, Model model, HttpSession session) {
 		MemberVO user = (MemberVO) session.getAttribute("loginMember");
@@ -219,7 +219,7 @@ public class AdoptionController {
 			return "redirect:/adoption.detailpage?anino=" + application.getAnimalNo();
 		}
 
-		// [추가] 마감된 동물인지 확인
+		// 마감된 동물인지 확인
 		if (animal != null && ("마감".equals(animal.getAdoptionStatus()) || "입양완료".equals(animal.getAdoptionStatus()))) {
 			session.setAttribute("alertMsgAd", "이미 입양 완료되었거나 마감된 입양건입니다.");
 			return "redirect:/adoption.detailpage?anino=" + application.getAnimalNo();
@@ -251,7 +251,7 @@ public class AdoptionController {
 		return "redirect:/adoption.detailpage?anino=" + application.getAnimalNo();
 	}
 
-	// [동물 등록] 동물 상세 정보(AnimalDetailVO)와 업로드된 파일을 받아 DB에 등록하고 메인 페이지로 이동하는 메서드
+	// 동물 상세 정보(AnimalDetailVO)와 업로드된 파일을 받아 DB에 등록하고 메인 페이지로 이동하는 메서드
 	@RequestMapping("/adoption.insert.animal")
 	public String insertAnimal(HttpSession session, MultipartFile uploadFile, AnimalDetailVO animal, Model model) {
 
@@ -315,7 +315,7 @@ public class AdoptionController {
 		return "redirect:/adoption.mainpage";
 	}
 
-	// [공통] 업로드된 파일을 서버에 저장하고 변경된 파일명을 반환하는 메서드
+	// 업로드된 파일을 서버에 저장하고 변경된 파일명을 반환하는 메서드
 	public String uploadFile(HttpSession session, MultipartFile uploadFile) {
 		String savePath = session.getServletContext().getRealPath("resources/download/adoption/");
 		String originName = uploadFile.getOriginalFilename();
@@ -337,7 +337,7 @@ public class AdoptionController {
 		}
 	}
 
-	// [입양 메인] 검색 필터와 페이징 정보를 사용하여 입양 동물 목록을 조회하고 반환하는 메서드
+	// 검색 필터와 페이징 정보를 사용하여 입양 동물 목록을 조회하고 반환하는 메서드
 	@RequestMapping("/adoption.mainpage")
 	public String AdoptionList(@RequestParam(value = "page", defaultValue = "1") int currentPage,
 			AdoptionSearchFilterVO filter, Model model) {
@@ -363,12 +363,12 @@ public class AdoptionController {
 		return "/adoption/adoptionmainpage";
 	}
 
-	// [동물 수정] 동물 번호(anino)를 사용하여 동물 정보를 조회하고 수정 페이지로 이동하는 메서드
+	// 동물 번호(anino)를 사용하여 동물 정보를 조회하고 수정 페이지로 이동하는 메서드
 	@RequestMapping("/adoption.updateanimal")
 	public String updateAnimal(int anino, Model model, HttpSession session) {
 		AnimalDetailVO animal = service.goAdoptionDetail(anino);
 
-		// [검증] 승인되거나 입양완료된 동물은 수정 불가 (단, 관리자는 가능하도록 예외 처리)
+		// 승인되거나 입양완료된 동물은 수정 불가 (단, 관리자는 가능하도록 예외 처리)
 		MemberVO loginUser = (MemberVO) session.getAttribute("loginMember");
 		if (animal != null && loginUser != null) {
 			if ((animal.getPostNo() != 0 || "입양완료".equals(animal.getAdoptionStatus()))
@@ -378,7 +378,7 @@ public class AdoptionController {
 			}
 		}
 
-		// [보안] 본인 동물인지 확인 (관리자 제외)
+		// 본인 동물인지 확인 (관리자 제외)
 		if (animal != null && loginUser != null && !animal.getUserId().equals(loginUser.getUserId())
 				&& !"ADMIN".equals(loginUser.getUserRole())) {
 			session.setAttribute("alertMsgAd", "수정 권한이 없습니다.");
@@ -389,19 +389,19 @@ public class AdoptionController {
 		return "/adoption/adoptionenrollpageanimal";
 	}
 
-	// [동물 수정] 수정된 동물 정보(AnimalDetailVO)를 받아 DB를 업데이트하고 결과 페이지로 이동하는 메서드
+	// 수정된 동물 정보(AnimalDetailVO)를 받아 DB를 업데이트하고 결과 페이지로 이동하는 메서드
 	@RequestMapping("/adoption.update.animal.action")
 	public String updateAnimalAction(HttpSession session, MultipartFile uploadFile, AnimalDetailVO animal,
 			String originalPhotoUrl, Model model) {
 
-		// [안전 장치] 고유 번호가 없는데 수정 요청이 들어온 경우 (등록 실패 후 재전송 시 발생 가능)
+		// 고유 번호가 없는데 수정 요청이 들어온 경우 (등록 실패 후 재전송 시 발생 가능)
 		if (animal.getAnimalNo() == null) {
 			session.setAttribute("alertMsgAd", "잘못된 접근입니다. 등록을 다시 시도해주세요.");
 			model.addAttribute("animal", animal);
 			return "/adoption/adoptionenrollpageanimal";
 		}
 
-		// [검증] 승인되거나 입양완료된 동물은 수정 불가 (DB 조회 필요)
+		// 승인되거나 입양완료된 동물은 수정 불가 (DB 조회 필요)
 		AnimalDetailVO dbAnimal = service.goAdoptionDetail(animal.getAnimalNo());
 		if (dbAnimal != null) {
 			if (dbAnimal.getPostNo() != 0 || "입양완료".equals(dbAnimal.getAdoptionStatus())) {
@@ -410,7 +410,7 @@ public class AdoptionController {
 			}
 		}
 
-		// [보안] 본인 동물인지 확인
+		// 본인 동물인지 확인
 		MemberVO loginUser = (MemberVO) session.getAttribute("loginMember");
 		if (dbAnimal != null && !dbAnimal.getUserId().equals(loginUser.getUserId())
 				&& !"ADMIN".equals(loginUser.getUserRole())) {
@@ -442,7 +442,7 @@ public class AdoptionController {
 		try {
 			int result = service.updateAnimal(animal);
 
-			// 4. [중요] 관리자가 아닌 사용자가 수정했을 경우, 기존의 승인된 게시글 삭제 (재승인 필요)
+			// 관리자가 아닌 사용자가 수정했을 경우, 기존의 승인된 게시글 삭제 (재승인 필요)
 			MemberVO user = (MemberVO) session.getAttribute("loginMember");
 			if (user != null && !"ADMIN".equals(user.getUserRole())) {
 				service.deletePost(animal.getAnimalNo());
@@ -480,14 +480,14 @@ public class AdoptionController {
 		}
 	}
 
-	// [동물 삭제] 동물 번호(anino)를 사용하여 동물 정보 및 관련 데이터를 삭제하고 결과 페이지로 이동하는 메서드
+	// 동물 번호(anino)를 사용하여 동물 정보 및 관련 데이터를 삭제하고 결과 페이지로 이동하는 메서드
 	@RequestMapping("/adoption.deleteanimal")
 	public String deleteAnimal(int anino, HttpSession session, javax.servlet.http.HttpServletRequest request) {
 		MemberVO user = (MemberVO) session.getAttribute("loginMember");
 		String userRole = user.getUserRole();
 		String userId = user.getUserId();
 
-		// [검증] 승인되거나 입양완료된 동물은 삭제 불가 (관리자 제외하고 검증) -> [수정] 본인도 삭제 가능하도록 변경 (제한 해제)
+		// 승인되거나 입양완료된 동물은 삭제 불가 (관리자 제외하고 검증) -> 본인도 삭제 가능하도록 변경 (제한 해제)
 		AnimalDetailVO animal = service.goAdoptionDetail(anino);
 		/*
 		 * if (animal != null && !"ADMIN".equals(userRole)) {
@@ -532,7 +532,7 @@ public class AdoptionController {
 
 	}
 
-	// [마이페이지] 입양 신청 번호(adoptionAppId)를 사용하여 입양 신청을 취소하고 결과 페이지로 이동하는 메서드
+	// 입양 신청 번호(adoptionAppId)를 사용하여 입양 신청을 취소하고 결과 페이지로 이동하는 메서드
 	@RequestMapping("adoption.deleteadoptionapp")
 	public String deleteadoptionapp(HttpSession session, int adoptionAppId) {
 
@@ -541,7 +541,7 @@ public class AdoptionController {
 
 		int result = 0;
 		if (application != null) {
-			// [검증] 입양 완료된 상태(2)이면 취소 불가
+			// 입양 완료된 상태(2)이면 취소 불가
 			if (application.getAdoptStatus() == 2) {
 				session.setAttribute("alertMsgAd", "입양 완료된 신청 내역은 취소할 수 없습니다.");
 				return "redirect:/user/mypage.me";
@@ -553,7 +553,7 @@ public class AdoptionController {
 			result = service.deleteapp(adoptionAppId);
 
 			if (result > 0) {
-				// [수정] 동물 상태 및 남은 신청자 확인 후 상태 업데이트
+				// 동물 상태 및 남은 신청자 확인 후 상태 업데이트
 				AnimalDetailVO animal = service.goAdoptionDetail(animalNo);
 
 				if (animal != null && !"입양완료".equals(animal.getAdoptionStatus())) {
@@ -588,7 +588,7 @@ public class AdoptionController {
 		return "redirect:/user/mypage.me";
 	}
 
-	// [게시글 관리] 검색 조건과 페이징 정보를 사용하여 관리용 동물/게시글 목록을 조회하고 반환하는 메서드
+	// 검색 조건과 페이징 정보를 사용하여 관리용 동물/게시글 목록을 조회하고 반환하는 메서드
 	@RequestMapping("/adoption.postmanage")
 	public String postManage(Model model,
 			@RequestParam(value = "currentPage", defaultValue = "1") int currentPage,
@@ -622,7 +622,7 @@ public class AdoptionController {
 		return "/adoption/adoptionpostmanage";
 	}
 
-	// [마이페이지] 사용자 ID를 사용하여 등록한 동물 및 신청한 입양 목록을 조회하고 JSON으로 반환하는 메서드
+	// 사용자 ID를 사용하여 등록한 동물 및 신청한 입양 목록을 조회하고 JSON으로 반환하는 메서드
 	@ResponseBody
 	@RequestMapping(value = "/adoption.mypage", produces = "application/json; charset=UTF-8")
 	public String mypage(HttpSession session,
@@ -673,7 +673,7 @@ public class AdoptionController {
 		return new Gson().toJson(listAll);
 	}
 
-	// [게시글 관리] 동물 번호(anino)를 사용하여 입양 게시글(동물 상태)을 반려 처리하는 메서드
+	// 동물 번호(anino)를 사용하여 입양 게시글(동물 상태)을 반려 처리하는 메서드
 	@RequestMapping("/adoption.deny.board.direct")
 	public String denyBoard(int anino, HttpSession session) {
 		int result = service.denyBoard(anino);
@@ -683,7 +683,7 @@ public class AdoptionController {
 	// 쪽지를 보내는 메서드
 	// "**되었습니다." 하는 메시지와 USERID를 파라미터로 받아서 유저에게 쪽지 보내주기
 
-	// [입양 수락] 동물 번호(anino)를 사용하여 입양 신청을 수락하고 결과 페이지로 이동하는 메서드
+	// 동물 번호(anino)를 사용하여 입양 신청을 수락하고 결과 페이지로 이동하는 메서드
 	@GetMapping("/adoption.acceptadoptionapp")
 	public String acceptAdoption(int anino, HttpSession session) {
 
@@ -710,7 +710,7 @@ public class AdoptionController {
 		return "redirect:/user/mypage.me";
 	}
 
-	// [입양 거절] 동물 번호(anino)를 사용하여 입양 신청을 거절하고 결과 페이지로 이동하는 메서드
+	// 동물 번호(anino)를 사용하여 입양 신청을 거절하고 결과 페이지로 이동하는 메서드
 	@GetMapping("/adoption.denyadoptionapp")
 	public String denyAdoption(int anino, HttpSession session) {
 
@@ -737,7 +737,7 @@ public class AdoptionController {
 		return "redirect:/user/mypage.me";
 	}
 
-	// [신청자 목록] 동물 번호(anino)를 사용하여 해당 동물의 입양 신청자 목록을 조회하고 JSON으로 반환하는 메서드
+	// 동물 번호(anino)를 사용하여 해당 동물의 입양 신청자 목록을 조회하고 JSON으로 반환하는 메서드
 	@ResponseBody
 	@RequestMapping(value = "/adoption.applicants", produces = "application/json; charset=UTF-8")
 	public String getApplicants(int anino, HttpSession session) {
@@ -771,8 +771,7 @@ public class AdoptionController {
 		}
 	}
 
-	// [입양 확정] 입양 신청 번호(adoptionAppId)와 동물 번호(anino)를 사용하여 최종 입양을 확정하고 결과를 JSON으로
-	// 반환하는 메서드
+	// 입양 신청 번호(adoptionAppId)와 동물 번호(anino)를 사용하여 최종 입양을 확정하고 결과를 JSON으로 반환하는 메서드
 	@ResponseBody
 	@RequestMapping(value = "/adoption.confirm", produces = "application/json; charset=UTF-8")
 	public String confirmAdoption(int adoptionAppId, int anino, HttpSession session) {

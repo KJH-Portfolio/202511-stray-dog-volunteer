@@ -22,7 +22,6 @@ public class SignVO {
 	
 	private Date signsDate;     // SIGNS_DATE (신청날짜)
 	
-	// [추가] 마이페이지 목록 조회용 (JOIN된 데이터 담을 변수)
 		private String actTitle;    // 활동 제목
 		private Date actDate;       // 활동 시작일
 		private String actAddress;  // 활동 장소

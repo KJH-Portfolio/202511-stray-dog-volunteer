@@ -182,14 +182,11 @@
                 <div class="container">
                     <h2>📑 후기 상세 보기</h2>
 
-                    <!-- [추가] 후기 제목을 크게 표시 -->
                     <div
                         style="font-size: 24px; font-weight: bold; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid #333;">
                         ${r.rTitle}
                     </div>
 
-                    <!-- [기능] 후기의 상세 정보(제목, 작성자, 별점, 내용 등)를 테이블 및 영역으로 구분하여 표시 -->
-                    <!-- [기술] EL Expression, JSTL fmt -->
                     <table class="detail-table">
                         <tr>
                             <th>활동명</th>
@@ -222,12 +219,9 @@
                         ${r.rReview}
                     </div>
 
-                    <!-- [추가] 댓글 및 평점 섹션 -->
                     <div style="margin-top: 50px; border-top: 2px solid #eee; padding-top: 30px;">
                         <h3 style="text-align: left; margin-bottom: 20px;">💬 댓글 및 평점</h3>
 
-                        <!-- [기능] 로그인 여부에 따라 댓글 작성 폼을 표시하거나 로그인 유도 메시지 표시 -->
-                        <!-- [기술] JSTL choose/when/otherwise -->
                         <c:choose>
                             <c:when test="${not empty loginMember}">
                                 <div class="comment-container">
@@ -277,8 +271,6 @@
                         });
 
                         // 댓글 목록 조회 (기존 volunteerDetail.jsp 로직 재사용, actId 기준)
-                        // [기능] 비동기(AJAX)로 서버에서 댓글 목록을 가져와 화면에 동적으로 렌더링
-                        // [기술] jQuery AJAX
                         function selectReplyList() {
                             var actId = "${r.actId}";
                             var reviewNo = "${r.reviewNo}";
@@ -300,7 +292,6 @@
                                             value += "         <strong>" + list[i].userId + "</strong>";
                                             value += "         <span style='color:#999; font-size:12px; margin-left:10px;'>" + list[i].cmtDate + "</span>";
 
-                                            // [평점 표시]
                                             if (list[i].cmtRate != null && list[i].cmtRate > 0) {
                                                 value += " <span style='color:#ffc107; font-weight:bold; margin-left:10px;'>⭐ " + list[i].cmtRate + "점</span>";
                                             }
@@ -322,8 +313,6 @@
                         }
 
                         // 댓글 등록
-                        // [기능] 사용자가 입력한 댓글 내용과 평점을 비동기로 전송하여 저장
-                        // [기술] jQuery AJAX
                         function addReply() {
                             var content = $("#replyContent").val();
                             var rating = $("input[name='cmtRate']:checked").val(); // 선택된 별점 값 (없으면 "" 또는 undefined)
@@ -355,8 +344,6 @@
                             });
                         }
 
-                        // [기능] 댓글번호를 받아 해당 댓글을 비동기로 삭제 요청
-                        // [기술] jQuery AJAX
                         function deleteReply(cmtNo) {
                             if (confirm("댓글을 삭제하시겠습니까?")) {
                                 $.ajax({

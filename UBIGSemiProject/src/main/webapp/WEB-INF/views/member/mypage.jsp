@@ -463,9 +463,6 @@
                             return confirm("정말로 탈퇴하시겠습니까? 탈퇴 시 복구할 수 없습니다.");
                         }
 
-                        // =======================================================
-                        // [입양 관련 로직]
-                        // =======================================================
                         let currPage1 = 1;
                         let currPage2 = 1;
 
@@ -637,9 +634,6 @@
                             } catch (error) { alert("처리 실패: " + error); }
                         }
 
-                        // =======================================================
-                        // [내가 쓴 글 로직]
-                        // =======================================================
                         async function getMyPosts(page = 1) {
                             let limit = 10;
                             const limitSelect = document.querySelector("#myPostsLimitSelect");
@@ -720,9 +714,6 @@
                             }
                         }
 
-                        // =======================================================
-                        // [봉사 신청 내역 로직] (수정된 부분)
-                        // =======================================================
                         async function getMyVolunteerList(cpage = 1) {
                             const url = '${pageContext.request.contextPath}/mySignList.vo?cpage=' + cpage;
                             const tbody = document.querySelector("#volunteerTableBody");
@@ -788,7 +779,7 @@
                             }
                         }
 
-                        // [봉사 신청 취소 함수]
+                        // 봉사 신청 취소 함수
                         function cancelMySign(signsNo) {
                             if (!confirm("정말로 봉사 신청을 취소하시겠습니까?\n(승인된 활동을 취소하면 모집 인원에 반영됩니다.)")) return;
 

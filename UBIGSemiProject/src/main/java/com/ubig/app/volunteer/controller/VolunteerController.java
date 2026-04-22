@@ -63,7 +63,7 @@ public class VolunteerController {
 
 			// 4. 화면 전송
 			model.addAttribute("list", list);
-			model.addAttribute("pi", pi); // [중요] 페이징 정보 보냄
+			model.addAttribute("pi", pi); 
 	        model.addAttribute("condition", condition);
 	        model.addAttribute("keyword", keyword);
 	        
@@ -73,7 +73,6 @@ public class VolunteerController {
    
 	
 
-		// [수정 코드] 관리자 권한 체크 로직 추가
 		@RequestMapping("volunteerWriteForm.vo")
 		public String volunteerWriteForm(HttpSession session, Model model) {
 		    
@@ -99,7 +98,7 @@ public class VolunteerController {
 		// 1. 참가비 고정
 		a.setActMoney(10000);
 
-		// 2. [핵심] 주소가 있다면, REST API를 통해 좌표(위도/경도)를 구해옵니다.
+		// 2. 주소가 있다면, REST API를 통해 좌표(위도/경도)를 구해옵니다.
 		if (a.getActAddress() != null && !a.getActAddress().trim().isEmpty()) {
 
 			System.out.println("📍 좌표 변환 요청 시작: " + a.getActAddress());
@@ -180,11 +179,11 @@ public class VolunteerController {
 	}
 
 	// ==========================================================
-	// ▼▼▼ [서버 통신용] 카카오 REST API로 좌표 구하기 ▼▼▼
+	// ▼▼▼ 서버 통신용 카카오 REST API로 좌표 구하기 ▼▼▼
 	// ==========================================================
 	public double[] getKakaoCoordinates(String address) {
 
-		// [중요] 여기에 아까 발급받은 'REST API 키'를 붙여넣으세요! (JavaScript 키 아님!)
+		// 카카오 REST API 키를 사용합니다.
 		String apiKey ="09064cf0dfb4fcc2d5ed48a0599f1de9";
 
 		System.out.println(">>> 현재 적용된 API 키 확인: [" + apiKey + "]");
@@ -249,7 +248,7 @@ public class VolunteerController {
         // VO에 actId와 reviewNo를 담아서 서비스로 전달
         VolunteerCommentVO vo = new VolunteerCommentVO();
         vo.setActId(actId);
-        vo.setReviewNo(reviewNo); // ★ 중요: 후기 번호 필수
+        vo.setReviewNo(reviewNo); 
 
         // 서비스 이름은 Cursor가 만든 것과 맞춰야 합니다. 
         // 만약 빨간줄이 뜨면 volunteerService 인터페이스도 확인해야 합니다.
@@ -289,7 +288,6 @@ public class VolunteerController {
         } else if (result == -1) {
             session.setAttribute("alertMsg", "⚠️ 정원이 마감되어 신청할 수 없습니다.");
         } else if (result == -2) {
-            // [핵심] 이 부분이 추가되어야 '중복 경고'가 뜹니다!
             session.setAttribute("alertMsg", "📢 이미 신청한 봉사활동입니다. (마이페이지를 확인하세요)");
         } else {
             session.setAttribute("alertMsg", "❌ 신청 실패...");
@@ -297,7 +295,6 @@ public class VolunteerController {
         
         return "redirect:volunteerDetail.vo?actId=" + s.getActId();
     }
-	// [추가 사유] 관리자가 해당 봉사활동에 누가 신청했는지 현황을 파악하기 위해 목록을 조회함
     // (관리자용) 신청자 목록 조회
  	@RequestMapping("signList.vo")
  	public String selectSignList(int actId, Model model) {
@@ -310,7 +307,7 @@ public class VolunteerController {
  		
  		// 3. 모델에 담기
  		model.addAttribute("signList", list);
- 		model.addAttribute("activity", activity); // [추가됨]
+ 		model.addAttribute("activity", activity); // 데이터 추가
  		
  		return "volunteer/signList";
  	}
@@ -364,7 +361,7 @@ public class VolunteerController {
 		        return "redirect:reviewList.vo";
 		    }
 
-		    // [수정] 기존 selectActivityList 대신 -> selectActivityNoReview 호출!
+		    // 기존 selectActivityList 대신 -> selectActivityNoReview 호출
 		    // 이렇게 하면 이미 후기를 쓴 활동은 목록에서 아예 안 나옵니다.
 		    List<ActivityVO> actList = volunteerService.selectActivityNoReview();
 		    
@@ -419,7 +416,7 @@ public class VolunteerController {
 		    // 세션에서 로그인 정보 가져오기
 		    MemberVO loginUser = (MemberVO)session.getAttribute("loginMember");
 
-		    // [보안] 로그인이 안 되어 있거나, 권한이 ADMIN이 아니면 차단
+		    // 로그인이 안 되어 있거나, 권한이 ADMIN이 아니면 차단
 		    if(loginUser == null || !"ADMIN".equals(loginUser.getUserRole())) {
 		        session.setAttribute("alertMsg", "삭제 권한이 없습니다. ⛔");
 		        return "redirect:reviewList.vo";
@@ -451,7 +448,6 @@ public class VolunteerController {
 
 		    // 3. 결과에 따른 메시지 처리
 		    if (result == -2) {
-		        // ★ [핵심] 중복일 때 뜨는 알림
 		        session.setAttribute("alertMsg", "⚠️ 이미 후기가 등록된 봉사활동입니다.");
 		        // 실패했으므로 작성 폼이나 목록으로 돌려보냄
 		        return "redirect:reviewWriteForm.vo"; 
@@ -489,8 +485,7 @@ public class VolunteerController {
 	    }
 	    
 	    
-	    //마이페이지에서 AJAX(비동기)로 요청했을 때 JSON 데이터로 리스트를 돌려주는 메소드를 만듭니다.
-	    // [추가] 마이페이지 - 나의 봉사 신청 내역 조회 (AJAX)
+	    // 마이페이지 - 나의 봉사 신청 내역 조회 (AJAX)
 	    @ResponseBody
 		@RequestMapping(value="mySignList.vo", produces="application/json; charset=UTF-8")
 		public String mySignList(HttpSession session, @RequestParam(value="cpage", defaultValue="1") int currentPage) {
@@ -518,7 +513,7 @@ public class VolunteerController {
 			return new Gson().toJson(map);
 		}
 	    
-	 // [추가] 체크박스 이용한 일괄 활동 완료 처리 (AJAX)
+	 // 체크박스 이용한 일괄 활동 완료 처리 (AJAX)
 	    @ResponseBody
 	    @RequestMapping("updateSignStatusAdminMulti.vo")
 	    public String updateSignStatusAdminMulti(@RequestParam(value="signsNos[]") List<Integer> signsNos) {

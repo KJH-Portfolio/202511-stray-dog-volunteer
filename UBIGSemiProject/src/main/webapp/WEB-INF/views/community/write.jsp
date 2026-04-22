@@ -83,7 +83,6 @@
                     background: #e58e3c;
                 }
 
-                /* [Step 14: 태그 버튼 스타일] */
                 .tag-group {
                     display: flex;
                     flex-wrap: wrap;
@@ -130,12 +129,10 @@
                     </c:choose>
                 </div>
 
-                <!-- [Step 12: 글쓰기 폼] -->
                 <form action="write" method="post" class="write-form" enctype="multipart/form-data">
                     <input type="hidden" name="category" value="${category}">
                     <input type="hidden" name="userId" value="${loginMember.userId}">
 
-                    <!-- [Step 30: 공지글 등록 (관리자 전용)] -->
                     <c:if test="${loginMember.userRole == 'ADMIN'}">
                         <div class="form-group"
                             style="background:#fff3cd; padding:10px; border-radius:5px; margin-bottom:20px;">
@@ -152,7 +149,6 @@
                         required>
                     </div>
 
-                    <!-- [Step 14: 태그 선택 (봉사후기 전용)] -->
                     <c:if test="${category == 'REVIEW'}">
                         <div class="form-group">
                             <label class="form-label">키워드 선택 (중복 가능)</label>
@@ -192,7 +188,7 @@
 
             <script>
                 $(document).ready(function () {
-                    // [Step 14: 태그 버튼 클릭 이벤트]
+                    // 태그 버튼 클릭 이벤트
                     $('.tag-btn').click(function () {
                         $(this).toggleClass('active');
                         updateHashtags();

@@ -14,16 +14,6 @@ public class CommunityDao {
     private SqlSessionTemplate sqlSession;
 
     // Board
-    /*
-     * [Step 2: DAO 수정]
-     * Mapper에게 '이 카테고리 데이터만 줘'라고 전달하기 위해
-     * 매개변수에 category를 추가했습니다.
-     */
-    /*
-     * [Step 3: DAO 메소드 작성]
-     * DB에게 SQL을 실행하라고 명령하는 메소드입니다.
-     * sqlSession을 이용해서 쿼리를 실행합니다.
-     */
 
     public int selectListCount(java.util.Map<String, Object> map) {
         return sqlSession.selectOne("communityMapper.selectListCount", map);
@@ -52,7 +42,6 @@ public class CommunityDao {
         return sqlSession.update("communityMapper.updateBoard", board);
     }
 
-    // [Step 30: Rotation Logic Methods]
     public int selectPinnedCount(String category) {
         return sqlSession.selectOne("communityMapper.selectPinnedCount", category);
     }

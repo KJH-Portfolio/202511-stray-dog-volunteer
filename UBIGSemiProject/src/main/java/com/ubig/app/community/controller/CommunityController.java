@@ -22,15 +22,6 @@ public class CommunityController {
     @Autowired
     private CommunityService communityService;
 
-    /*
-     * [Step 5: Controller 수정]
-     * 사용자 요청의 가장 앞단입니다.
-     * "?category=NOTICE" 처럼 주소창에 달린 값을 받아서
-     * Service에게 "NOTICE 글 목록 내놔"라고 시킵니다.
-     * 만약 카테고리가 없으면 기본값으로 'NOTICE(공지)'를 봅니다.
-     * [Step 26: 페이징 처리 추가]
-     * cpage(현재 페이지), limit(한 페이지당 게시글 수)를 받아서 처리합니다.
-     */
     @GetMapping("/list")
     public String list(Model model,
             @org.springframework.web.bind.annotation.RequestParam(value = "category", defaultValue = "NOTICE") String category,
@@ -70,20 +61,14 @@ public class CommunityController {
         return "community/list";
     }
 
-    /*
-     * [Step 27: 봉사활동 Q&A 페이지]
-     * 정적 페이지로 요청이 들어오면 qna.jsp를 보여줍니다.
-     */
+    // 봉사활동 Q&A 페이지
     @GetMapping("/qna")
     public String qna(Model model) {
         model.addAttribute("category", "QNA");
         return "community/qna";
     }
 
-    /*
-     * [Step 20: 게시글 글 삭제 Controller]
-     * 작성자 본인 또는 관리자만 삭제할 수 있습니다.
-     */
+    // 게시글 글 삭제
     @GetMapping("/delete")
     public String delete(int boardId, javax.servlet.http.HttpSession session, Model model) {
 
@@ -124,16 +109,7 @@ public class CommunityController {
         }
     }
 
-    /*
-     * [Step 9: 상세 조회 Controller]
-     * 목록에서 제목을 클릭했을 때 이쪽으로 옵니다.
-     * "몇 번 글 보여줘" (boardId) 라는 요청을 받아서
-     * Service에게 "그 글 가져와" 시키고
-     * detail.jsp에 던져줍니다.
-     * 
-     * [Step 19: 댓글 기능 추가]
-     * 상세 내용을 보여줄 때 댓글 목록도 같이 가져와야 합니다.
-     */
+    // 상세 조회
     @GetMapping("/detail")
     public String detail(int boardId, Model model, javax.servlet.http.HttpSession session) {
         // 1. 조회수 증가 (쿠키 등을 이용해 중복 방지 처리는 생략하고 단순 증가)
@@ -191,9 +167,7 @@ public class CommunityController {
         return "community/detail";
     }
 
-    /*
-     * [Step 19: 댓글 작성 Controller]
-     */
+    // 댓글 작성
     @org.springframework.web.bind.annotation.PostMapping("/insertComment")
     public String insertComment(com.ubig.app.vo.community.CommentVO comment,
             @org.springframework.web.bind.annotation.RequestParam(value = "upfile", required = false) org.springframework.web.multipart.MultipartFile upfile,
@@ -216,7 +190,7 @@ public class CommunityController {
         // 서비스에서 insert와 동시에 시퀀스 값을 받아 처리한다고 가정.
         // (단순화를 위해 여기서는 commentId를 못 가져오는 문제 발생 가능 -> 해결책: Mapper에 selectKey 추가 혹은
         // refactoring)
-        // [수정] VO에 selectKey로 id가 담겨온다고 가정합니다.
+        // VO에 selectKey로 id가 담겨온다고 가정합니다.
 
         // 파일 업로드 처리
         if (upfile != null && !upfile.isEmpty()) {
@@ -236,18 +210,14 @@ public class CommunityController {
         return "redirect:detail?boardId=" + comment.getBoardId() + "#comment-list";
     }
 
-    /*
-     * [Step 21: 댓글 삭제 Controller]
-     */
+    // 댓글 삭제
     @GetMapping("/deleteComment")
     public String deleteComment(int commentId, int boardId) {
         communityService.deleteComment(commentId);
         return "redirect:detail?boardId=" + boardId + "#comment-list";
     }
 
-    /*
-     * [Step 22: 댓글 수정 Controller]
-     */
+    // 댓글 수정
     @org.springframework.web.bind.annotation.PostMapping("/updateComment")
     public String updateComment(int commentId, int boardId, String content) {
         com.ubig.app.vo.community.CommentVO comment = new com.ubig.app.vo.community.CommentVO();
@@ -259,11 +229,7 @@ public class CommunityController {
         return "redirect:detail?boardId=" + boardId + "#comment-list";
     }
 
-    /*
-     * [Step 13: 글쓰기 화면 요청 Controller]
-     * "글쓰기 버튼 눌렀어요, 종이 주세요"라는 요청입니다.
-     * 단, 관리자(ADMIN)인지 검사를 해야 합니다.
-     */
+    // 글쓰기 화면 요청
     @GetMapping("/write")
     public String writeForm(String category, Model model, javax.servlet.http.HttpSession session) {
 
@@ -287,17 +253,13 @@ public class CommunityController {
         return "community/write";
     }
 
-    /*
-     * [Step 14: 글 등록 요청 Controller]
-     * "다 썼어요, 등록해주세요"라는 요청입니다.
-     * 폼에서 날아온 데이터들이 BoardVO라는 상자에 예쁘게 담겨옵니다.
-     */
+    // 글 등록 요청
     @org.springframework.web.bind.annotation.PostMapping("/write")
     public String write(BoardVO board,
             @org.springframework.web.bind.annotation.RequestParam(value = "upfile", required = false) org.springframework.web.multipart.MultipartFile upfile,
             javax.servlet.http.HttpSession session) {
 
-        // [수정] 작성자 ID 세팅 (세션에서 가져옴)
+        // 작성자 ID 세팅 (세션에서 가져옴)
         com.ubig.app.vo.member.MemberVO loginMember = (com.ubig.app.vo.member.MemberVO) session
                 .getAttribute("loginMember");
         if (loginMember != null) {
@@ -339,9 +301,7 @@ public class CommunityController {
         }
     }
 
-    /*
-     * [Step 31: 게시글 수정 폼 요청 Controller]
-     */
+    // 게시글 수정 폼 요청
     @GetMapping("/update")
     public String updateForm(int boardId, Model model, javax.servlet.http.HttpSession session) {
 
@@ -374,9 +334,7 @@ public class CommunityController {
         return "community/updateForm";
     }
 
-    /*
-     * [Step 32: 게시글 수정 요청 Controller]
-     */
+    // 게시글 수정 요청
     @org.springframework.web.bind.annotation.PostMapping("/update")
     public String update(BoardVO board,
             @org.springframework.web.bind.annotation.RequestParam(value = "upfile", required = false) org.springframework.web.multipart.MultipartFile upfile,
@@ -426,11 +384,7 @@ public class CommunityController {
         }
     }
 
-    /*
-     * [Step 23: Summernote 이미지 업로드]
-     * 에디터에서 이미지를 선택하면 이쪽으로 파일을 보내줍니다.
-     * 서버에 파일을 저장하고, 그 파일에 접근할 수 있는 URL을 돌려줍니다.
-     */
+    // Summernote 이미지 업로드
     @org.springframework.web.bind.annotation.PostMapping(value = "/uploadImage", produces = "application/json; charset=utf8")
     @org.springframework.web.bind.annotation.ResponseBody
     public String uploadImage(
@@ -461,9 +415,7 @@ public class CommunityController {
         return "{\"url\":\"" + request.getContextPath() + "/resources/upload/community/" + changeName + "\"}";
     }
 
-    /*
-     * [Step 25: 댓글 좋아요 토글 Controller]
-     */
+    // 댓글 좋아요 토글
     @GetMapping(value = "/comment/heart", produces = "application/json; charset=utf8")
     @org.springframework.web.bind.annotation.ResponseBody
     public String commentHeart(int commentId, javax.servlet.http.HttpSession session) {
@@ -498,9 +450,7 @@ public class CommunityController {
         }
     }
 
-    /*
-     * [Step 24: 좋아요 토글 Controller]
-     */
+    // 좋아요 토글
     @GetMapping(value = "/heart", produces = "application/json; charset=utf8")
     @org.springframework.web.bind.annotation.ResponseBody
     public String heart(int boardId, javax.servlet.http.HttpSession session) {
@@ -536,7 +486,7 @@ public class CommunityController {
         }
     }
 
-    // [공통] 파일 저장 메소드
+    // 파일 저장
     public String saveFile(org.springframework.web.multipart.MultipartFile file, javax.servlet.http.HttpSession session,
             String type) {
         String resources = session.getServletContext().getRealPath("resources");
@@ -559,7 +509,7 @@ public class CommunityController {
         return savedName;
     }
 
-    // [공통] 파일 다운로드
+    // 파일 다운로드
     @GetMapping("/fileDownload")
     public void fileDownload(String originalName, String savedName, String path,
             javax.servlet.http.HttpServletResponse response, javax.servlet.http.HttpServletRequest request)
@@ -593,10 +543,7 @@ public class CommunityController {
         os.close();
     }
 
-    /*
-     * [Step 28: 마이페이지 내 글 목록 조회 API (AJAX)]
-     * // sun: 마이페이지에서 비동기로 호출하여 내 글 목록을 가져옵니다.
-     */
+    // 마이페이지 내 글 목록 조회 API (AJAX)
     @GetMapping(value = "/myPosts", produces = "application/json; charset=utf8")
     @ResponseBody
     public String myPosts(javax.servlet.http.HttpSession session,
