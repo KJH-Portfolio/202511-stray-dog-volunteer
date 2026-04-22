@@ -111,22 +111,22 @@ graph LR
 
 ```mermaid
 graph TD
-    subgraph "📋 마이페이지 (로그인 필요)"
+    subgraph MY ["📋 마이페이지 (로그인 필요)"]
         MY1["내 정보 수정"]
         MY2["신청 내역\n(입양/봉사/펀딩)"]
         MY3["쪽지함\n(받은/보낸)"]
         MY4["회원 탈퇴"]
     end
 
-    subgraph "⚙️ 관리자 권한 (ADMIN)"
+    subgraph AD ["⚙️ 관리자 권한 (ADMIN)"]
         AD1["회원 관리\n(정지·탈퇴)"]
         AD2["동물/봉사/펀딩 관리\n(등록·삭제·승인)"]
         AD3["커뮤니티 관리\n(공지등록·신고처리)"]
         AD4["1:1 채팅 상담"]
     end
 
-    style MyPage fill:#E0F7FA,stroke:#00BCD4
-    style Admin fill:#FFEBEE,stroke:#F44336
+    style MY fill:#E0F7FA,stroke:#00BCD4
+    style AD fill:#FFEBEE,stroke:#F44336
 ```
 
 ---

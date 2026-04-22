@@ -311,23 +311,6 @@ erDiagram
     MEMBERS ||--o{ MESSAGES : "발신"
     MEMBERS ||--o{ ADMIN_CHAT_HISTORIES : "채팅"
     MEMBERS ||--o{ KICKS : "차단"
-
-    %% ──────────────────────────
-    %%  도메인별 색상 정의 (시각화)
-    %% ──────────────────────────
-    classDef member fill:#E3F2FD,stroke:#2196F3,stroke-width:2px;
-    classDef adoption fill:#FFF3E0,stroke:#FF9800,stroke-width:2px;
-    classDef volunteer fill:#E8F5E9,stroke:#4CAF50,stroke-width:2px;
-    classDef funding fill:#E1F5FE,stroke:#03A9F4,stroke-width:2px;
-    classDef community fill:#F3E5F5,stroke:#9C27B0,stroke-width:2px;
-    classDef system fill:#FAFAFA,stroke:#9E9E9E,stroke-width:2px;
-
-    class MEMBERS member;
-    class ANIMAL_DETAILS,ADOPTION_POSTS,ADOPTION_APPLICATIONS adoption;
-    class ACTIVITIES,SIGNS,VOLUNTEER_REVIEWS,VOLUNTEER_BOARD_COMMENTS,TAGS,TAG_INFOS volunteer;
-    class FUNDINGS,FUNDING_HISTORIES,DONATION_FILES,DONATIONS funding;
-    class BOARDS,COMMENTS,BOARD_ATTACHMENTS,BOARD_LIKES,COMMENT_ATTACHMENTS,COMMENT_LIKES community;
-    class MESSAGES,ADMIN_CHAT_HISTORIES,KICKS system;
 ```
 
 ---
