@@ -13,7 +13,7 @@
 </p>
 
 <p align="center">
-  <video src="./.메인화면%20내리기.mp4" width="90%" autoplay muted loop playsinline></video>
+  <video src="./source/demo_main.mp4" width="90%" autoplay muted loop playsinline></video>
 </p>
 
 ---
@@ -80,24 +80,24 @@
   - 일반 사용자, 관리자 등급에 따른 권한 분리 (Spring Security 적용)
   - 마이페이지를 통한 본인의 입양/봉사/후원 내역 조회
   - 관리자 대시보드를 통한 사이트 전반의 컨텐츠 및 회원 관리
-  <br><video src="./.회원.mp4" width="100%" autoplay muted loop playsinline></video>
+  <br><video src="./source/demo_member.mp4" width="100%" autoplay muted loop playsinline></video>
 
 - 🏠 **반려동물 입양 (`Adoption`)**
   - 유기동물 프로필 리스트업 및 상세 정보 확인
   - 입양 신청 및 심사/승인 프로세스
-  <br><video src="./.입양.mp4" width="100%" autoplay muted loop playsinline></video>
+  <br><video src="./source/demo_adoption.mp4" width="100%" autoplay muted loop playsinline></video>
 
 - 🤝 **봉사활동 (`Volunteer`)**
   - 동물 보호소나 기관의 봉사 프로그램 모집 공고 및 스케줄 관리
-  <br><video src="./.봉사.mp4" width="100%" autoplay muted loop playsinline></video>
+  <br><video src="./source/demo_volunteer.mp4" width="100%" autoplay muted loop playsinline></video>
 
 - 💰 **후원/펀딩 (`Funding`)**
   - 유기동물 치료비나 보호소 운영 등을 위한 크라우드 펀딩 개설 및 참여
-  <br><video src="./.후원.mp4" width="100%" autoplay muted loop playsinline></video>
+  <br><video src="./source/demo_funding.mp4" width="100%" autoplay muted loop playsinline></video>
 
 - 🗣️ **커뮤니티 (`Community`)**
   - 입양 후기 작성 및 등업 시스템, 자유게시판 운영
-  <br><video src="./.커뮤니티.mp4" width="100%" autoplay muted loop playsinline></video>
+  <br><video src="./source/demo_community.mp4" width="100%" autoplay muted loop playsinline></video>
 
 </details>
 
@@ -196,15 +196,15 @@
 
 **1) 입양 공고 검색 및 상세 조회**
 - 사용자는 다양한 필터(종류, 지역, 나이 등)를 통해 유기동물을 검색하고, 상세한 건강 상태 및 입양 조건을 확인할 수 있습니다.
-<br><video src="./.입양.mp4" width="100%" autoplay muted loop playsinline></video>
+> ![입양 상세 및 검색 흐름](이미지_혹은_GIF_경로를_넣어주세요)
 
 **2) 맞춤형 입양 신청 프로세스**
 - 직관적인 폼을 통해 입양 신청서를 제출하며, 본인의 신청 내역을 마이페이지에서 실시간으로 추적하고 관리할 수 있습니다.
-<br><video src="./.입양.mp4" width="100%" autoplay muted loop playsinline></video>
+> ![입양 신청 과정 GIF](이미지_혹은_GIF_경로를_넣어주세요)
 
 **3) 마이페이지: 입양 관리 대시보드**
 - 본인이 등록한 동물의 신청자 목록을 확인하고, 상세 심사 후 수락/반려를 결정하는 통합 관리 인터페이스를 제공합니다.
-<br><video src="./.회원.mp4" width="100%" autoplay muted loop playsinline></video>
+> ![마이페이지 관리 및 승인 프로세스 GIF](이미지_혹은_GIF_경로를_넣어주세요)
 
 
 </details>
