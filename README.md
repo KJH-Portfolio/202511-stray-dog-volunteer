@@ -14,7 +14,7 @@
 
 <div align="center">
   <a href="https://github.com/user-attachments/assets/38f27f00-baa9-4ec0-acd7-f41aea14e7e4">
-    <img src="./source/01.메인 페이지.png" width="90%" alt="메인 화면 시연 영상 보기">
+    <img src="./source/01.메인 페이지.png" width="90%" alt="메인 화면 미리보기">
   </a>
 </div>
 
@@ -84,7 +84,7 @@
   - 관리자 대시보드를 통한 사이트 전반의 컨텐츠 및 회원 관리
   <br>
   <a href="https://github.com/user-attachments/assets/3d50adeb-fab5-4f66-b9a9-b1974c0edc57">
-    <img src="./source/마이페이지.png" width="100%" alt="회원 및 관리자 기능 시연 영상 보기">
+    <img src="./source/마이페이지.png" width="100%" alt="회원 및 관리자 기능 미리보기">
   </a>
 
 - 🏠 **반려동물 입양 (`Adoption`)**
@@ -92,28 +92,28 @@
   - 입양 신청 및 심사/승인 프로세스
   <br>
   <a href="https://github.com/user-attachments/assets/0611abf7-f1ae-4313-b366-483105bdaf79">
-    <img src="./source/입양메인.png" width="100%" alt="반려동물 입양 프로세스 시연 영상 보기">
+    <img src="./source/입양메인.png" width="100%" alt="반려동물 입양 프로세스 미리보기">
   </a>
 
 - 🤝 **봉사활동 (`Volunteer`)**
   - 동물 보호소나 기관의 봉사 프로그램 모집 공고 및 스케줄 관리
   <br>
   <a href="https://github.com/user-attachments/assets/93d31f81-d3aa-4fd1-9254-c11a02ce0fac">
-    <img src="./source/봉사1.png" width="100%" alt="봉사활동 관리 시연 영상 보기">
+    <img src="./source/봉사1.png" width="100%" alt="봉사활동 관리 미리보기">
   </a>
 
 - 💰 **후원/펀딩 (`Funding`)**
   - 유기동물 치료비나 보호소 운영 등을 위한 크라우드 펀딩 개설 및 참여
   <br>
   <a href="https://github.com/user-attachments/assets/68f6a412-bac9-48b9-b0d2-513e869de005">
-    <img src="./source/펀딩.png" width="100%" alt="후원 및 펀딩 시연 영상 보기">
+    <img src="./source/펀딩.png" width="100%" alt="후원 및 펀딩 미리보기">
   </a>
 
 - 🗣️ **커뮤니티 (`Community`)**
   - 입양 후기 작성 및 등업 시스템, 자유게시판 운영
   <br>
   <a href="https://github.com/user-attachments/assets/e6ecf702-82bc-4bcb-9fff-b9de570ebe99">
-    <img src="./source/커뮤니티_공지.png" width="100%" alt="커뮤니티 및 게시판 시연 영상 보기">
+    <img src="./source/커뮤니티_공지.png" width="100%" alt="커뮤니티 및 게시판 미리보기">
   </a>
 
 </details>
@@ -212,16 +212,22 @@
 #### ✨ 주요 기능 하이라이트 (Functional Highlights)
 
 **1) 입양 공고 검색 및 상세 조회**
-- 사용자는 다양한 필터(종류, 지역, 나이 등)를 통해 유기동물을 검색하고, 상세한 건강 상태 및 입양 조건을 확인할 수 있습니다.
-> ![입양 상세 및 검색 흐름](이미지_혹은_GIF_경로를_넣어주세요)
+- 다양한 필터링(축종, 지역, 나이 등)과 키워드 검색을 통해 입양 대기 중인 동물을 효율적으로 탐색하고 상세 정보를 확인할 수 있습니다.
+<br>
+<img src="./source/동물%20검색.png" width="100%" alt="입양 상세 및 검색 흐름">
 
-**2) 맞춤형 입양 신청 프로세스**
-- 직관적인 폼을 통해 입양 신청서를 제출하며, 본인의 신청 내역을 마이페이지에서 실시간으로 추적하고 관리할 수 있습니다.
-> ![입양 신청 과정 GIF](이미지_혹은_GIF_경로를_넣어주세요)
 
-**3) 마이페이지: 입양 관리 대시보드**
-- 본인이 등록한 동물의 신청자 목록을 확인하고, 상세 심사 후 수락/반려를 결정하는 통합 관리 인터페이스를 제공합니다.
-> ![마이페이지 관리 및 승인 프로세스 GIF](이미지_혹은_GIF_경로를_넣어주세요)
+**2) 입양 신청 및 마이페이지 내역 관리**
+- 직관적인 신청 프로세스를 통해 입양을 희망하는 동물을 신청하고, 본인의 진행 상태(대기/승인/반려/확정)를 마이페이지에서 실시간으로 추적할 수 있습니다.
+<br>
+<img src="./source/입양_마이페이지.png" width="100%" alt="입양 신청 및 마이페이지 관리">
+
+
+**3) 동물 등록 및 신청자 심사 관리**
+- 관리자와 게시글 등록자는 동물의 상태를 직접 관리하고, 접수된 신청자들의 정보를 상세히 심사하여 최종 입양자를 결정하는 통합 대시보드를 제공받습니다.
+<br>
+<img src="./source/동물관리자.png" width="100%" alt="동물 등록 및 입양 심사 관리">
+
 
 
 </details>

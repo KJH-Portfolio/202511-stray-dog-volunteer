@@ -56,11 +56,14 @@ flowchart TD
 
     %% 로그인 이후
     LOGIN --> REG[회원가입] --> LOGIN
-    LOGIN --> LOGGED[로그인 완료 → 원래 페이지로]
+    LOGIN -->|성공| LOGGED[로그인 완료 → 원래 페이지로]
+    LOGIN -->|실패| FAIL[아이디/비번 확인 및 재시도]
+    FAIL --> LOGIN
 
     style START fill:#4CAF50,color:#fff
     style LOGIN fill:#FF9800,color:#fff
     style LOGGED fill:#2196F3,color:#fff
+    style FAIL fill:#F44336,color:#fff
 ```
 
 ---
@@ -82,19 +85,23 @@ flowchart TD
     M1 --> A1[동물 목록\n검색·필터]
     A1 --> A2[동물 상세]
     A2 --> A3[입양 신청서 작성]
-    A3 --> A4{제출}
-    A4 -->|성공| A5[신청 완료\n마이페이지에서 확인]
-    A4 -->|실패| A3
+    A3 --> A4{서버 검증}
+    A4 -->|중복신청/본인동물| AERR["❌ 신청 불가\n(Alert 메시지)"]
+    A4 -->|정상| A5{제출 확인}
+    A5 -->|성공| A6["✅ 신청 완료\n(마이페이지 확인)"]
+    A5 -->|실패| A3
+    AERR --> A2
 
     %% ── 봉사활동 ──
     M2 --> V1[봉사 목록\n상태별 필터]
     V1 --> V2[프로그램 상세]
     V2 --> V3[봉사 신청]
-    V3 --> V4{신청 처리}
-    V4 -->|승인대기| V5[대기 상태 확인]
-    V4 -->|정원 초과| V6[대기번호 부여]
+    V3 --> V4{정원 및 중복 검증}
+    V4 -->|이미 신청함| VERR["❌ 이미 참여 중"]
+    V4 -->|정상/승인대기| V5["✅ 신청 완료\n(SIGNS_STATUS=0)"]
+    V4 -->|정원 초과| V6["대기번호 부여\n(SIGNS_WAIT=1)"]
     V2 --> V7[후기 목록]
-    V7 --> V8[후기 작성\n참여한 봉사만 가능]
+    V7 --> V8["후기 작성\n(참여 완료자만 가능)"]
     V8 --> V9[후기 등록 완료]
 
     %% ── 펀딩 ──
@@ -207,17 +214,20 @@ flowchart LR
     AD --> DC[동물 정보 확인\n사진·건강상태·조건]
     DC --> LC{로그인 확인}
     LC -->|비로그인| LI[로그인 페이지]
-    LI -->|로그인 성공| AF2[입양 신청서 작성]
-    LC -->|로그인됨| AF2
+    LI -->|로그인 성공| CK{서버 사이드 검증}
+    LC -->|로그인됨| CK
+    CK -->|중복/본인/마감| ERR[❌ 신청 불가 알림]
+    CK -->|통과| AF2[입양 신청서 작성]
     AF2 --> SB[신청서 제출]
-    SB --> STATUS{관리자 처리}
-    STATUS -->|승인| DONE["✅ 입양 완료\nADOPTION_STATUS = '완료'"]
-    STATUS -->|대기| WAIT[마이페이지에서 상태 확인]
-    STATUS -->|거절| REJ[❌ 거절 알림]
+    SB --> STATUS{관리자 심사}
+    STATUS -->|승인/확정| DONE["🌍 입양 완료\n(ADOPTION_STATUS = '완료')"]
+    STATUS -->|심사 중| WAIT[마이페이지 대기중]
+    STATUS -->|반려| REJ[❌ 반려 알림]
 
     style S fill:#4CAF50,color:#fff
     style DONE fill:#388E3C,color:#fff
     style REJ fill:#F44336,color:#fff
+    style ERR fill:#F44336,color:#fff
 ```
 
 ---

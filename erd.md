@@ -311,6 +311,54 @@ erDiagram
     MEMBERS ||--o{ MESSAGES : "발신"
     MEMBERS ||--o{ ADMIN_CHAT_HISTORIES : "채팅"
     MEMBERS ||--o{ KICKS : "차단"
+
+    %% ──────────────────────────
+    %%  도메인별 색상 정의 (시각화)
+    %% ──────────────────────────
+    classDef member fill:#E3F2FD,stroke:#2196F3,stroke-width:2px;
+    classDef adoption fill:#FFF3E0,stroke:#FF9800,stroke-width:2px;
+    classDef volunteer fill:#E8F5E9,stroke:#4CAF50,stroke-width:2px;
+    classDef funding fill:#E1F5FE,stroke:#03A9F4,stroke-width:2px;
+    classDef community fill:#F3E5F5,stroke:#9C27B0,stroke-width:2px;
+    classDef system fill:#FAFAFA,stroke:#9E9E9E,stroke-width:2px;
+
+    class MEMBERS member;
+    class ANIMAL_DETAILS,ADOPTION_POSTS,ADOPTION_APPLICATIONS adoption;
+    class ACTIVITIES,SIGNS,VOLUNTEER_REVIEWS,VOLUNTEER_BOARD_COMMENTS,TAGS,TAG_INFOS volunteer;
+    class FUNDINGS,FUNDING_HISTORIES,DONATION_FILES,DONATIONS funding;
+    class BOARDS,COMMENTS,BOARD_ATTACHMENTS,BOARD_LIKES,COMMENT_ATTACHMENTS,COMMENT_LIKES community;
+    class MESSAGES,ADMIN_CHAT_HISTORIES,KICKS system;
+```
+
+---
+
+## 🔄 테이블 관계 (Hierarchy View)
+
+> `MEMBERS` 테이블을 중심으로 한 도메인별 계층 구조입니다.
+
+```text
+MEMBERS (USER_ID)
+  ├── ANIMAL_DETAILS (USER_ID)
+  │     └── ADOPTION_POSTS (ANIMAL_NO)
+  │           └── ADOPTION_APPLICATIONS (ANIMAL_NO)
+  ├── ACTIVITIES (ADMIN_ID)
+  │     ├── SIGNS (ACT_ID)
+  │     ├── TAGS (ACT_ID) → TAG_INFOS
+  │     ├── VOLUNTEER_REVIEWS (ACT_ID)
+  │     └── VOLUNTEER_BOARD_COMMENTS (ACT_ID)
+  ├── FUNDINGS (USER_ID)
+  │     ├── FUNDING_HISTORIES (F_NO)
+  │     └── DONATION_FILES (F_NO)
+  ├── DONATIONS (USER_ID)
+  ├── BOARDS (USER_ID)
+  │     ├── COMMENTS (BOARD_ID)
+  │     │     ├── COMMENT_ATTACHMENTS (COMMENT_ID)
+  │     │     └── COMMENT_LIKES (COMMENT_ID)
+  │     ├── BOARD_ATTACHMENTS (BOARD_ID)
+  │     └── BOARD_LIKES (BOARD_ID)
+  ├── MESSAGES (발신/수신)
+  ├── ADMIN_CHAT_HISTORIES (발신/수신)
+  └── KICKS (차단자/피차단자)
 ```
 
 ---
@@ -325,6 +373,19 @@ erDiagram
 | 💰 펀딩/기부 | `FUNDINGS`, `FUNDING_HISTORIES`, `DONATIONS` | 데이터 무결성이 가장 중요한 도메인 |
 | 📝 커뮤니티 | `BOARDS`, `COMMENTS`, `BOARD_LIKES` | 계층형 댓글(Self-Join) 및 파일 첨부 구조 |
 | 💬 메시지/채팅 | `MESSAGES`, `ADMIN_CHAT_HISTORIES` | 실시간(Socket) 대비용 데이터 스토리지 |
+
+---
+
+## ⚡ DB 성능 최적화 전략 (Index Strategy)
+
+조회 성능 극대화 및 조인 효율을 위해 다음과 같은 인덱스 설계를 권장합니다.
+
+| 분류 | 대상 테이블 | 대상 컬럼 | 기대 효과 |
+|---|---|---|---|
+| **자주 쓰이는 외래키** | `ADOPTION_POSTS` | `ANIMAL_NO` | 게시글-동물 간 조인 성능 향상 |
+| **상태값 필터링** | `ANIMAL_DETAILS` | `ADOPTION_STATUS` | 입양 가능 목록 필터링 속도 개선 |
+| **사용자 기반 조회** | `ADOPTION_APPLICATIONS` | `USER_ID` | 마이페이지 내 신청 내역 조회 최적화 |
+| **정렬 및 페이징** | `BOARDS` | `CREATE_DATE` | 최신글 순 리스트 조회 성능 향상 |
 
 ---
 

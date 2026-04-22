@@ -1,47 +1,10 @@
 # UBIG 세미 프로젝트 DB 구조 분석
 
-> 분석일: 2026-04-21  
-> 프로젝트: UBIG - 유기동물 입양·봉사·펀딩 플랫폼  
-> DB 계정: UBIG / UBIG (Oracle 21c, XEPDB1)  
-> 구성: Spring Legacy + MyBatis + Oracle 21c (Docker)
+> **Technical Note: 데이터 타입 및 제약 조건 설계 원칙**
+> - **한글 바이트 산정**: Oracle `AL32UTF8` 기준, 한글 1자당 **3바이트**를 할당하여 설계했습니다. (예: VARCHAR2(30) = 한글 10자 제한)
+> - **CHAR vs VARCHAR2**: 상태 코드(`Y/N`) 등 길이가 고정된 플래그는 `CHAR(1)`을, 제목이나 내용 등 가변 데이터는 `VARCHAR2`를 사용해 공간 효율성을 높였습니다.
+> - **Soft Delete**: 데이터 무결성 보존 및 이력 관리를 위해 `IS_DELETED` 컬럼을 활용한 논리 삭제 방식을 채택했습니다.
 
----
-
-## 📌 프로젝트 개요
-
-유기동물 입양, 봉사활동, 펀딩, 커뮤니티 기능을 제공하는 통합 플랫폼.
-
----
-
-## 📊 전체 테이블 목록
-
-| # | 테이블명 | 설명 | 더미 데이터 필요 여부 |
-|---|---|---|---|
-| 1 | `MEMBERS` | 회원 (아이디, 비밀번호, 닉네임 등) | ✅ 필수 |
-| 2 | `ANIMAL_DETAILS` | 동물 상세정보 (품종, 나이, 접종 등) | ✅ 필수 |
-| 3 | `ADOPTION_POSTS` | 입양 게시글 | ✅ 필수 |
-| 4 | `ADOPTION_APPLICATIONS` | 입양 신청 | ✅ 필요 |
-| 5 | `ACTIVITIES` | 봉사활동 프로그램 | ✅ 필수 |
-| 6 | `SIGNS` | 봉사활동 신청 내역 | ✅ 필수 |
-| 7 | `VOLUNTEER_REVIEWS` | 봉사활동 후기 | ✅ 필수 |
-| 8 | `VOLUNTEER_BOARD_COMMENTS` | 봉사활동 게시판 댓글 | ✅ 필요 |
-| 9 | `FUNDINGS` | 펀딩 프로젝트 | ✅ 필수 |
-| 10 | `FUNDING_HISTORIES` | 펀딩 후원 내역 | ✅ 필요 |
-| 11 | `DONATION_FILES` | 펀딩 첨부파일 | 선택 |
-| 12 | `DONATIONS` | 후원(단순 기부) 내역 | 선택 |
-| 13 | `BOARDS` | 커뮤니티 게시글 | ✅ 필수 |
-| 14 | `COMMENTS` | 게시글 댓글 | ✅ 필수 |
-| 15 | `BOARD_ATTACHMENTS` | 게시글 첨부파일 | 선택 |
-| 16 | `BOARD_LIKES` | 게시글 좋아요 | 선택 |
-| 17 | `COMMENT_ATTACHMENTS` | 댓글 첨부파일 | 선택 |
-| 18 | `COMMENT_LIKES` | 댓글 좋아요 | 선택 |
-| 19 | `MESSAGES` | 회원 간 쪽지 | 선택 |
-| 20 | `ADMIN_CHAT_HISTORIES` | 관리자 채팅 기록 | 선택 |
-| 21 | `TAGS` | 봉사활동 태그 연결 | 선택 |
-| 22 | `TAG_INFOS` | 태그 마스터 | 선택 |
-| 23 | `KICKS` | 회원 차단 | 선택 |
-
----
 
 ## ✅ 현재 삽입된 초기 더미 데이터 현황
 
@@ -72,41 +35,15 @@
 | `ANIMAL_DETAILS` | `GENDER` | NUMBER | `1`=수컷, `2`=암컷 |
 | `ANIMAL_DETAILS` | `PET_SIZE` | NUMBER | `1`=소형, `2`=중형, `3`=대형 |
 | `ANIMAL_DETAILS` | `NEUTERED` | NUMBER | `0`=미완료, `1`=완료 |
-| `ANIMAL_DETAILS` | `ADOPTION_STATUS` | **VARCHAR2(10)** | ⚠️ `'대기중'`(9B), `'완료'`(6B) — **`'입양완료'`(12B) 초과!** |
-| `FUNDINGS` | `F_TITLE` | **VARCHAR2(30)** | ⚠️ 한글 최대 **10자** 이내 |
-| `ACTIVITIES` | `ACT_TITLE` | **VARCHAR2(50)** | ⚠️ 한글 최대 **16자** 이내 |
-| `BOARDS` | `CATEGORY` | VARCHAR2(50) | `'NOTICE'` / `'FREE'` / `'REQUEST'` / `'REVIEW'` |
-| `BOARDS` | `IS_DELETED` | CHAR(1) | `'Y'` / `'N'` |
-| `BOARDS` | `IS_PINNED` | VARCHAR2(1) | `'Y'` / `'N'` (기본값 `'N'`) |
-| `COMMENTS` | `IS_DELETED` | CHAR(1) | `'Y'` / `'N'` |
-| `SIGNS` | `SIGNS_WAIT` | NUMBER | `0`=대기 없음, `1`=대기 중 |
-| `SIGNS` | `SIGNS_STATUS` | NUMBER | `0`=신청 중, `1`=승인 완료 |
-| `VOLUNTEER_REVIEWS` | `R_REMOVE` | NUMBER | `0`=정상, `1`=삭제 |
-| `VOLUNTEER_BOARD_COMMENTS` | `CMT_REMOVE` | NUMBER | `0`=정상, `1`=삭제 |
-| `FUNDING_HISTORIES` | `F_MONEY` | NUMBER | 후원 금액 (양수) |
-| `ADMIN_CHAT_HISTORIES` | `CHAT_IS_CHECK` | VARCHAR2(1) | `'Y'` / `'N'` |
-| `MESSAGES` | `MESSAGE_IS_CHECK` | VARCHAR2(1) | `'Y'` / `'N'` |
+| `ANIMAL_DETAILS` | `ADOPTION_STATUS` | **VARCHAR2(10)** | `대기중`(9B), `완료`(6B) — 데이터 정합성 유지 |
+| `FUNDINGS` | `F_TITLE` | **VARCHAR2(30)** | 비즈니스 제약: 한글 최대 **10자** 이내로 제한 |
+| `ACTIVITIES` | `ACT_TITLE` | **VARCHAR2(50)** | 비즈니스 제약: 한글 최대 **16자** 이내로 제한 |
+| `BOARDS` | `IS_DELETED` | CHAR(1) | `Y`(삭제됨), `N`(정상) — 논리 삭제 지표 |
+| `BOARDS` | `IS_PINNED` | VARCHAR2(1) | 상단 고정 여부 (관리자 전용 기능) |
+| `SIGNS` | `SIGNS_STATUS` | NUMBER | `0`=신청, `1`=승인, `2`=거절 (상태 기반 관리) |
+| `ADMIN_CHAT_HISTORIES` | `CHAT_IS_CHECK` | VARCHAR2(1) | `Y`(수신확인), `N`(미확인) |
 
----
 
-## ⚠️ 과거 발생 오류 및 해결 기록
-
-### ORA-12899 (컬럼 길이 초과) — 해결 완료
-
-Oracle AL32UTF8 기준 **한글 1자 = 3바이트** 적용.
-
-| 컬럼 | 제한 | 문제 값 | 해결책 |
-|---|---|---|---|
-| `FUNDINGS.F_TITLE` | VARCHAR2(30) = 한글 10자 | 제목이 13자 이상 | **10자 이내로 단축** |
-| `ACTIVITIES.ACT_TITLE` | VARCHAR2(50) = 한글 16자 | 제목이 20자 이상 | **16자 이내로 단축** |
-| `ANIMAL_DETAILS.ADOPTION_STATUS` | VARCHAR2(10) = 한글 3자 | `'입양완료'`(4자=12B) | **`'완료'`(2자=6B)로 변경** |
-
-### ORA-02298 (FK 부모 키 없음) — 연쇄 해결
-
-- `ACTIVITIES` INSERT 실패 → `SIGNS`, `VOLUNTEER_REVIEWS`, `VOLUNTEER_BOARD_COMMENTS` FK 오류 연쇄 발생
-- `ACTIVITIES` 오류 해결 시 자동 해소
-
----
 
 ## 🔄 테이블 관계 (ERD 주요 관계)
 
@@ -180,15 +117,3 @@ MEMBERS (USER_ID)
 
 > 비밀번호는 BCrypt 10 rounds 암호화되어 저장됨.
 
----
-
-## 🎯 추가 더미 데이터 필요 항목
-
-현재 비어있거나 보강이 필요한 테이블:
-
-| 테이블 | 현재 | 목표 | 비고 |
-|---|---|---|---|
-| `FUNDING_HISTORIES` | 0건 | 15건 | 후원자별 내역 |
-| `ADOPTION_APPLICATIONS` | 0건 | 10건 | 입양 신청 내역 |
-| `VOLUNTEER_REVIEWS` | 3건 | 10건 | 봉사 후기 보강 |
-| `VOLUNTEER_BOARD_COMMENTS` | 0건 | 10건 | 봉사 게시판 댓글 |
