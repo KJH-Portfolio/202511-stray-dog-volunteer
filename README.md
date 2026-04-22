@@ -12,9 +12,11 @@
   <img src="https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white" />
 </p>
 
-<p align="center">
-  ![메모 데모](./source/demo_main.mp4)
-</p>
+<div align="center">
+
+![메인 화면 데모](./source/demo_main.mp4)
+
+</div>
 
 ---
 
@@ -80,24 +82,34 @@
   - 일반 사용자, 관리자 등급에 따른 권한 분리 (Spring Security 적용)
   - 마이페이지를 통한 본인의 입양/봉사/후원 내역 조회
   - 관리자 대시보드를 통한 사이트 전반의 컨텐츠 및 회원 관리
-  <br>![회원 관리 데모](./source/demo_member.mp4)
+  <br>
+  
+  ![회원 관리 데모](./source/demo_member.mp4)
 
 - 🏠 **반려동물 입양 (`Adoption`)**
   - 유기동물 프로필 리스트업 및 상세 정보 확인
   - 입양 신청 및 심사/승인 프로세스
-  <br>![입양 프로세스 데모](./source/demo_adoption.mp4)
+  <br>
+  
+  ![입양 프로세스 데모](./source/demo_adoption.mp4)
 
 - 🤝 **봉사활동 (`Volunteer`)**
   - 동물 보호소나 기관의 봉사 프로그램 모집 공고 및 스케줄 관리
-  <br>![봉사활동 데모](./source/demo_volunteer.mp4)
+  <br>
+  
+  ![봉사활동 데모](./source/demo_volunteer.mp4)
 
 - 💰 **후원/펀딩 (`Funding`)**
   - 유기동물 치료비나 보호소 운영 등을 위한 크라우드 펀딩 개설 및 참여
-  <br>![후원 펀딩 데모](./source/demo_funding.mp4)
+  <br>
+  
+  ![후원 펀딩 데모](./source/demo_funding.mp4)
 
 - 🗣️ **커뮤니티 (`Community`)**
   - 입양 후기 작성 및 등업 시스템, 자유게시판 운영
-  <br>![커뮤니티 데모](./source/demo_community.mp4)
+  <br>
+  
+  ![커뮤니티 데모](./source/demo_community.mp4)
 
 </details>
 
