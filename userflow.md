@@ -337,13 +337,3 @@ flowchart TD
     style USER fill:#2196F3,color:#fff
     style ADMIN fill:#F44336,color:#fff
 ```
-
----
-
-## 🛠️ 시각화 방법
-
-| 방법 | 주소 | 특징 |
-|---|---|---|
-| **GitHub** | push 후 `.md` 자동 렌더링 | 별도 설치 불필요 |
-| **mermaid.live** | [mermaid.live](https://mermaid.live) | 실시간 편집·공유 링크 |
-| **VS Code** | `Markdown Preview Mermaid Support` 확장 | 로컬 미리보기 |

@@ -125,8 +125,8 @@ graph TD
         AD4["1:1 채팅 상담"]
     end
 
-    style MY fill:#E0F7FA,stroke:#00BCD4
-    style AD fill:#FFEBEE,stroke:#F44336
+    style MY fill:#E0F7FA,stroke:#00BCD4,color:#333
+    style AD fill:#FFEBEE,stroke:#F44336,color:#333
 ```
 
 ---
