@@ -132,32 +132,67 @@
   - 입양 신청부터 확정까지의 핵심 비즈니스 로직을 설계하고 전체 유저 프로세스를 구조화했습니다.
 
   ```mermaid
+  %%{init: {'theme': 'base', 'themeVariables': { 'fontSize': '14px', 'fontFamily': 'nanum gothic', 'primaryColor': '#4CAF50', 'primaryTextColor': '#fff', 'lineColor': '#2196F3', 'nodeBorder': '#333' }}}%%
   flowchart TD
       subgraph USER_FLOW ["👤 일반 사용자 워크플로우"]
-          U1(동물 상세 페이지) -->|로그인| U2[입양 신청서 폼 제출]
-          U2 --> U3[마이페이지 : 내 신청 내역]
-          U3 --> U4{해당 글의\n현재 심사 상태는?}
-          U4 -.->|"⏳ 대기중"| U5["조건부 접근:\n신청서 수정 및 취소 가능"]
-          U4 -.->|"✅ 승인/반려"| U6["접근 차단: 데이터 열람 및\n최종 결과만 안내"]
+          U1(동물 상세 페이지) -- "로그인" --> U2[[입양 신청서 폼 제출]]
+          U2 ==> U3[마이페이지 : 내 신청 내역]
+          U3 ==> U4{본인의 심사 상태 확인}
+          U4 -.->|"⏳ 대기중"| U5["[조건부 접근] 신청서 수정 및 취소 가능"]
+          U4 -.->|"✅ 승인/반려"| U6["[접근 차단] 최종 결과 확인 및 데이터 보존"]
       end
-      style U2 fill:#4CAF50,color:#fff
-      style U3 fill:#2196F3,color:#fff
+      style U2 fill:#4CAF50,color:#fff,stroke:#2E7D32,stroke-width:2px
+      style U3 fill:#2196F3,color:#fff,stroke:#1565C0,stroke-width:2px
+      style U4 fill:#FF9800,stroke:#E65100,stroke-width:2px
   ```
+
+  <details>
+  <summary>🔍 텍스트 기반 워크플로우 보기 (ASCII Art)</summary>
+
+  ```text
+  [ 👤 일반 사용자 워크플로우 ]
+  ┌──────────────────┐       ┌──────────────────────┐       ┌─────────────────────┐
+  │  동물 상세 페이지  │ ───▶ │  입양 신청서 제출(로그인)  │ ───▶ │ 마이페이지: 내 신청내역 │
+  └──────────────────┘       └──────────────────────┘       └─────────────────────┘
+                                                                       │
+                                                                       ▼
+                                                       [ ⏳ 대기중 ] ◀──┼──▶ [ ✅ 승인/반려 ]
+                                                       (수정/취소 가능)       (접근 차단)
+  ```
+  </details>
 
   ---
 
   ```mermaid
+  %%{init: {'theme': 'base', 'themeVariables': { 'fontSize': '14px', 'fontFamily': 'nanum gothic', 'primaryColor': '#F44336', 'primaryTextColor': '#fff', 'lineColor': '#FF9800', 'nodeBorder': '#333' }}}%%
   flowchart TD
       subgraph ADMIN_FLOW ["⚙️ 관리자 및 등록자 프로세스"]
-          A1(관리자 전용 로그인) --> A2[입양 홍보글 게시\n승인/반려]
-          A2 --> A3[일반 사용자의\n신청 리스트 검토]
-          A3 --> A4{최종 입양자 확정}
-          A4 -- "확정(Confirm)" --> A5["트랜잭션: 동물 상태 완료 +\n타 신청자 자동 반려"]
-          A5 --> A6["자동 알림: 확정/반려\n대상자별 맞춤 쪽지 발송"]
+          A1(관리자 전용 로그인) ==> A2[입양 홍보글 심사\n승인 / 반려]
+          A2 ==> A3[신청자 리스트 검토]
+          A3 ==> A4{최종 입양자 확정}
+          A4 -- "확정(Confirm)" --> A5[[트랜잭션: 동물상태 변경\n+ 타 신청자 자동반려]]
+          A5 ==> A6["[자동 알림] 확정/반려 대상자별\n맞춤형 쪽지 자동 발송"]
       end
-      style A1 fill:#F44336,color:#fff
-      style A4 fill:#FF9800,color:#fff
+      style A1 fill:#F44336,color:#fff,stroke:#B71C1C,stroke-width:2px
+      style A5 fill:#4CAF50,color:#fff,stroke:#2E7D32,stroke-width:2px
+      style A4 fill:#FF9800,stroke:#E65100,stroke-width:2px
   ```
+
+  <details>
+  <summary>🔍 텍스트 기반 프로세스 보기 (ASCII Art)</summary>
+
+  ```text
+  [ ⚙️ 관리자 및 등록자 프로세스 ]
+  ┌──────────────────┐       ┌──────────────────────┐       ┌──────────────────────┐
+  │  관리자 로그인      │ ───▶ │  입양 공고 승인/관리    │ ───▶ │   신청자 리스트 검토    │
+  └──────────────────┘       └──────────────────────┘       └──────────────────────┘
+                                                                       │
+                                                                       ▼
+  ┌──────────────────┐       ┌──────────────────────┐       ┌──────────────────────┐
+  │  자동 안내 쪽지 발송 │ ◀─── │  [Transaction] 확정   │ ◀─── │    최종 입양자 선정     │
+  └──────────────────┘       └──────────────────────┘       └──────────────────────┘
+  ```
+  </details>
 
 #### 🔧 핵심 구현 소스 코드 (Core Implementation)
 > 입양 도메인의 **전체 생명주기(공고 등록 ➡️ 신청 ➡️ 심사 및 매니징 ➡️ 확정)**를 직접 설계하고 구현한 핵심 파일들입니다.
