@@ -13,7 +13,7 @@
 </p>
 
 <div align="center">
-  <video src="https://raw.githubusercontent.com/KJH-Portfolio/202511-stray-dog-volunteer/main/source/demo_main.mp4" width="90%" autoplay muted loop playsinline></video>
+  <video src="https://github.com/user-attachments/assets/38f27f00-baa9-4ec0-acd7-f41aea14e7e4" width="90%" autoplay muted loop playsinline></video>
 </div>
 
 ---
@@ -80,24 +80,24 @@
   - 일반 사용자, 관리자 등급에 따른 권한 분리 (Spring Security 적용)
   - 마이페이지를 통한 본인의 입양/봉사/후원 내역 조회
   - 관리자 대시보드를 통한 사이트 전반의 컨텐츠 및 회원 관리
-  <br><video src="https://raw.githubusercontent.com/KJH-Portfolio/202511-stray-dog-volunteer/main/source/demo_member.mp4" width="100%" autoplay muted loop playsinline></video>
+  <br><video src="https://github.com/user-attachments/assets/3d50adeb-fab5-4f66-b9a9-b1974c0edc57" width="100%" autoplay muted loop playsinline></video>
 
 - 🏠 **반려동물 입양 (`Adoption`)**
   - 유기동물 프로필 리스트업 및 상세 정보 확인
   - 입양 신청 및 심사/승인 프로세스
-  <br><video src="https://raw.githubusercontent.com/KJH-Portfolio/202511-stray-dog-volunteer/main/source/demo_adoption.mp4" width="100%" autoplay muted loop playsinline></video>
+  <br><video src="https://github.com/user-attachments/assets/0611abf7-f1ae-4313-b366-483105bdaf79" width="100%" autoplay muted loop playsinline></video>
 
 - 🤝 **봉사활동 (`Volunteer`)**
   - 동물 보호소나 기관의 봉사 프로그램 모집 공고 및 스케줄 관리
-  <br><video src="https://raw.githubusercontent.com/KJH-Portfolio/202511-stray-dog-volunteer/main/source/demo_volunteer.mp4" width="100%" autoplay muted loop playsinline></video>
+  <br><video src="https://github.com/user-attachments/assets/93d31f81-d3aa-4fd1-9254-c11a02ce0fac" width="100%" autoplay muted loop playsinline></video>
 
 - 💰 **후원/펀딩 (`Funding`)**
   - 유기동물 치료비나 보호소 운영 등을 위한 크라우드 펀딩 개설 및 참여
-  <br><video src="https://raw.githubusercontent.com/KJH-Portfolio/202511-stray-dog-volunteer/main/source/demo_funding.mp4" width="100%" autoplay muted loop playsinline></video>
+  <br><video src="https://github.com/user-attachments/assets/68f6a412-bac9-48b9-b0d2-513e869de005" width="100%" autoplay muted loop playsinline></video>
 
 - 🗣️ **커뮤니티 (`Community`)**
   - 입양 후기 작성 및 등업 시스템, 자유게시판 운영
-  <br><video src="https://raw.githubusercontent.com/KJH-Portfolio/202511-stray-dog-volunteer/main/source/demo_community.mp4" width="100%" autoplay muted loop playsinline></video>
+  <br><video src="https://github.com/user-attachments/assets/e6ecf702-82bc-4bcb-9fff-b9de570ebe99" width="100%" autoplay muted loop playsinline></video>
 
 </details>
 
