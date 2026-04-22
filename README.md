@@ -444,6 +444,8 @@ public int deleteAnimalFull(int anino) {
   - 위 한계를 극복하기 위해 차기 **파이널 프로젝트**에서는 **Spring Boot 3**와 **JPA**를 도입하여 객체 중심의 설계로 개발 생산성을 높였으며, **WebSocket** 기반의 실시간 알림 시스템을 직접 구축하여 동기식 처리의 응답성 한계를 해결하는 비동기 통신 아키텍처를 실현했습니다.
 
 </details>
+
+---
 <details>
 <summary>부록: 프로젝트 실행 방법 (Docker)</summary>
 
