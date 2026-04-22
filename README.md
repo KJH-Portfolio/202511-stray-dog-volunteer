@@ -15,7 +15,8 @@
 ---
 
 > [!IMPORTANT]  
-> **아래 섹션 중 💎, 🔥, 🌟 이모지가 붙은 항목은 프로젝트 내 핵심 기여와 기술적 성과를 담고 있습니다.**  
+> **본 프로젝트는 데이터 무결성과 안정성을 향상시키기 위한 백엔드 엔지니어링 실천 과정을 기록하고 있습니다.**  
+> - 문서 내 💎, 🔥, 🌟 마크는 **기여자의 주도적인 역할과 직무적 성과를 증명하는 핵심 지표**입니다.  
 > - 💎 **[CORE]** [객체 간 원자적 상태 변경 및 입양 시나리오 설계](#core-contributions)  
 > - 🔥 **[DEEP DIVE]** [N+1 최적화 및 방어적 아키텍처 구축](#technical-deepdive)  
 > - 🌟 **[GROWTH]** [파이널 프로젝트로의 기술적 도약](#retrospective-growth)
@@ -77,7 +78,7 @@
   - 입양 후기 작성 및 등업 시스템, 자유게시판 운영
 
 </details>
-<details id="core-contributions">
+<details id="core-contributions" open>
 <summary>3. 프로젝트 개인 구현 - 백엔드 설계 철학 및 로직 구현 [CORE] 💎</summary>
 
 - 🎯 **프로젝트 목표 (Foundation & Integrity):** 
@@ -180,7 +181,7 @@
 
 
 </details>
-<details id="technical-deepdive">
+<details id="technical-deepdive" open>
 <summary>4. 기술적 깊이 - 까다로운 문제 해결 및 성능 최적화 사례 [DEEP DIVE] 🔥</summary>
 
 **🔍 핵심 로직 분석 (Core Logic Analysis)**
@@ -370,7 +371,7 @@ public int deleteAnimalFull(int anino) {
 </details>
 
 </details>
-<details id="retrospective-growth">
+<details id="retrospective-growth" open>
 <summary>5. 회고 - 프로젝트 성찰 및 향후 기술적 지향점 [GROWTH] 🌟</summary>
 
 - **🟢 Keep (Project Standards): 표준 MVC 아키텍처 준수와 방어적 설계 습관**
