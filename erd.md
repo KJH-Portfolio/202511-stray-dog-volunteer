@@ -317,14 +317,93 @@ erDiagram
 
 ## 📋 테이블 그룹 요약
 
-| 그룹 | 테이블 |
-|---|---|
-| 👤 회원 | `MEMBERS` |
-| 🐾 입양 | `ANIMAL_DETAILS`, `ADOPTION_POSTS`, `ADOPTION_APPLICATIONS` |
-| 🌱 봉사활동 | `ACTIVITIES`, `SIGNS`, `VOLUNTEER_REVIEWS`, `VOLUNTEER_BOARD_COMMENTS`, `TAGS`, `TAG_INFOS` |
-| 💰 펀딩/기부 | `FUNDINGS`, `FUNDING_HISTORIES`, `DONATION_FILES`, `DONATIONS` |
-| 📝 커뮤니티 | `BOARDS`, `COMMENTS`, `BOARD_ATTACHMENTS`, `BOARD_LIKES`, `COMMENT_ATTACHMENTS`, `COMMENT_LIKES` |
-| 💬 메시지/채팅/차단 | `MESSAGES`, `ADMIN_CHAT_HISTORIES`, `KICKS` |
+| 그룹 | 테이블 | 비고 |
+|---|---|---|
+| 👤 회원 | `MEMBERS` | 권한 관리(RBAC) 및 보안 핵심 |
+| 🐾 입양 | `ANIMAL_DETAILS`, `ADOPTION_POSTS`, `ADOPTION_APPLICATIONS` | 1:1 관계 및 트랜잭션 수직 구조 |
+| 🌱 봉사활동 | `ACTIVITIES`, `SIGNS`, `VOLUNTEER_REVIEWS`, `TAGS` | 다대다 관계 해결 및 매핑 테이블 중심 |
+| 💰 펀딩/기부 | `FUNDINGS`, `FUNDING_HISTORIES`, `DONATIONS` | 데이터 무결성이 가장 중요한 도메인 |
+| 📝 커뮤니티 | `BOARDS`, `COMMENTS`, `BOARD_LIKES` | 계층형 댓글(Self-Join) 및 파일 첨부 구조 |
+| 💬 메시지/채팅 | `MESSAGES`, `ADMIN_CHAT_HISTORIES` | 실시간(Socket) 대비용 데이터 스토리지 |
+
+---
+
+## 🗂️ 테이블 상세 명세서 (Data Dictionary)
+
+### 🐾 1. 입양 도메인 (Adoption Core)
+
+#### [ANIMAL_DETAILS] - 동물 마스터 정보
+| 컬럼명 | 타입 | 제약조건 | 설명 |
+|:---:|:---:|:---:|:---|
+| **ANIMAL_NO** | NUMBER | PK | 동물 고유 관리 번호 (자동 일련번호) |
+| **ADOPTION_STATUS** | VARCHAR2 | NOT NULL | 현재 상태 (`대기중`, `신청중`, `완료`, `마감`) |
+| **SPECIES** | NUMBER | CHECK | 동물 종류 구분 (1: 강아지, 2: 고양이, 3: 기타) |
+| **USER_ID** | VARCHAR2 | FK | 등록자(관리자) ID |
+
+#### [ADOPTION_APPLICATIONS] - 입양 심사 정보
+| 컬럼명 | 타입 | 제약조건 | 설명 |
+|:---:|:---:|:---:|:---|
+| **ADOPTION_APP_ID** | NUMBER | PK | 신청서 고유 ID |
+| **ANIMAL_NO** | NUMBER | FK, NN | 신청 대상 동물 번호 |
+| **USER_ID** | VARCHAR2 | FK, NN | 신청자(회원) ID |
+| **ADOPT_STATUS** | NUMBER | DEFAULT 0 | 심사 결과 (0: 대기, 1: 승인, 2: 반려, 3: 확정) |
+
+### 👤 2. 회원 도메인 (Identity)
+
+#### [MEMBERS] - 회원 통합 계정
+| 컬럼명 | 타입 | 제약조건 | 설명 |
+|:---:|:---:|:---:|:---|
+| **USER_ID** | VARCHAR2 | PK | 회원 고유 식별자 |
+| **USER_ROLE** | VARCHAR2 | NOT NULL | 권한 등급 (`ADMIN`: 운영진, `MEMBER`: 일반유저) |
+| **USER_STATUS** | CHAR | DEFAULT 'Y'| 계정 활성화 상태 (`Y`: 정상, `N`: 탈퇴, `B`: 차단) |
+
+### 🌱 3. 봉사활동 도메인 (Volunteer)
+
+#### [ACTIVITIES] - 봉사 프로그램 정보
+| 컬럼명 | 타입 | 제약조건 | 설명 |
+|:---:|:---:|:---:|:---|
+| **ACT_ID** | NUMBER | PK | 활동 고유 ID |
+| **ACT_TITLE** | VARCHAR2 | NOT NULL | 봉사활동 제목 |
+| **ACT_MAX** | NUMBER | - | 최대 모집 인원 |
+| **ACT_CUR** | NUMBER | DEFAULT 0 | 현재 신청 인원 |
+
+#### [SIGNS] - 봉사 신청 내역
+| 컬럼명 | 타입 | 제약조건 | 설명 |
+|:---:|:---:|:---:|:---|
+| **SIGNS_NO** | NUMBER | PK | 신청 고유 번호 |
+| **SIGNS_STATUS** | NUMBER | - | 신청 상태 (0: 신청중, 1: 승인, 2: 반려) |
+
+### 💰 4. 펀딩 및 기부 도메인 (Funding)
+
+#### [FUNDINGS] - 크라우드 펀딩 프로젝트
+| 컬럼명 | 타입 | 제약조건 | 설명 |
+|:---:|:---:|:---:|:---|
+| **F_NO** | NUMBER | PK | 펀딩 프로젝트 고유 번호 |
+| **F_MAX_MONEY** | NUMBER | NOT NULL | 목표 후원 금액 |
+| **F_CURRENT_MONEY**| NUMBER | DEFAULT 0 | 현재 모금된 금액 |
+
+### 📝 5. 커뮤니티 도메인 (Community)
+
+#### [BOARDS] - 통합 게시판
+| 컬럼명 | 타입 | 제약조건 | 설명 |
+|:---:|:---:|:---:|:---|
+| **BOARD_ID** | NUMBER | PK | 게시글 고유 번호 |
+| **CATEGORY** | VARCHAR2 | NOT NULL | 분류 (`NOTICE`, `FREE`, `REVIEW` 등) |
+| **IS_DELETED** | CHAR | DEFAULT 'N'| 삭제 여부 (Soft Delete 적용) |
+
+#### [COMMENTS] - 댓글 및 대댓글
+| 컬럼명 | 타입 | 제약조건 | 설명 |
+|:---:|:---:|:---:|:---|
+| **COMMENT_ID** | NUMBER | PK | 댓글 고유 번호 |
+| **PARENT_ID** | NUMBER | FK (Self) | 부모 댓글 ID (대댓글 구현용) |
+
+### 💬 6. 메시지 및 시스템 (Messaging)
+
+#### [MESSAGES] - 유저 간 쪽지
+| 컬럼명 | 타입 | 제약조건 | 설명 |
+|:---:|:---:|:---:|:---|
+| **MESSAGE_NO** | NUMBER | PK | 메시지 고유 번호 |
+| **MESSAGE_IS_CHECK**| VARCHAR2 | DEFAULT 'N'| 수신 확인 여부 (`Y`, `N`) |
 
 ---
 
