@@ -26,12 +26,17 @@
 >   - 🔥 **[DEEP DIVE]**: N+1 최적화 및 방어적 아키텍처 구축
 >   - 🌟 **[GROWTH]**: 파이널 프로젝트로의 기술적 도약
 
+---
 <details>
-<summary>1. 기본 정보 (개발 기간, 기술 스택, 인원 구성)</summary>
+<summary><b><h3>1. 기본 정보 (개발 기간, 기술 스택, 인원 구성) 📅</h3></b></summary>
+<br>
 
 - 📅 **개발 기간:** 2025.12 ~ 2026.02 (약 2.5개월)
+
 - 🖥️ **플랫폼:** Web
+
 - 👥 **개발 인원:** 팀 프로젝트 (4명)
+
 - 🛠️ **개발 환경 (Tech Stack):**
   - **Language:** `Java 11`, `JavaScript`, `HTML5`, `CSS3`
   - **Server:** `Apache Tomcat 9`
@@ -42,8 +47,11 @@
   - **Infra:** `Docker`, `Docker Compose`, `Maven 3`
 
 </details>
+
+---
 <details>
-<summary>2. 프로젝트 전체 개요 (전체 구조, ERD, IA 등)</summary>
+<summary><b><h3>2. 프로젝트 전체 개요 (전체 구조, ERD, IA 등) 📊</h3></b></summary>
+<br>
 
 **🎯 1. 프로젝트 목표**
 > 동물 보호와 복지에 관심이 있는 사람들이 모여, 안전하고 체계적인 동물 입양 절차를 밟고 봉사활동 및 후원에 참여할 수 있는 커뮤니티 기능을 제공하는 것을 목표로 합니다.
@@ -83,8 +91,11 @@
   - 입양 후기 작성 및 등업 시스템, 자유게시판 운영
 
 </details>
+
+---
 <details id="core-contributions">
-<summary>3. 프로젝트 개인 구현 - 백엔드 설계 철학 및 로직 구현 [CORE] 💎</summary>
+<summary><b><h3>3. 프로젝트 개인 구현 - 백엔드 설계 철학 및 로직 구현 [CORE] 💎</h3></b></summary>
+<br>
 
 - 🎯 **프로젝트 목표 (Foundation & Integrity):** 
   - **표준 MVC 아키텍처 수립:** 객체 지향 원칙에 따른 Controller-Service-DAO 계층화로 결합도를 낮추고, 데이터 유입 원천지부터 영속성 계층까지의 **데이터 흐름을 100% 통제**하는 것을 목표로 했습니다.
@@ -142,14 +153,7 @@
       style U3 fill:#FF9800,color:#fff
   ```
 
-  <details>
-  <summary>🔍 텍스트로 읽는 단계별 워크플로우 (Stepper)</summary>
 
-  1.  **동물 상세 정보 확인**: 마음에 드는 유기동물의 상세 정보를 확인하고 [입양 신청] 클릭. (로그인 필수)
-  2.  **신청 양식 작성**: 거주 환경, 반려동물 유무 등 비즈니스 규칙에 맞는 신청서 작성 및 서버 전송.
-  3.  **마이페이지 실시간 추적**: 본인의 신청 리스트에서 현재 심사가 어느 단계인지 실시간으로 확인.
-  4.  **조건부 권한 제어**: '대기중'일 때만 수정/취소가 가능하며, 심사 시작 후에는 데이터 위변조를 막기 위해 수정이 자동 차단됩니다.
-  </details>
 
   ---
 
@@ -166,14 +170,7 @@
       style A5 fill:#4CAF50,color:#fff
   ```
 
-  <details>
-  <summary>🔍 텍스트로 읽는 단계별 프로세스 (Stepper)</summary>
 
-  1.  **플랫폼 통합 매니징**: 관리자 권한으로 로그인하여 사이트의 모든 공고와 컨텐츠를 중앙 관리.
-  2.  **신청자 정량적 평가**: 입양 희망자들이 제출한 데이터를 바탕으로 적합성을 검토.
-  3.  **트랜잭션 기반 최종 처리**: 특정 신청자를 '확정'하는 순간, DB의 원자성(Atomicity)을 보장하며 동물 상태를 '완료'로 바꾸고 나머지 대기자들을 일괄 반려 처리.
-  4.  **자동화된 피드백**: 프로세스 완료 직후, 시스템이 대상자별로 맞춤형 결과 쪽지를 자동 전송하여 사용자 경험을 완성.
-  </details>
 
 #### 🔧 핵심 구현 소스 코드 (Core Implementation)
 > 입양 도메인의 **전체 생명주기(공고 등록 ➡️ 신청 ➡️ 심사 및 매니징 ➡️ 확정)**를 직접 설계하고 구현한 핵심 파일들입니다.
@@ -202,8 +199,11 @@
 
 
 </details>
+
+---
 <details id="technical-deepdive">
-<summary>4. 기술적 깊이 - 까다로운 문제 해결 및 성능 최적화 사례 [DEEP DIVE] 🔥</summary>
+<summary><b><h3>4. 기술적 깊이 - 까다로운 문제 해결 및 성능 최적화 사례 [DEEP DIVE] 🔥</h3></b></summary>
+<br>
 
 **🔍 핵심 로직 분석 (Core Logic Analysis)**
 
@@ -392,8 +392,11 @@ public int deleteAnimalFull(int anino) {
 </details>
 
 </details>
+
+---
 <details id="retrospective-growth">
-<summary>5. 회고 - 프로젝트 성찰 및 향후 기술적 지향점 [GROWTH] 🌟</summary>
+<summary><b><h3>5. 회고 - 프로젝트 성찰 및 향후 기술적 지향점 [GROWTH] 🌟</h3></b></summary>
+<br>
 
 - **🟢 Keep (Project Standards): 표준 MVC 아키텍처 준수와 방어적 설계 습관**
   - Controller-Service-DAO로 이어지는 **표준 MVC 패턴**을 철저히 준수하여 각 클래스가 명확한 역할과 책임(SRP)을 갖도록 설계하는 습관을 유지하고 싶습니다. 또한, 서버 사이드에서 데이터 상태를 재검증하는 **방어적 프로그래밍**을 통해 시스템의 안정성과 무결성을 지키는 백엔드 개발의 핵심 본질을 지속적으로 실천하고자 합니다.
