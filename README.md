@@ -16,9 +16,9 @@
 
 > [!IMPORTANT]  
 > **아래 섹션 중 💎, 🔥, 🌟 이모지가 붙은 항목은 프로젝트 내 핵심 기여와 기술적 성과를 담고 있습니다.**  
-> - 💎 **[CORE]** [객체 간 원자적 상태 변경 및 입양 시나리오 설계](#핵심-구축-내용-core-💎)  
-> - 🔥 **[DEEP DIVE]** [N+1 최적화 및 방어적 아키텍처 구축](#deep-dive-🔥)  
-> - 🌟 **[GROWTH]** [파이널 프로젝트로의 기술적 도약](#5-회고---프로젝트-성찰-및-향후-기술적-지향점-growth-🌟)
+> - 💎 **[CORE]** [객체 간 원자적 상태 변경 및 입양 시나리오 설계](#core-contributions)  
+> - 🔥 **[DEEP DIVE]** [N+1 최적화 및 방어적 아키텍처 구축](#technical-deepdive)  
+> - 🌟 **[GROWTH]** [파이널 프로젝트로의 기술적 도약](#retrospective-growth)
 
 <details>
 <summary>1. 기본 정보 (개발 기간, 기술 스택, 인원 구성)</summary>
@@ -77,7 +77,7 @@
   - 입양 후기 작성 및 등업 시스템, 자유게시판 운영
 
 </details>
-<details>
+<details id="core-contributions">
 <summary>3. 프로젝트 개인 구현 - 백엔드 설계 철학 및 로직 구현 [CORE] 💎</summary>
 
 - 🎯 **프로젝트 목표 (Foundation & Integrity):** 
@@ -180,7 +180,7 @@
 
 
 </details>
-<details>
+<details id="technical-deepdive">
 <summary>4. 기술적 깊이 - 까다로운 문제 해결 및 성능 최적화 사례 [DEEP DIVE] 🔥</summary>
 
 **🔍 핵심 로직 분석 (Core Logic Analysis)**
@@ -370,7 +370,7 @@ public int deleteAnimalFull(int anino) {
 </details>
 
 </details>
-<details>
+<details id="retrospective-growth">
 <summary>5. 회고 - 프로젝트 성찰 및 향후 기술적 지향점 [GROWTH] 🌟</summary>
 
 - **🟢 Keep (Project Standards): 표준 MVC 아키텍처 준수와 방어적 설계 습관**
