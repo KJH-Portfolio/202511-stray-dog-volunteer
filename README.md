@@ -7,7 +7,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Java_11-ED8B00?style=flat-square&logo=openjdk&logoColor=white" />
   <img src="https://img.shields.io/badge/Spring_Legacy_5.3-6DB33F?style=flat-square&logo=spring&logoColor=white" />
-  <img src="https://img.shields.io/badge/MyBatis-MyBatis-C1122D?style=flat-square&logo=mybatis&logoColor=white" />
+  <img src="https://img.shields.io/badge/MyBatis-C1122D?style=flat-square&logo=mybatis&logoColor=white" />
   <img src="https://img.shields.io/badge/Oracle_21c-F80000?style=flat-square&logo=oracle&logoColor=white" />
   <img src="https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white" />
 </p>
