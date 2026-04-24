@@ -36,8 +36,6 @@ public class VolunteerDao {
         return sqlSession.selectList("volunteerMapper.selectActivityList", map, rowBounds);
     }
 
-    // ... (중략) ...
-
     public int selectReviewCount(HashMap<String, String> map) {
         return sqlSession.selectOne("volunteerMapper.selectReviewCount", map);
     }
@@ -145,7 +143,6 @@ public class VolunteerDao {
     public List<ActivityVO> selectActivityNoReview() {
         return sqlSession.selectList("volunteerMapper.selectActivityNoReview");
     }
-
 
     // 1. 신청 상태 변경 (대기0 -> 승인1 / 반려2 / 취소3)
     public int updateSignStatus(SignVO s) {
