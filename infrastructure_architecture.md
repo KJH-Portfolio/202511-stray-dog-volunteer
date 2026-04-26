@@ -1,65 +1,95 @@
-# 🏗️ UBIG 세미 프로젝트 Infrastructure Architecture
+# 🏗️ UBIG Infrastructure & Technical Architecture
 
-> **전통적 MVC 패턴 및 계층화된 아키텍처 설계 명세**  
-> 이 문서는 세미 프로젝트의 기반이 되는 Spring Legacy MVC 구조, Oracle DB 기반의 데이터 무결성 설계, 그리고 계층형 통신 아키텍처를 정의합니다.
+> **Docker 기반 컨테이너 아키텍처 및 도메인 중심(Domain-Driven) 설계 명세**  
+> 이 문서는 UBIG 세미 프로젝트의 물리적 인프라 구성, 소프트웨어 계층 구조, 그리고 데이터 흐름에 대한 기술적 설계 근거를 정의합니다.
 
 ---
 
 ## 📑 목차
-1. [아키텍처 설계 철학 (Technical Note)](#-아키텍처-설계-철학-technical-note)
-2. [표준 3-Tier MVC 아키텍처](#1-표준-3-tier-mvc-아키텍처)
-3. [데이터베이스 설계 및 정합성 (Oracle & MyBatis)](#2-데이터베이스-설계-및-정합성-oracle--mybatis)
-4. [보안 및 예외 처리 아키텍처](#3-보안-및-예외-처리-아키텍처)
+1. [🏢 물리 인프라 아키텍처 (Docker & Container)](#1-물리-인프라-아키텍처-docker--container)
+2. [📦 소프트웨어 아키텍처 (Domain-First Package)](#2-소프트웨어-아키텍처-domain-first-package)
+3. [📊 데이터 흐름 및 계층 (3-Tier MVC Layer)](#3-데이터-흐름-및-계층-3-tier-mvc-layer)
+4. [🗄️ 데이터베이스 설계 전략 (Persistence Layer)](#4-데이터베이스-설계-전략-persistence-layer)
+5. [🛡️ 보안 및 방어적 설계 (Security & Integrity)](#5-보안-및-방어적-설계-security--integrity)
 
 ---
 
-## 💡 아키텍처 설계 철학 (Technical Note)
-- **높은 응집도와 낮은 결합도**: 도메인별 패키지 구성을 통해 기능을 독립적으로 관리하며, 인터페이스 기반의 서비스 설계를 통해 유지보수성을 극대화했습니다.
-- **MyBatis 중심의 정밀한 쿼리 제어**: 복잡한 유기동물 매칭 로직을 효율적으로 처리하기 위해 MyBatis의 동적 SQL 기능을 적극 활용하여 DB 성능을 최적화했습니다.
-- **방어적 프로그래밍**: 서버 측 유효성 검사 및 트랜잭션 관리를 통해 어떤 상황에서도 데이터 무결성이 보장되도록 설계했습니다.
+## 🏢 1. 물리 인프라 아키텍처 (Docker & Container)
 
----
-
-## 📊 1. 표준 3-Tier MVC 아키텍처
-
-세미 프로젝트는 안정성과 확장성을 위해 전형적인 3계층 아키텍처를 채택했습니다.
+본 프로젝트는 개발 환경과 운영 환경의 일치(Environment Parity)를 위해 **Docker 컨테이너 기반 아키텍처**를 채택했습니다. 
 
 ```mermaid
-graph TD
-    UI["💻 JSP / HTML / CSS"]
-    CONT["🎮 Spring Controller"]
-    SERV["⚙️ Business Service"]
-    MAPPER["🗺️ MyBatis Mapper"]
-    DB[("🗄️ Oracle 21c DB")]
+graph LR
+    subgraph "Docker Compose Network"
+        WEB["🚀 Spring WebApp\n(Tomcat 9)"]
+        DB[("🗄️ Oracle XE 21c\n(Persistence)")]
+        VOL["💾 Docker Volume\n(Oracle Data/Scripts)"]
+    end
 
-    UI <-->|HTTP Request/Response| CONT
-    CONT <-->|VO / DTO| SERV
-    SERV <-->|Interface| MAPPER
-    MAPPER <-->|SQL| DB
+    USR((👤 User)) -->|Port 8080| WEB
+    WEB -->|JDBC (Port 1522)| DB
+    DB <--> VOL
 
-    style UI fill:#f1f8ff,stroke:#0366d6
-    style CONT fill:#fff5f5,stroke:#ff6b6b
+    style WEB fill:#f1f8ff,stroke:#0366d6
     style DB fill:#f0fff4,stroke:#38a169
+    style VOL fill:#fff5f5,stroke:#ff6b6b
+```
+
+- **이식성(Portability)**: `Dockerfile`과 `docker-compose.yml`을 통해 어느 환경에서도 동일하게 구동되는 인프라를 구축했습니다.
+- **데이터 영속성**: Docker Volume을 통해 컨테이너 재시작 시에도 Oracle 데이터 및 초기화 스크립트(`init_db.sql`)가 보존되도록 설계했습니다.
+
+---
+
+## 📦 2. 소프트웨어 아키텍처 (Domain-First Package)
+
+유지보수성과 가독성을 극대화하기 위해 기술 계층이 아닌 **비즈니스 도메인 중심의 패키지 구조**를 설계했습니다.
+
+- **패키지 경로**: `com.ubig.app.[domain]`
+- **핵심 도메인**: `adoption`(입양), `funding`(펀딩), `volunteer`(봉사), `community`(커뮤니티) 등
+- **구조적 이점**: 
+    - 특정 기능 수정 시 관련 소스(Controller, Service, DAO)를 한눈에 파악 가능 (신규 입사자 온보딩 속도 향상)
+    - 도메인 간의 결합도를 낮추어 향후 마이크로서비스(MSA) 전환 시 유리한 구조 확보
+
+---
+
+## 📊 3. 데이터 흐름 및 계층 (3-Tier MVC Layer)
+
+Spring Legacy MVC 패턴을 기반으로 한 엄격한 계층 분리를 통해 비즈니스 로직의 독립성을 확보했습니다.
+
+```mermaid
+sequenceDiagram
+    participant UI as 💻 View (JSP/JS)
+    participant C as 🎮 Controller
+    participant S as ⚙️ Service (Interface)
+    participant D as 🗺️ Persistence (MyBatis)
+    participant R as 🗄️ Oracle DB
+
+    UI->>C: 1. API Request (VO/Map)
+    C->>S: 2. 비즈니스 로직 요청 & 가드 검증
+    S->>D: 3. 데이터 조작 명령 (SQL ID 매핑)
+    D->>R: 4. SQL 실행 (인덱스/조인 최적화)
+    R-->>D: 5. Result Set 반환
+    D-->>S: 6. POJO 객체 매핑
+    S-->>C: 7. 트랜잭션 완료 및 가공 데이터 반환
+    C-->>UI: 8. JSON/Model 데이터 응답
 ```
 
 ---
 
-## 🗄️ 2. 데이터베이스 설계 및 정합성 (Oracle & MyBatis)
+## 🗄️ 4. 데이터베이스 설계 전략 (Persistence Layer)
 
-### 2.1 Oracle Sequence & Constraint
-- **무결성 제약 조건**: `MEMBERS`, `ADOPTION_POST` 등 모든 핵심 테이블에 PK, FK, CHECK 제약 조건을 명시하여 데이터 레벨에서의 정합성을 강제했습니다.
-- **자동 번호 생성**: `Sequence`를 활용하여 고유 번호(Primary Key) 발급을 자동화하고 동시성 문제를 방지했습니다.
+### 4.1 MyBatis 정밀 제어 (Dynamic SQL)
+- **효율적 쿼리**: 복합 필터 조건(검색 키워드, 지역, 상태 등) 발생 시 MyBatis 동적 태그를 사용하여 **실행 시점에 최적화된 SQL을 생성**합니다.
+- **N+1 방지**: 리스트 조회 시 적극적인 **JOIN 전술**을 사용하여 DB I/O 횟수를 최소화했습니다.
 
-### 2.2 MyBatis Dynamic SQL
-- 복잡한 검색 필터(품종, 나이, 지역 등)에 대응하기 위해 MyBatis의 동적 SQL을 사용하여 단일 엔드포인트에서 다양한 검색 시나리오를 수용합니다.
+### 4.2 데이터 무결성 강제
+- **물리적 제약 조건**: PK, FK, NOT NULL 제약 조건을 실제 DB 스키마에 정의하여 데이터 고아 현상을 원천 방지합니다.
+- **시퀀스(Sequence)**: Oracle Sequence를 활용하여 분산 환경에서도 중복 없는 PK 발급을 보장합니다.
 
 ---
 
-## 🛡️ 3. 보안 및 예외 처리 아키텍처
+## 🛡️ 5. 보안 및 방어적 설계 (Security & Integrity)
 
-### 3.1 Spring Security & BCrypt
-- **암호화**: `BCryptPasswordEncoder`를 사용하여 사용자 비밀번호를 안전하게 단방향 암호화하여 저장합니다.
-- **접근 제어**: `HttpSession`을 기반으로 한 로그인 세션 관리와 특정 URL에 대한 권한 체크 로직을 공통 서비스 레이어에서 수행합니다.
-
-### 3.2 통합 에러 핸들링
-- 발생 가능한 비즈니스 예외(이미 신청된 입양, 마감된 펀딩 등)를 사용자 정의 예외로 처리하고, 사용자에게 일관된 안내 메시지를 제공하는 구조를 갖추고 있습니다.
+- **BCrypt 암호화**: `MEMBERS.USER_PWD` 컬럼은 **BCrypt 10 rounds** 암호화를 적용하여 DB 유출 시에도 기술적인 방어가 가능하도록 설계했습니다.
+- **5중 서버 가드(Guard Logic)**: 클라이언트 측 검증을 필수로 하되, 컨트롤러 레이어에서 세션 및 DB 실시간 조회를 통해 **우회적인 요청(API 직접 호출)을 100% 차단**합니다.
+- **Atomic Transaction**: 입양 확정 시 다수의 관련 레코드(동물 상태, 신청서 일괄 반려 등)를 `@Transactional`로 묶어 **All-or-Nothing** 원칙을 수행합니다.
