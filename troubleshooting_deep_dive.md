@@ -1,7 +1,3 @@
----
-작성일: 2026-04-25T02:30
-수정일: 2026-04-25T02:30
----
 # 🔍 UBIG 세미 프로젝트 Troubleshooting & Deep Dive
 
 > **Spring Legacy 환경의 한계 극복 및 아키텍처 최적화 기록**  
