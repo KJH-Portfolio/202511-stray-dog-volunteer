@@ -66,7 +66,7 @@
 
 **📊 3. ERD (Entity Relationship Diagram) 및 인프라 설계**
 - 도메인 간 관계 설계 및 데이터 무결성 제약조건, 그리고 Spring Legacy MVC 인프라 구조도
-- 👉 **[전체 데이터 설계도 (erd.md)](1.%20Project/Tank/포트폴리오/02.설명MD/erd.md)** | **[인프라 설계 (infrastructure_architecture.md)](1.%20Project/Tank/포트폴리오/02.설명MD/infrastructure_architecture.md)**
+- 👉 **[전체 데이터 설계도 (erd.md)](erd.md)** | **[인프라 설계 (infrastructure_architecture.md)](infrastructure_architecture.md)**
 
 **🎨 4. 기획 방향성 설계**
 - **통합 생태계 지원:** 유기동물에 대한 관심(입양) ➡️ 행동(봉사) ➡️ 물질적 지원(펀딩/기부) 이 3가지 축이 하나의 플랫폼 안에서 유기적으로 돌아가는 선순환 생태계를 기획했습니다.
@@ -74,15 +74,15 @@
 
 **🗺️ 5. IA (정보 구조도) 및 기술 아키텍처**
 - GNB 중심의 서비스 계층 구조와 핵심 비즈니스 로직을 수행하는 API 명세서
-- 👉 **[사이트 구조도 (ia.md)](1.%20Project/Tank/포트폴리오/02.설명MD/ia.md)** | **[핵심 API 명세서 (api_specification.md)](1.%20Project/Tank/포트폴리오/02.설명MD/api_specification.md)**
+- 👉 **[사이트 구조도 (ia.md)](ia.md)** | **[핵심 API 명세서 (api_specification.md)](api_specification.md)**
 
 **🌊 6. User Flow**
 - 각 기능 처리 시 요구되는 접속 동선을 다이어그램화하여, 승인/반려 프로세스 및 결제/참여 프로세스 중 사용자 이탈을 최소화했습니다.
-- 👉 **[유저 행동 흐름 (userflow.md) 보러가기](1.%20Project/Tank/포트폴리오/02.설명MD/userflow.md)**
+- 👉 **[유저 행동 흐름 (userflow.md) 보러가기](userflow.md)**
 
 **🔑 7. Environment Setup**
 - 초기 더미 데이터 현황 및 테스트 계정 정보 명세
-- 👉 **[초기 데이터 및 테스트 계정 (init_data.md) 보러가기](1.%20Project/Tank/포트폴리오/02.설명MD/init_data.md)**
+- 👉 **[초기 데이터 및 테스트 계정 (init_data.md) 보러가기](init_data.md)**
 
 **💡 8. 주요 기능 요약**
 - 👤 **회원 및 관리자 기능 (`Member` & `Admin`)**
@@ -131,7 +131,7 @@
 <br>
 
 > [!TIP]  
-> **[백엔드 엔지니어링 문제 해결 보고서 (troubleshooting_deep_dive.md) 보러가기](1.%20Project/Tank/포트폴리오/02.설명MD/troubleshooting_deep_dive.md)**
+> **[백엔드 엔지니어링 문제 해결 보고서 (troubleshooting_deep_dive.md) 보러가기](troubleshooting_deep_dive.md)**
 
 - 🎯 **프로젝트 목표 (Foundation & Integrity):** 
   - **표준 MVC 아키텍처 수립:** 객체 지향 원칙에 따른 Controller-Service-DAO 계층화로 결합도를 낮추고, 데이터 유입 원천지부터 영속성 계층까지의 **데이터 흐름을 100% 통제**하는 것을 목표로 했습니다.
@@ -150,7 +150,7 @@
 - 📊 **개인 구현 ERD (입양/심사 도메인 코어):**
   > 유저와 동물을 연결하는 **가장 기초적이면서도 핵심적인 관계망**을 설계했습니다.
   > *(※ 포트폴리오 가독성을 위해 외래키 조인과 핵심 심사 로직에 관여하는 주요 컬럼만 축약하여 명시했습니다.)*
-  > 👉 **[전체 DB 설계도 (erd.md) 보러가기](1.%20Project/Tank/포트폴리오/02.설명MD/erd.md)**
+  > 👉 **[전체 DB 설계도 (erd.md) 보러가기](erd.md)**
   ```mermaid
   erDiagram
       MEMBERS {
@@ -179,7 +179,7 @@
   - **데이터 무결성 검증**: 모든 사용자 입력 단계에서 서버 사이드 세션 체크 및 유효성 검증을 수행하여, 클라이언트 단의 데이터 변조 시도를 원천 차단하고 비즈니스 로직의 정합성을 보장했습니다.
 - 🌊 **IA & User Flow (프로세스 동선):**
   - 입양 신청부터 확정까지의 핵심 비즈니스 로직을 설계하고 전체 유저 프로세스를 구조화했습니다.
-  - 👉 **[개인 구현 IA (입양) 보러가기](1.%20Project/Tank/포트폴리오/02.설명MD/ia.md#-입양)** | **[개인 구현 User Flow (입양) 보러가기](1.%20Project/Tank/포트폴리오/02.설명MD/userflow.md#-입양-플로우)**
+  - 👉 **[개인 구현 IA (입양) 보러가기](ia.md#-입양)** | **[개인 구현 User Flow (입양) 보러가기](userflow.md#-입양-플로우)**
 
   ```mermaid
   flowchart LR
