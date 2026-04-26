@@ -1,139 +1,86 @@
-# UBIG 세미 프로젝트 IA (Information Architecture)
+# 🗺️ UBIG 세미 프로젝트 IA (Information Architecture)
 
-> **사이트 전체 페이지 계층 구조 및 기능 정의**  
-> 이 문서는 세미 프로젝트의 핵심 도메인별 페이지 접근 권한(Role)과 메뉴 계층 구조를 정의합니다.
+> **사용자 경험(UX) 중심의 페이지 계층 구조 및 API 명세**  
+> 이 문서는 실제 구현된 서버 사이드 매핑(`@RequestMapping`) 정보를 기반으로 사이트의 정보 구조와 데이터 흐름을 정의합니다.
 
 ---
 
 ## 📑 목차
-1. [전체 사이트 구조 (Overview)](#-전체-사이트-구조-overview)
-2. [도메인별 상세 구조](#-도메인별-상세-구조)
-3. [페이지 목록 및 매핑 명세](#-페이지-목록-및-매핑-명세)
+1. [📊 서비스 레이아웃 (Overview)](#1-서비스-레이아웃-overview)
+2. [🐾 도메인별 상세 아키텍처](#2-도메인별-상세-아키텍처)
+3. [📑 페이지 및 API 상세 명세](#3-페이지-및-api-상세-명세)
 
 ---
 
-## 📊 1. 전체 사이트 구조 (Overview)
+## 📊 1. 서비스 레이아웃 (Overview)
 
-상단 내비게이션 바(GNB)를 중심으로 한 메인 계층 구조입니다.
+사이트의 핵심 메뉴는 GNB(Global Navigation Bar)를 통해 제어되며, 각 도메인은 독립적인 매핑 서픽스(`.mainpage`, `.vo`, `.me` 등)를 가집니다.
 
 ```mermaid
 graph TD
-    ROOT["🏠 UBIG 메인"]
-    ROOT --> NAV_ADOPT["🐾 입양"]
-    ROOT --> NAV_VOL["🌱 봉사활동"]
-    ROOT --> NAV_FUND["💰 펀딩"]
-    ROOT --> NAV_COMM["📝 커뮤니티"]
-    ROOT --> NAV_MY["📋 마이페이지 / 로그인"]
-    ROOT --> NAV_ADMIN["⚙️ 관리자 (ADMIN 전용)"]
+    ROOT["🏠 UBIG Main"]
+    ROOT --> NAV_ADOPT["🐾 입양<br/>(.mainpage)"]
+    ROOT --> NAV_VOL["🌱 봉사활동<br/>(.vo)"]
+    ROOT --> NAV_FUND["💰 펀딩 / 기부<br/>(/funding)"]
+    ROOT --> NAV_COMM["📝 커뮤니티<br/>(/community)"]
+    ROOT --> NAV_MY["📋 마이페이지<br/>(.me)"]
 
     style ROOT fill:#4CAF50,color:#fff,stroke:#388E3C
     style NAV_ADOPT fill:#FF9800,color:#fff
     style NAV_VOL fill:#8BC34A,color:#fff
-    style NAV_FUND fill:#2196F3,color:#fff
-    style NAV_COMM fill:#9C27B0,color:#fff
-    style NAV_MY fill:#00BCD4,color:#fff
-    style NAV_ADMIN fill:#F44336,color:#fff
 ```
 
 ---
 
-## 2. 도메인별 상세 구조
+## 2. 도메인별 상세 아키텍처
 
-### 🐾 입양
-유기동물 보호 및 입양 신청을 담당하는 도메인입니다.
+> [!NOTE]
+> 유기동물 매칭(입양) 및 봉사 모집 서비스는 플랫폼의 핵심 도메인으로, 하기에 상세 프로세스를 정의합니다. 그 외 **지원 도메인(펀딩, 커뮤니티, 회원)**은 표준 MVC 패턴 및 아키텍처 규격을 엄격히 준수하여 설계되었으므로 상세 명세에서는 생략합니다.
 
-```mermaid
-graph LR
-    SUB_A["🐾 입양 메인"] --> A1["동물 목록\n(검색·필터)"]
-    A1 --> A2["동물 상세 보기"]
-    A2 --> A3{입양 신청}
-    A3 -->|"🔒 로그인 필요"| A4["입양 신청서 작성"]
-    A4 --> A5["신청 완료"]
-    
-    style SUB_A fill:#FF9800,color:#fff
-```
-
-### 🌱 봉사활동
-봉사 프로그램 참여 및 후기 작성을 담당합니다.
+### 🐾 2.1 입양 도메인 (Adoption)
+유기동물 매칭과 심사 프로세스를 관리하는 핵심 영역입니다.
 
 ```mermaid
 graph LR
-    SUB_V["🌱 봉사 메인"] --> V1["프로그램 목록\n(상태 필터)"]
-    V1 --> V2["프로그램 상세"]
-    V2 --> V3{참여 신청}
-    V3 -->|"🔒 로그인"| V4["신청 완료"]
+    A_MAIN["🐾 입양 메인<br/>(adoption.mainpage)"] --> A_DETAIL["상세 보기<br/>(adoption.detailpage)"]
+    A_DETAIL --> A_FORM["신청서 작성<br/>(adoption.applicationpage)"]
+    A_FORM --> A_SUBMIT["신청 처리<br/>(AJAX / JSON)"]
     
-    V2 --> V5["참여 후기 목록"]
-    V5 --> V6{후기 작성}
-    V6 -->|"🔒 로그인"| V7["후기 등록"]
-    V5 --> V8["후기 상세 보기"]
-
-    style SUB_V fill:#8BC34A,color:#fff
+    style A_MAIN fill:#FF9800,color:#fff
 ```
 
-### 💰 펀딩 / 기부
-프로젝트 후원 및 물품 기부 신청을 담당합니다.
+### 🌱 2.2 봉사활동 도메인 (Volunteer)
+봉사 모집 공고 및 활동 후기 시스템을 구축했습니다.
 
 ```mermaid
 graph LR
-    SUB_F["💰 펀딩 메인"] --> F1["펀딩 목록"]
-    F1 --> F2["펀딩 상세"]
-    F2 --> F3{후원하기}
-    F3 -->|"🔒 로그인"| F4["후원 진행 / 결제"]
-    F4 --> F5["후원 완료"]
-    
-    SUB_F --> F6["물품 기부 신청"]
-    F6 -->|"🔒 로그인"| F7["기부 내용 작성"]
+    V_LIST["🌱 모집 목록<br/>(volunteerList.vo)"] --> V_DETAIL["공고 상세<br/>(volunteerDetail.vo)"]
+    V_DETAIL --> V_APPLY["참여 신청<br/>(volunteerSign.vo)"]
+    V_LIST --> V_REV["활동 후기<br/>(reviewList.vo)"]
 
-    style SUB_F fill:#2196F3,color:#fff
-```
-
-### 📝 커뮤니티
-사용자 간 소통 및 문의 게시판을 담당합니다.
-
-```mermaid
-graph LR
-    SUB_C["📝 커뮤니티 메인"] --> C1["게시판 목록\n(전체/공지/자유/문의/후기)"]
-    C1 --> C2["게시글 상세"]
-    C2 --> C3["댓글 / 좋아요 / 신고"]
-    C1 --> C4{글쓰기}
-    C4 -->|"🔒 로그인"| C5["게시글 작성"]
-    
-    style SUB_C fill:#9C27B0,color:#fff
-```
-
-### ⚙️ 관리자 및 마이페이지
-회원 관리 및 개인 신청 내역을 확인할 수 있는 영역입니다.
-
-```mermaid
-graph TD
-    subgraph MY ["📋 마이페이지 (로그인 필요)"]
-        MY1["내 정보 수정"]
-        MY2["신청 내역\n(입양/봉사/펀딩)"]
-        MY3["쪽지함\n(받은/보낸)"]
-        MY4["회원 탈퇴"]
-    end
-
-    subgraph AD ["⚙️ 관리자 권한 (ADMIN)"]
-        AD1["회원 관리\n(정지·탈퇴)"]
-        AD2["동물/봉사/펀딩 관리\n(등록·삭제·승인)"]
-        AD3["커뮤니티 관리\n(공지등록·신고처리)"]
-        AD4["1:1 채팅 상담"]
-    end
-
-    style MY fill:#E0F7FA,stroke:#00BCD4,color:#333
-    style AD fill:#FFEBEE,stroke:#F44336,color:#333
+    style V_LIST fill:#8BC34A,color:#fff
 ```
 
 ---
 
-## 📋 페이지 목록 요약
+## 📑 3. 페이지 및 API 상세 명세
 
-| 영역 | 페이지 역할 | Mapping URL | 로그인 | 접근 권한 |
+| 도메인 | 기능(Feature) | Mapping URL (Real) | 데이터 방식 | 권한 |
 |---|---|---|---|---|
-| **입양** | 목록/상세 | `/adoption/main`, `/detail` | ❌ | 공통 |
-| **입양** | 신청서 작성 | `/adoption/apply` | ✅ | 일반회원 |
-| **봉사** | 목록/상세/후기 | `/volunteer/list`, `/detail` | ❌ | 공통 |
-| **봉사** | 참여 신청 | `/volunteer/apply` | ✅ | 일반회원 |
-| **마이페이지** | 정보/신청내역 | `/mypage/main`, `/history` | ✅ | 일반회원 |
-| **관리자** | 회원/콘텐츠관리 | `/admin/member`, `/contents` | ✅ | 관리자 |
+| **입양** | 공고 리스트 (필터) | `/adoption.mainpage` | SSR (Model) | 공통 |
+| **입양** | 입양 신청서 작성 | `/adoption.applicationpage` | SSR (Model) | 일반 |
+| **입양** | 내 입양 신청 현황 | `/adoption.mypage` | **AJAX (JSON)** | 일반 |
+| **봉사** | 프로젝트 목록 | `/volunteerList.vo` | SSR (Model) | 공통 |
+| **봉사** | 후기 댓글 로드 | `/reviewReplyList.vo` | **AJAX (JSON)** | 공통 |
+| **봉사** | 내 봉사 신청 관리 | `/mySignList.vo` | **AJAX (JSON)** | 일반 |
+| **펀딩** | 펀딩 상세 보기 | `/funding/fundingDetailView` | SSR (Model) | 공통 |
+| **회원** | 마이페이지 메인 | `/user/mypage.me` | SSR (Model) | 일반 |
+| **회원** | 아이디 중복 체크 | `/user/checkId.me` | **AJAX (JSON)** | 공통 |
+| **메시지** | 받은 쪽지함 | `/message/inbox.ms` | SSR (Model) | 일반 |
+
+---
+
+### 💡 문서 활용 가이드
+- **SSR (Server-Side Rendering)**: Controller에서 `Model` 객체에 데이터를 담아 JSP로 직접 전달하는 방식입니다.
+- **AJAX (JSON)**: 페이지 새로고침 없이 비동기적으로 데이터를 요청하고 수신하는 방식입니다. (MyPage의 탭 전환 등에서 사용)
+- **Mapping URL**: 실제 WAS에서 처리하는 물리적 엔드포인트입니다.

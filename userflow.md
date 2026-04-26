@@ -1,18 +1,15 @@
----
-작성일: 2026-04-25T02:30
-수정일: 2026-04-25T02:30
----
-# UBIG 세미 프로젝트 User Flow
+# 🌊 UBIG 사용자 비즈니스 동선 정의 (User Flow)
 
-> **사용자 행동 경로 및 비즈니스 로직 다이어그램**  
-> 이 문서는 유기동물 입양 신청, 봉사 참여, 펀딩 결제 등 핵심 기능별 프로세스와 예외 처리 흐름을 정의합니다.
+> **사용자 경험(UX) 중심의 기능 프로세스 및 예외 처리 아키텍처**  
+> 이 문서는 유기동물 입양 신청, 봉사 참여, 펀딩 결제 등 핵심 비즈니스 로직별 사용자 이동 경로와 시스템 자동화 프로세스를 다이어그램을 통해 정의합니다.
 
 ---
 
 ## 📑 목차
 1. [역할별 권한 플로우](#1-역할별-권한-플로우)
 2. [핵심 기능별 상세 플로우](#2-핵심-기능별-상세-플로우)
-3. [시스템 자동화 로직](#3-시스템-자동화-로직)
+3. [시스템 자동화 로직 (Automation)](#3-시스템-자동화-로직-automation)
+4. [통합 비즈니스 플로우 (Full Flow)](#4-통합-비즈니스-플로우-full-flow)
 
 ---
 
@@ -79,26 +76,26 @@ flowchart TD
     MAIN --> M6["💬 쪽지"]
 
     %% ── 입양 ──
-    M1 --> A1[동물 목록\n검색·필터]
+    M1 --> A1[동물 목록<br/>검색·필터]
     A1 --> A2[동물 상세]
     A2 --> A3[입양 신청서 작성]
     A3 --> A4{서버 검증}
-    A4 -->|중복신청/본인동물| AERR["❌ 신청 불가\n(Alert 메시지)"]
+    A4 -->|중복신청/본인동물| AERR["❌ 신청 불가<br/>(Alert 메시지)"]
     A4 -->|정상| A5{제출 확인}
-    A5 -->|성공| A6["✅ 신청 완료\n(마이페이지 확인)"]
+    A5 -->|성공| A6["✅ 신청 완료<br/>(마이페이지 확인)"]
     A5 -->|실패| A3
     AERR --> A2
 
     %% ── 봉사활동 ──
-    M2 --> V1[봉사 목록\n상태별 필터]
+    M2 --> V1[봉사 목록<br/>상태별 필터]
     V1 --> V2[프로그램 상세]
     V2 --> V3[봉사 신청]
     V3 --> V4{정원 및 중복 검증}
     V4 -->|이미 신청함| VERR["❌ 이미 참여 중"]
-    V4 -->|정상/승인대기| V5["✅ 신청 완료\n(SIGNS_STATUS=0)"]
-    V4 -->|정원 초과| V6["대기번호 부여\n(SIGNS_WAIT=1)"]
+    V4 -->|정상/승인대기| V5["✅ 신청 완료<br/>(SIGNS_STATUS=0)"]
+    V4 -->|정원 초과| V6["대기번호 부여<br/>(SIGNS_WAIT=1)"]
     V2 --> V7[후기 목록]
-    V7 --> V8["후기 작성\n(참여 완료자만 가능)"]
+    V7 --> V8["후기 작성<br/>(참여 완료자만 가능)"]
     V8 --> V9[후기 등록 완료]
 
     %% ── 펀딩 ──
@@ -106,17 +103,17 @@ flowchart TD
     F1 --> F2[펀딩 상세]
     F2 --> F3[후원 금액 선택]
     F3 --> F4{결제 처리}
-    F4 -->|성공| F5[후원 완료\n마이페이지에서 확인]
+    F4 -->|성공| F5[후원 완료<br/>마이페이지에서 확인]
     F4 -->|실패| F3
 
     %% ── 커뮤니티 ──
-    M4 --> C1[게시판 목록\n카테고리 선택]
+    M4 --> C1[게시판 목록<br/>카테고리 선택]
     C1 --> C2[게시글 상세]
     C2 --> C3[댓글 작성]
     C2 --> C4[좋아요]
     C2 --> C5[신고]
     C1 --> C6[게시글 작성]
-    C6 --> C7[파일 첨부\n선택]
+    C6 --> C7[파일 첨부<br/>선택]
     C7 --> C8[게시 완료]
 
     %% ── 마이페이지 ──
@@ -129,7 +126,7 @@ flowchart TD
     %% ── 쪽지 ──
     M6 --> MSG1[받은 쪽지함]
     M6 --> MSG2[쪽지 보내기]
-    MSG1 --> MSG3[쪽지 읽기\n읽음 처리]
+    MSG1 --> MSG3[쪽지 읽기<br/>읽음 처리]
 
     style START fill:#4CAF50,color:#fff
     style MAIN fill:#2196F3,color:#fff
@@ -159,37 +156,37 @@ flowchart TD
 
     %% ── 동물 관리 ──
     AD2 --> AN1[동물 목록]
-    AN1 --> AN2[동물 등록\n사진 업로드 포함]
-    AN2 --> AN3[등록 완료\n입양 게시글 자동 생성]
+    AN1 --> AN2[동물 등록<br/>사진 업로드 포함]
+    AN2 --> AN3[등록 완료<br/>입양 게시글 자동 생성]
     AN1 --> AN4[동물 상세]
     AN4 --> AN5[정보 수정]
     AN4 --> AN6[삭제]
     AN4 --> AN7[입양 신청자 목록]
     AN7 --> AN8{입양 처리}
-    AN8 -->|승인| AN9[입양 완료\nADOPTION_STATUS 변경]
+    AN8 -->|승인| AN9[입양 완료<br/>ADOPTION_STATUS 변경]
     AN8 -->|거절| AN10[거절 처리]
 
     %% ── 봉사 프로그램 관리 ──
     AD3 --> VO1[프로그램 목록]
-    VO1 --> VO2[프로그램 등록\n날짜·정원·태그 설정]
+    VO1 --> VO2[프로그램 등록<br/>날짜·정원·태그 설정]
     VO2 --> VO3[등록 완료]
     VO1 --> VO4[프로그램 상세]
     VO4 --> VO5[신청자 목록]
     VO5 --> VO6{신청자 처리}
-    VO6 -->|승인| VO7[승인 완료\nSIGNS_STATUS 변경]
+    VO6 -->|승인| VO7[승인 완료<br/>SIGNS_STATUS 변경]
     VO6 -->|거절| VO8[거절]
     VO4 --> VO9[프로그램 수정 / 삭제]
 
     %% ── 커뮤니티 관리 ──
     AD5 --> CM1[게시글 목록]
-    CM1 --> CM2[공지사항 등록\nIS_PINNED=Y]
-    CM1 --> CM3[게시글 삭제\nIS_DELETED=Y]
+    CM1 --> CM2[공지사항 등록<br/>IS_PINNED=Y]
+    CM1 --> CM3[게시글 삭제<br/>IS_DELETED=Y]
     CM1 --> CM4[신고 목록 처리]
 
     %% ── 채팅 상담 ──
     AD6 --> CH1[채팅 목록]
     CH1 --> CH2[사용자와 실시간 채팅]
-    CH2 --> CH3[채팅 내역 저장\nADMIN_CHAT_HISTORIES]
+    CH2 --> CH3[채팅 내역 저장<br/>ADMIN_CHAT_HISTORIES]
 
     style START fill:#F44336,color:#fff
     style MAIN fill:#2196F3,color:#fff
@@ -208,7 +205,7 @@ flowchart LR
     AL --> AF{검색·필터 적용}
     AF -->|종/크기/지역| AL
     AF -->|선택| AD[동물 상세]
-    AD --> DC[동물 정보 확인\n사진·건강상태·조건]
+    AD --> DC[동물 정보 확인<br/>사진·건강상태·조건]
     DC --> LC{로그인 확인}
     LC -->|비로그인| LI[로그인 페이지]
     LI -->|로그인 성공| CK{서버 사이드 검증}
@@ -216,8 +213,8 @@ flowchart LR
     CK -->|중복/본인/마감| ERR[❌ 신청 불가 알림]
     CK -->|통과| AF2[입양 신청서 작성]
     AF2 --> SB[신청서 제출]
-    SB --> STATUS{관리자 심사}
-    STATUS -->|승인/확정| DONE["🌍 입양 완료\n(ADOPTION_STATUS = '완료')"]
+    SB --> STATUS{게시자 심사}
+    STATUS -->|승인/확정| DONE["🌍 입양 완료<br/>(ADOPTION_STATUS = '완료')"]
     STATUS -->|심사 중| WAIT[마이페이지 대기중]
     STATUS -->|반려| REJ[❌ 반려 알림]
 
@@ -244,13 +241,13 @@ flowchart LR
     LI -->|성공| VS[봉사 신청]
     LC -->|로그인됨| VS
     VS --> QUOTA{정원 확인}
-    QUOTA -->|여유있음| APPLY[신청 완료\nSIGNS_STATUS=신청중]
-    QUOTA -->|정원 초과| WAIT[대기번호 부여\nSIGNS_WAIT+1]
+    QUOTA -->|여유있음| APPLY[신청 완료<br/>SIGNS_STATUS=신청중]
+    QUOTA -->|정원 초과| WAIT[대기번호 부여<br/>SIGNS_WAIT+1]
     APPLY --> ADMIN{관리자 승인}
-    ADMIN -->|승인| CONF["✅ 승인완료\nSIGNS_STATUS=승인"]
+    ADMIN -->|승인| CONF["✅ 승인완료<br/>SIGNS_STATUS=승인"]
     ADMIN -->|거절| REJ[❌ 미승인]
     CONF --> DONE[봉사 참여]
-    DONE --> REVIEW[후기 작성\nVOLUNTEER_REVIEWS]
+    DONE --> REVIEW[후기 작성<br/>VOLUNTEER_REVIEWS]
     REVIEW --> RATE[평점 등록 완료]
 
     style S fill:#4CAF50,color:#fff
@@ -267,15 +264,15 @@ flowchart LR
     S([시작]) --> L[메인 접속]
     L --> FL[펀딩 목록 조회]
     FL --> FD[펀딩 상세]
-    FD --> FI["목표금액·현재금액 확인\n(F_MAX_MONEY / F_CURRENT_MONEY)"]
+    FD --> FI["목표금액·현재금액 확인<br/>(F_MAX_MONEY / F_CURRENT_MONEY)"]
     FI --> LC{로그인 확인}
     LC -->|비로그인| LI[로그인 페이지]
     LI -->|성공| FA[후원 금액 입력]
     LC -->|로그인됨| FA
     FA --> SUBMIT[후원 제출]
-    SUBMIT --> SAVE["FUNDING_HISTORIES에 기록\nFUNDINGS.F_CURRENT_MONEY 증가"]
+    SUBMIT --> SAVE["FUNDING_HISTORIES에 기록<br/>FUNDINGS.F_CURRENT_MONEY 증가"]
     SAVE --> CHECK{목표 달성?}
-    CHECK -->|달성| GOAL["🎉 목표 달성!\nF_CURRENT_MONEY >= F_MAX_MONEY"]
+    CHECK -->|달성| GOAL["🎉 목표 달성!<br/>F_CURRENT_MONEY >= F_MAX_MONEY"]
     CHECK -->|미달성| CONT[계속 모금 중]
     GOAL --> DONE[✅ 후원 완료]
     CONT --> DONE
@@ -287,7 +284,45 @@ flowchart LR
 
 ---
 
-## 3. 통합 플로우
+## 3. 시스템 자동화 로직 (Automation)
+
+프로젝트의 운영 효율성을 높이기 위해 수동 개입 없이 서버에서 자동으로 수행되는 로직입니다.
+
+### ⏰ 3.1 입양 공고 배치 처리 (Batch/Cron)
+마감 기한(`DEADLINE_DATE`)이 지난 공고를 시스템이 매일 자정 자동으로 검색하여 상태를 변경합니다.
+
+```mermaid
+flowchart LR
+    SCHEDULER([Cron: 0 0 0 * * *]) --> CHECK{마감일 경과 여부 확인}
+    CHECK -->|SYSDATE > DEADLINE| UPDATE[ADOPTION_STATUS = '마감']
+    UPDATE -->|Update| DB[(Oracle DB)]
+    CHECK -->|유효| SKIP[현상 유지]
+    
+    style SCHEDULER fill:#FF9800,color:#fff
+```
+
+### 💬 3.2 비즈니스 알림 자동 발송 (Notification)
+주요 비즈니스 상태 변화(입양 확정/반려) 시 대상자에게 즉시 시스템 쪽지를 자동 발송합니다.
+
+```mermaid
+flowchart TD
+    S_CONFIRM[입양 최종 확정] --> DB_PROC[DB 트랜잭션 수행]
+    DB_PROC --> ALARM{알림 대상 추출}
+    
+    ALARM -->|승인된 1인| SEND1["💌 '입양 확정' 축하 쪽지 발송"]
+    ALARM -->|탈락한 N인| SEND2["📨 '입양 반려' 위로 쪽지 발송"]
+    
+    SEND1 --> END([처리 완료])
+    SEND2 --> END
+    
+    style S_CONFIRM fill:#2196F3,color:#fff
+    style SEND1 fill:#4CAF50,color:#fff
+    style SEND2 fill:#F44336,color:#fff
+```
+
+---
+
+## 4. 통합 비즈니스 플로우 (Full Flow)
 
 ```mermaid
 flowchart TD
@@ -295,7 +330,7 @@ flowchart TD
 
     MAIN --> AUTH{로그인 상태}
 
-    AUTH -->|"❌ 비로그인"| GUEST["조회만 가능\n(동물·봉사·펀딩·게시글)"]
+    AUTH -->|"❌ 비로그인"| GUEST["조회만 가능<br/>(동물·봉사·펀딩·게시글)"]
     AUTH -->|"✅ 일반회원"| USER[전체 기능 이용 가능]
     AUTH -->|"🔑 관리자"| ADMIN[관리 기능 + 전체 기능]
 
@@ -322,7 +357,7 @@ flowchart TD
     ADMIN --> AD6["💬 채팅 상담"]
 
     %% 공통 흐름
-    U1 -->|관리자 승인| RESULT1["✅ 입양 완료"]
+    U1 -->|게시자 승인| RESULT1["✅ 입양 완료"]
     U2 -->|관리자 승인| RESULT2["✅ 봉사 참여→후기"]
     U3 --> RESULT3["✅ 후원 기록"]
     U4 --> RESULT4["✅ 게시 완료"]
