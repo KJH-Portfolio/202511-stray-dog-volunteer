@@ -25,11 +25,7 @@
 
 > [!IMPORTANT]  
 > **데이터 무결성을 지키는 DB 모델링부터 효율적인 MVC 구조 설계까지, 입양 도메인의 전체 생애주기를 직접 설계하고 구현했습니다.**  
-> - 💎, 🔥, 🌟 마크는 **기여자의 직무적 성취를 증명하는 핵심 지표**입니다.  
-> - 모든 내용이 접혀있으므로, 기여도가 높은 **3, 4, 5번 섹션** 위주로 확인을 권장드립니다.
->   - 💎 **[CORE]**: 객체 간 원자적 상태 변경 및 입양 시나리오 설계
->   - 🔥 **[DEEP DIVE]**: N+1 최적화 및 방어적 아키텍처 구축
->   - 🌟 **[GROWTH]**: 파이널 프로젝트로의 기술적 도약
+> - 본 문서의 내용은 가독성을 위해 접혀 있습니다. **개인적인 기술 역량 및 구현 로직**은 기여도가 높은 **3, 4, 5번 섹션**에서 중점적으로 확인하실 수 있습니다.
 
 ---
 <details>
@@ -127,11 +123,8 @@
 
 ---
 <details id="core-contributions">
-<summary><b>3. 프로젝트 개인 구현 - 백엔드 설계 철학 및 로직 구현 [CORE] 💎</b></summary>
+<summary><b>3. 프로젝트 개인 구현 - 백엔드 설계 철학 및 로직 구현 🛠️</b></summary>
 <br>
-
-> [!TIP]  
-> **[백엔드 엔지니어링 문제 해결 보고서 (troubleshooting_deep_dive.md) 보러가기](troubleshooting_deep_dive.md)**
 
 - 🎯 **프로젝트 목표 (Foundation & Integrity):** 
   - **표준 MVC 아키텍처 수립:** 객체 지향 원칙에 따른 Controller-Service-DAO 계층화로 결합도를 낮추고, 데이터 유입 원천지부터 영속성 계층까지의 **데이터 흐름을 100% 통제**하는 것을 목표로 했습니다.
@@ -250,7 +243,7 @@
 
 ---
 <details id="technical-deepdive">
-<summary><b>4. 기술적 깊이 - 까다로운 문제 해결 및 성능 최적화 사례 [DEEP DIVE] 🔥</b></summary>
+<summary><b>4. 기술적 깊이 - 까다로운 문제 해결 및 성능 최적화 사례 🚀</b></summary>
 <br>
 
 **🔍 핵심 로직 분석 (Core Logic Analysis)**
@@ -378,7 +371,7 @@ public int confirmAdoption(int adoptionAppId, int animalNo) {
 
 ---
 <details id="retrospective-growth">
-<summary><b>5. 회고 - 프로젝트 성찰 및 향후 기술적 지향점 [GROWTH] 🌟</b></summary>
+<summary><b>5. 회고 - 프로젝트 성찰 및 향후 기술적 지향점 📈</b></summary>
 <br>
 
 - **🟢 Keep (Project Standards): 표준 MVC 아키텍처 준수와 방어적 설계 습관**
