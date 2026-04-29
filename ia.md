@@ -34,9 +34,6 @@ graph TD
 
 ## 2. 도메인별 상세 아키텍처
 
-> [!NOTE]
-> 유기동물 매칭(입양) 및 봉사 모집 서비스는 플랫폼의 핵심 도메인으로, 하기에 상세 프로세스를 정의합니다. 그 외 **지원 도메인(펀딩, 커뮤니티, 회원)**은 표준 MVC 패턴 및 아키텍처 규격을 엄격히 준수하여 설계되었으므로 상세 명세에서는 생략합니다.
-
 ### 🐾 2.1 입양 도메인 (Adoption)
 유기동물 매칭과 심사 프로세스를 관리하는 핵심 영역입니다.
 
@@ -61,6 +58,43 @@ graph LR
     style V_LIST fill:#8BC34A,color:#fff
 ```
 
+### 💰 2.3 펀딩 및 기부 도메인 (Funding & Donation)
+투명한 기부 문화 조성을 위한 펀딩 및 후원 프로세스입니다.
+
+```mermaid
+graph LR
+    F_LIST["💰 펀딩 목록<br/>(/funding/fundingListView)"] --> F_DETAIL["펀딩 상세<br/>(/funding/fundingDetailView)"]
+    F_DETAIL --> F_PAY["기부 결제<br/>(/funding/insertFundingHistory)"]
+    F_LIST --> D_MAIN["일반 후원<br/>(/donation/donationView)"]
+
+    style F_LIST fill:#2196F3,color:#fff
+```
+
+### 📝 2.4 커뮤니티 및 메시징 (Community & Messaging)
+사용자 간 정보 공유 및 소통을 위한 소셜 공간입니다.
+
+```mermaid
+graph LR
+    C_LIST["📝 커뮤니티 메인<br/>(/community/boardList)"] --> C_DETAIL["게시글 상세<br/>(/community/boardDetail)"]
+    C_DETAIL --> C_REPLY["댓글/답글<br/>(AJAX / JSON)"]
+    C_LIST --> M_INBOX["📬 받은 쪽지함<br/>(/message/inbox.ms)"]
+    M_INBOX --> M_SEND["쪽지 발송<br/>(/message/insert.ms)"]
+
+    style C_LIST fill:#9C27B0,color:#fff
+```
+
+### 📋 2.5 회원 및 마이페이지 (Member & MyPage)
+개인별 활동 이력 및 회원 정보를 통합 관리합니다.
+
+```mermaid
+graph LR
+    M_LOG["🔐 로그인/가입<br/>(user/login.me)"] --> M_MY["📋 마이페이지<br/>(user/mypage.me)"]
+    M_MY --> M_EDIT["정보 수정<br/>(user/update.me)"]
+    M_MY --> M_ACT["활동 내역 조회<br/>(AJAX / JSON)"]
+
+    style M_MY fill:#607D8B,color:#fff
+```
+
 ---
 
 ## 📑 3. 페이지 및 API 상세 명세
@@ -73,10 +107,16 @@ graph LR
 | **봉사** | 프로젝트 목록 | `/volunteerList.vo` | SSR (Model) | 공통 |
 | **봉사** | 후기 댓글 로드 | `/reviewReplyList.vo` | **AJAX (JSON)** | 공통 |
 | **봉사** | 내 봉사 신청 관리 | `/mySignList.vo` | **AJAX (JSON)** | 일반 |
+| **펀딩** | 펀딩 목록 조회 | `/funding/fundingListView` | SSR (Model) | 공통 |
 | **펀딩** | 펀딩 상세 보기 | `/funding/fundingDetailView` | SSR (Model) | 공통 |
+| **펀딩** | 기부금 결제 처리 | `/funding/insertFundingHistory` | **AJAX (JSON)** | 일반 |
+| **커뮤니티**| 게시글 상세 보기 | `/community/boardDetail` | SSR (Model) | 공통 |
+| **커뮤니티**| 댓글 등록/삭제 | `/community/replyInsert` | **AJAX (JSON)** | 일반 |
 | **회원** | 마이페이지 메인 | `/user/mypage.me` | SSR (Model) | 일반 |
+| **회원** | 회원 정보 수정 | `/user/update.me` | SSR (Model) | 일반 |
 | **회원** | 아이디 중복 체크 | `/user/checkId.me` | **AJAX (JSON)** | 공통 |
 | **메시지** | 받은 쪽지함 | `/message/inbox.ms` | SSR (Model) | 일반 |
+| **메시지** | 쪽지 삭제 처리 | `/message/delete.ms` | **AJAX (JSON)** | 일반 |
 
 ---
 
