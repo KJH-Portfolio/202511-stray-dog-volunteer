@@ -1,11 +1,11 @@
-# 🌊 UBIG 사용자 비즈니스 동선 정의 (User Flow)
+# UBIG 사용자 비즈니스 동선 정의 (User Flow)
 
 > **사용자 경험(UX) 중심의 기능 프로세스 및 예외 처리 아키텍처**  
 > 이 문서는 유기동물 입양 신청, 봉사 참여, 펀딩 결제 등 핵심 비즈니스 로직별 사용자 이동 경로와 시스템 자동화 프로세스를 다이어그램을 통해 정의합니다.
 
 ---
 
-## 📑 목차
+## 목차
 1. [역할별 권한 플로우](#1-역할별-권한-플로우)
 2. [핵심 기능별 상세 플로우](#2-핵심-기능별-상세-플로우)
 3. [시스템 자동화 로직 (Automation)](#3-시스템-자동화-로직-automation)
@@ -15,7 +15,7 @@
 
 ## 1. 역할별 권한 플로우
 
-### 👁️ 비로그인 사용자
+### 비로그인 사용자
 
 ```mermaid
 flowchart TD
@@ -62,7 +62,7 @@ flowchart TD
 
 ---
 
-### 👤 일반 사용자 (USER)
+### 일반 사용자 (USER)
 
 ```mermaid
 flowchart TD
@@ -134,7 +134,7 @@ flowchart TD
 
 ---
 
-### ⚙️ 관리자 (ADMIN)
+### 관리자 (ADMIN)
 
 ```mermaid
 flowchart TD
@@ -194,9 +194,9 @@ flowchart TD
 
 ---
 
-## 2. 기능별 플로우
+## 2. 핵심 기능별 상세 플로우
 
-### 🐾 입양 플로우
+### 입양 플로우
 
 ```mermaid
 flowchart LR
@@ -226,7 +226,7 @@ flowchart LR
 
 ---
 
-### 🌱 봉사활동 플로우
+### 봉사활동 플로우
 
 ```mermaid
 flowchart LR
@@ -257,7 +257,7 @@ flowchart LR
 
 ---
 
-### 💰 펀딩 플로우
+### 펀딩 플로우
 
 ```mermaid
 flowchart LR
@@ -288,7 +288,7 @@ flowchart LR
 
 프로젝트의 운영 효율성을 높이기 위해 수동 개입 없이 서버에서 자동으로 수행되는 로직입니다.
 
-### ⏰ 3.1 입양 공고 배치 처리 (Batch/Cron)
+### 3.1 입양 공고 배치 처리 (Batch/Cron)
 마감 기한(`DEADLINE_DATE`)이 지난 공고를 시스템이 매일 자정 자동으로 검색하여 상태를 변경합니다.
 
 ```mermaid
@@ -301,7 +301,7 @@ flowchart LR
     style SCHEDULER fill:#FF9800,color:#fff
 ```
 
-### 💬 3.2 비즈니스 알림 자동 발송 (Notification)
+### 3.2 비즈니스 알림 자동 발송 (Notification)
 주요 비즈니스 상태 변화(입양 확정/반려) 시 대상자에게 즉시 시스템 쪽지를 자동 발송합니다.
 
 ```mermaid

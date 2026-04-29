@@ -1,11 +1,11 @@
-# 🗄️ UBIG 물리 데이터 모델링 명세 (ERD Specification)
+# UBIG 물리 데이터 모델링 명세 (ERD Specification)
 
 > **데이터 무결성과 정합성 확보를 위한 물리 DB 설계 전략**  
 > 이 문서는 유기동물 입양, 봉사, 펀딩 시스템의 모든 테이블(23개)과 상세 제약조건을 실제 DB 구현체(`init_db.sql`)와 100% 동일하게 정의하며, 데이터 정합성을 위한 논리/물리 설계 근거를 명세합니다.
 
 ---
 
-## 📑 목차
+## 목차
 1. [데이터 설계 및 정합성 유지 원칙](#1-데이터-설계-및-정합성-유지-원칙-technical-note)
 2. [전체 도메인 관계도 (Overview)](#2-전체-도메인-관계도-overview)
 3. [도메인 계층 구조 (Hierarchy View)](#3-도메인-계층-구조-hierarchy-view)
@@ -15,7 +15,7 @@
 
 ---
 
-## 💡 1. 데이터 설계 및 정합성 유지 원칙 (Technical Note)
+## 1. 데이터 설계 및 정합성 유지 원칙 (Technical Note)
 - **한글 바이트 산정**: Oracle `AL32UTF8` 기준, 한글 1자당 **3바이트**를 할당하여 설계했습니다. (예: VARCHAR2(30) = 한글 10자 제한)
 - **데이터 타입 최적화**: 상태 코드 및 카테고리는 조회 성능과 정합성을 위해 `NUMBER` 또는 `CHAR(1)` 타입을 우선 적용했습니다.
 - **물리 구현 스크립트**: 실제 테이블 생성(DDL) 및 초기 데이터 삽입(DML) 구문은 [init_db.sql](./init_db.sql) 파일에서 확인할 수 있습니다.
@@ -23,7 +23,7 @@
 
 ---
 
-## 📊 2. 전체 도메인 관계도 (Overview)
+## 2. 전체 도메인 관계도 (Overview)
 
 ```mermaid
 erDiagram
@@ -292,7 +292,7 @@ erDiagram
 
 ---
 
-## 🔄 3. 도메인 계층 구조 (Hierarchy View)
+## 3. 도메인 계층 구조 (Hierarchy View)
 
 ```text
 MEMBERS (USER_ID)
@@ -319,11 +319,11 @@ MEMBERS (USER_ID)
 
 ---
 
-## 📋 4. 테이블 상세 명세 (Data Dictionary)
+## 4. 테이블 상세 명세 (Data Dictionary)
 
 본 섹션은 `UBIG` 시스템의 데이터 정합성과 성능 최적화를 위해 설계된 **23개 전체 테이블**의 물리적 명세를 실제 `init_db.sql` 스크립트와 100% 동기화하여 기술합니다.
 
-### 🔑 4.1 회원 및 보안 (Identity)
+### 4.1 회원 및 보안 (Identity)
 | 테이블 | 컬럼명 | 데이터 타입 | 제약조건 | 기술적 설계 의도 및 비고 |
 |---|---|---|---|---|
 | **MEMBERS** | `USER_ID` | VARCHAR2(30) | PK | 회원 아이디 |
@@ -341,7 +341,7 @@ MEMBERS (USER_ID)
 | | `USER_ENROLL_DATE`| DATE | - | 가입 날짜 |
 | | `USER_MODIFY_DATE`| DATE | - | 수정 날짜 |
 
-### 🐾 4.2 입양 관리 (Adoption)
+### 4.2 입양 관리 (Adoption)
 | 테이블 | 컬럼명 | 데이터 타입 | 제약조건 | 기술적 설계 의도 및 비고 |
 |---|---|---|---|---|
 | **ANIMAL_DETAILS**| `ANIMAL_NO` | NUMBER | PK | 동물 고유 번호 |
@@ -360,7 +360,7 @@ MEMBERS (USER_ID)
 | | `USER_ID` | VARCHAR2(30) | FK | 신청자 |
 | | `ADOPT_STATUS` | NUMBER | - | 신청 상태 (0:대기, 1:완료, 2:거절) |
 
-### 🤝 4.3 봉사 및 활동 (Volunteer)
+### 4.3 봉사 및 활동 (Volunteer)
 | 테이블 | 컬럼명 | 데이터 타입 | 제약조건 | 기술적 설계 의도 및 비고 |
 |---|---|---|---|---|
 | **ACTIVITIES** | `ACT_ID` | NUMBER | PK | 프로그램 ID |
@@ -378,7 +378,7 @@ MEMBERS (USER_ID)
 | | `CMT_ANSWER` | VARCHAR2(2000)| NN | 댓글 내용 |
 | | `CMT_REMOVE` | NUMBER | - | 삭제 상태 |
 
-### 💰 4.4 후원 및 펀딩 (Funding)
+### 4.4 후원 및 펀딩 (Funding)
 | 테이블 | 컬럼명 | 데이터 타입 | 제약조건 | 기술적 설계 의도 및 비고 |
 |---|---|---|---|---|
 | **FUNDINGS** | `F_NO` | NUMBER | PK | 펀딩 번호 |
@@ -390,7 +390,7 @@ MEMBERS (USER_ID)
 | **DONATIONS** | `DONATION_NO` | NUMBER | PK | 일반 후원 번호 |
 | | `DONATION_MONEY`| NUMBER | - | 후원 금액 |
 
-### 📝 4.5 커뮤니티 (Community)
+### 4.5 커뮤니티 (Community)
 | 테이블 | 컬럼명 | 데이터 타입 | 제약조건 | 기술적 설계 의도 및 비고 |
 |---|---|---|---|---|
 | **BOARDS** | `BOARD_ID` | NUMBER | PK | 게시글 고유 번호 |
@@ -412,7 +412,7 @@ MEMBERS (USER_ID)
 | | `COMMENT_ID` | NUMBER | FK | 댓글 참조 |
 | | `USER_ID` | VARCHAR2(30) | FK | 회원 참조 |
 
-### ✉️ 4.6 메시징 및 시스템 (System)
+### 4.6 메시징 및 시스템 (System)
 | 테이블 | 컬럼명 | 데이터 타입 | 제약조건 | 기술적 설계 의도 및 비고 |
 |---|---|---|---|---|
 | **MESSAGES** | `MESSAGE_NO` | NUMBER | PK | 쪽지 고유 번호 |
@@ -427,9 +427,9 @@ MEMBERS (USER_ID)
 
 ---
 
-## 🗂️ 5. 도메인별 분리 ERD (Domain Specific)
+## 5. 도메인별 분리 ERD (Domain Specific)
 
-### 🐾 5.1 입양 및 보호 (Adoption)
+### 5.1 입양 및 보호 (Adoption)
 ```mermaid
 erDiagram
     MEMBERS ||--o{ ADOPTION_APPLICATIONS : "신청"
@@ -446,7 +446,7 @@ erDiagram
     }
 ```
 
-### 🤝 5.2 봉사 및 시스템 (Volunteer & System)
+### 5.2 봉사 및 시스템 (Volunteer & System)
 ```mermaid
 erDiagram
     MEMBERS ||--o{ SIGNS : "참여"
@@ -465,7 +465,7 @@ erDiagram
     }
 ```
 
-### 💬 5.3 커뮤니티 및 소통 (Community & Communication)
+### 5.3 커뮤니티 및 소통 (Community & Communication)
 ```mermaid
 erDiagram
     MEMBERS ||--o{ BOARDS : "작성"
@@ -493,7 +493,7 @@ erDiagram
     }
 ```
 
-### 💰 5.4 후원 및 펀딩 (Funding & Donation)
+### 5.4 후원 및 펀딩 (Funding & Donation)
 ```mermaid
 erDiagram
     MEMBERS ||--o{ FUNDINGS : "개설"
@@ -513,7 +513,7 @@ erDiagram
     }
 ```
 
-### 🔒 5.5 보안 및 관리 (Security & Management)
+### 5.5 보안 및 관리 (Security & Management)
 ```mermaid
 erDiagram
     MEMBERS ||--o{ KICKS : "차단주체/대상"
@@ -532,7 +532,7 @@ erDiagram
 
 ---
 
-## ⚡ 6. DB 성능 최적화 전략 (Performance Optimization)
+## 6. DB 성능 최적화 전략 (Performance Optimization)
 
 본 시스템은 Oracle 21c 환경에서 대규모 유기동물 데이터 및 사용자 활동 이력을 효율적으로 처리하기 위해 다음과 같은 물리적 최적화 설계를 적용했습니다.
 

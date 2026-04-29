@@ -1,20 +1,20 @@
-# 🏗️ UBIG Infrastructure & Technical Architecture
+# UBIG Infrastructure & Technical Architecture
 
 > **Docker 기반 컨테이너 아키텍처 및 도메인 중심(Domain-Driven) 설계 명세**  
 > 이 문서는 UBIG 세미 프로젝트의 물리적 인프라 구성, 소프트웨어 계층 구조, 그리고 데이터 흐름에 대한 기술적 설계 근거를 정의합니다.
 
 ---
 
-## 📑 목차
-1. [🏢 물리 인프라 아키텍처 (Docker & Container)](#-1-물리-인프라-아키텍처-docker--container)
-2. [📦 소프트웨어 아키텍처 (Domain-First Package)](#-2-소프트웨어-아키텍처-domain-first-package)
-3. [📊 데이터 흐름 및 계층 (3-Tier MVC Layer)](#-3-데이터-흐름-및-계층-3-tier-mvc-layer)
-4. [🗄️ 데이터베이스 설계 전략 (Persistence Layer)](#-4-데이터베이스-설계-전략-persistence-layer)
-5. [🛡️ 보안 및 방어적 설계 (Security & Integrity)](#-5-보안-및-방어적-설계-security--integrity)
+## 목차
+1. [🏢 물리 인프라 아키텍처 (Docker & Container)](#1-물리-인프라-아키텍처-docker--container)
+2. [📦 소프트웨어 아키텍처 (Domain-First Package)](#2-소프트웨어-아키텍처-domain-first-package)
+3. [📊 데이터 흐름 및 계층 (3-Tier MVC Layer)](#3-데이터-흐름-및-계층-3-tier-mvc-layer)
+4. [🗄️ 데이터베이스 설계 전략 (Persistence Layer)](#4-데이터베이스-설계-전략-persistence-layer)
+5. [🛡️ 보안 및 방어적 설계 (Security & Integrity)](#5-보안-및-방어적-설계-security--integrity)
 
 ---
 
-## 🏢 1. 물리 인프라 아키텍처 (Docker & Container)
+## 1. 물리 인프라 아키텍처 (Docker & Container)
 
 본 프로젝트는 개발 환경과 운영 환경의 일치(Environment Parity)를 위해 **Docker 컨테이너 기반 아키텍처**를 채택했습니다. 
 
@@ -40,7 +40,7 @@ graph LR
 
 ---
 
-## 📦 2. 소프트웨어 아키텍처 (Domain-First Package)
+## 2. 소프트웨어 아키텍처 (Domain-First Package)
 
 유지보수성과 가독성을 극대화하기 위해 기술 계층이 아닌 **비즈니스 도메인 중심의 패키지 구조**를 설계했습니다.
 
@@ -52,7 +52,7 @@ graph LR
 
 ---
 
-## 📊 3. 데이터 흐름 및 계층 (3-Tier MVC Layer)
+## 3. 데이터 흐름 및 계층 (3-Tier MVC Layer)
 
 Spring Legacy MVC 패턴을 기반으로 한 엄격한 계층 분리를 통해 비즈니스 로직의 독립성을 확보했습니다.
 
@@ -92,7 +92,7 @@ sequenceDiagram
 
 ---
 
-## 🗄️ 4. 데이터베이스 설계 전략 (Persistence Layer)
+## 4. 데이터베이스 설계 전략 (Persistence Layer)
 
 ### 4.1 MyBatis 정밀 제어 (Dynamic SQL)
 - **효율적 쿼리**: 복합 필터 조건(검색 키워드, 지역, 상태 등) 발생 시 MyBatis 동적 태그를 사용하여 **실행 시점에 최적화된 SQL을 생성**합니다.
@@ -104,7 +104,7 @@ sequenceDiagram
 
 ---
 
-## 🛡️ 5. 보안 및 방어적 설계 (Security & Integrity)
+## 5. 보안 및 방어적 설계 (Security & Integrity)
 
 - **BCrypt 암호화**: `MEMBERS.USER_PWD` 컬럼은 **BCrypt 10 rounds** 암호화를 적용하여 DB 유출 시에도 기술적인 방어가 가능하도록 설계했습니다.
 - **5중 서버 가드(Guard Logic)**: 클라이언트 측 검증을 필수로 하되, 컨트롤러 레이어에서 세션 및 DB 실시간 조회를 통해 **우회적인 요청(API 직접 호출)을 100% 차단**합니다.
@@ -112,22 +112,22 @@ sequenceDiagram
 
 ---
 
-## ⚙️ 6. 공통 시스템 컴포넌트 (Global Infrastructure Components)
+## 6. 공통 시스템 컴포넌트 (Global Infrastructure Components)
 
 애플리케이션 전역에서 동작하며 보안, 성능, 자동화를 담당하는 핵심 기술 컴포넌트입니다.
 
-### 🛡️ 6.1 관문 제어 (Interceptor)
+### 6.1 관문 제어 (Interceptor)
 Spring MVC의 `HandlerInterceptor`를 구현하여 컨트롤러 진입 전 권한을 중앙 집중식으로 제어합니다.
 
 *   **LoginInterceptor**: 마이페이지, 신청서 작성 등 회원 전용 서비스 접근 시 세션 유효성을 미리 검증합니다.
 *   **AdminInterceptor**: `USER_ROLE` 필드를 확인하여 관리자 페이지(`/admin/**`) 및 공고 관리 기능을 비인가 사용자로부터 원천 차단합니다.
 *   **장점**: 각 컨트롤러마다 중복된 로그인 체크 코드를 작성할 필요가 없어 유지보수성이 극대화됩니다.
 
-### ⏰ 6.2 배경 자동화 (Scheduler)
+### 6.2 배경 자동화 (Scheduler)
 `@Scheduled` 어노테이션과 Cron 표현식을 활용하여 서버에서 백그라운드로 실행되는 자동화 작업을 수행합니다.
 
 *   **AdoptionScheduler**: 매일 자정(`00:00:00`) 마감일이 지난 입양 공고를 전수 조사하여 상태값을 자동으로 업데이트합니다.
 *   **구현**: `AdoptionService`와 결합하여 대량의 데이터를 배치 처리(Batch Process) 방식으로 안전하게 갱신합니다.
 
-### 💬 6.3 실시간 통신 (WebSocket)
+### 6.3 실시간 통신 (WebSocket)
 `TextWebSocketHandler`를 확장하여 별도의 새로고침 없이 관리자와 사용자 간의 1:1 실시간 상담 기능을 제공합니다.

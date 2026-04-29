@@ -1,18 +1,18 @@
-# 🗺️ UBIG 세미 프로젝트 IA (Information Architecture)
+# UBIG 세미 프로젝트 IA (Information Architecture)
 
 > **사용자 경험(UX) 중심의 페이지 계층 구조 및 API 명세**  
 > 이 문서는 실제 구현된 서버 사이드 매핑(`@RequestMapping`) 정보를 기반으로 사이트의 정보 구조와 데이터 흐름을 정의합니다.
 
 ---
 
-## 📑 목차
-1. [📊 서비스 레이아웃 (Overview)](#-1-서비스-레이아웃-overview)
-2. [🐾 도메인별 상세 아키텍처](#-2-도메인별-상세-아키텍처)
-3. [📑 페이지 및 API 상세 명세](#-3-페이지-및-api-상세-명세)
+## 목차
+1. [📊 서비스 레이아웃 (Overview)](#1-서비스-레이아웃-overview)
+2. [🐾 도메인별 상세 아키텍처](#2-도메인별-상세-아키텍처)
+3. [📑 페이지 및 API 상세 명세](#3-페이지-및-api-상세-명세)
 
 ---
 
-## 📊 1. 서비스 레이아웃 (Overview)
+## 1. 서비스 레이아웃 (Overview)
 
 사이트의 핵심 메뉴는 GNB(Global Navigation Bar)를 통해 제어되며, 각 도메인은 독립적인 매핑 서픽스(`.mainpage`, `.vo`, `.me` 등)를 가집니다.
 
@@ -34,7 +34,7 @@ graph TD
 
 ## 2. 도메인별 상세 아키텍처
 
-### 🐾 2.1 입양 도메인 (Adoption)
+### 2.1 입양 도메인 (Adoption)
 유기동물 매칭과 심사 프로세스를 관리하는 핵심 영역입니다.
 
 ```mermaid
@@ -46,7 +46,7 @@ graph LR
     style A_MAIN fill:#FF9800,color:#fff
 ```
 
-### 🌱 2.2 봉사활동 도메인 (Volunteer)
+### 2.2 봉사활동 도메인 (Volunteer)
 봉사 모집 공고 및 활동 후기 시스템을 구축했습니다.
 
 ```mermaid
@@ -58,7 +58,7 @@ graph LR
     style V_LIST fill:#8BC34A,color:#fff
 ```
 
-### 💰 2.3 펀딩 및 기부 도메인 (Funding & Donation)
+### 2.3 펀딩 및 기부 도메인 (Funding & Donation)
 투명한 기부 문화 조성을 위한 펀딩 및 후원 프로세스입니다.
 
 ```mermaid
@@ -70,7 +70,7 @@ graph LR
     style F_LIST fill:#2196F3,color:#fff
 ```
 
-### 📝 2.4 커뮤니티 및 메시징 (Community & Messaging)
+### 2.4 커뮤니티 및 메시징 (Community & Messaging)
 사용자 간 정보 공유 및 소통을 위한 소셜 공간입니다.
 
 ```mermaid
@@ -83,7 +83,7 @@ graph LR
     style C_LIST fill:#9C27B0,color:#fff
 ```
 
-### 📋 2.5 회원 및 마이페이지 (Member & MyPage)
+### 2.5 회원 및 마이페이지 (Member & MyPage)
 개인별 활동 이력 및 회원 정보를 통합 관리합니다.
 
 ```mermaid
@@ -97,7 +97,7 @@ graph LR
 
 ---
 
-## 📑 3. 페이지 및 API 상세 명세
+## 3. 페이지 및 API 상세 명세
 
 | 도메인 | 기능(Feature) | Mapping URL (Real) | 데이터 방식 | 권한 |
 |---|---|---|---|---|
@@ -120,7 +120,7 @@ graph LR
 
 ---
 
-### 💡 문서 활용 가이드
+### 문서 활용 가이드
 - **SSR (Server-Side Rendering)**: Controller에서 `Model` 객체에 데이터를 담아 JSP로 직접 전달하는 방식입니다.
 - **AJAX (JSON)**: 페이지 새로고침 없이 비동기적으로 데이터를 요청하고 수신하는 방식입니다. (MyPage의 탭 전환 등에서 사용)
 - **Mapping URL**: 실제 WAS에서 처리하는 물리적 엔드포인트입니다.

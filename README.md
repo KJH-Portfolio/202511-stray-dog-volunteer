@@ -1,4 +1,4 @@
-# 🐾 UBIG Semi Project
+# UBIG Semi Project
 
 > **유기동물 입양, 봉사 및 펀딩을 연결하여 유기동물과 새로운 가족을 이어주는 종합 플랫폼**  
 > 이 문서는 세미 프로젝트의 개요, 핵심 기여도, 그리고 기술적 문제 해결 과정을 담은 통합 대시보드입니다.
@@ -207,7 +207,7 @@
 
 
 
-#### 🔧 핵심 구현 소스 코드 (Core Implementation)
+#### 핵심 구현 소스 코드 (Core Implementation)
 > 입양 도메인의 **전체 생명주기(공고 등록 ➡️ 신청 ➡️ 심사 및 매니징 ➡️ 확정)**를 직접 설계하고 구현한 핵심 파일들입니다.
 
 - **Presentation & Control**: [AdoptionController.java](./UBIGSemiProject/src/main/java/com/ubig/app/adoption/controller/AdoptionController.java)
@@ -218,7 +218,7 @@
   - **사용자향**: [메인 목록](./UBIGSemiProject/src/main/webapp/WEB-INF/views/adoption/adoptionmainpage.jsp) / [상세 보기](./UBIGSemiProject/src/main/webapp/WEB-INF/views/adoption/adoptiondetailpage.jsp) / [입양 신청](./UBIGSemiProject/src/main/webapp/WEB-INF/views/adoption/adoptionapplication.jsp)
   - **매니징/관리**: [입양 공고 및 신청자 관리](./UBIGSemiProject/src/main/webapp/WEB-INF/views/adoption/adoptionpostmanage.jsp) / [동물 정보 등록](./UBIGSemiProject/src/main/webapp/WEB-INF/views/adoption/adoptionenrollpageanimal.jsp)
 
-#### ✨ 주요 기능 하이라이트 (Functional Highlights)
+#### 주요 기능 하이라이트 (Functional Highlights)
 
 **1) 입양 공고 검색 및 상세 조회**
 - 다양한 필터링(축종, 지역, 나이 등)과 키워드 검색을 통해 입양 대기 중인 동물을 효율적으로 탐색하고 상세 정보를 확인할 수 있습니다.
