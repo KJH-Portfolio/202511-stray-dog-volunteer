@@ -6,11 +6,11 @@
 ---
 
 ## 📑 목차
-1. [🏢 물리 인프라 아키텍처 (Docker & Container)](#1-물리-인프라-아키텍처-docker--container)
-2. [📦 소프트웨어 아키텍처 (Domain-First Package)](#2-소프트웨어-아키텍처-domain-first-package)
-3. [📊 데이터 흐름 및 계층 (3-Tier MVC Layer)](#3-데이터-흐름-및-계층-3-tier-mvc-layer)
-4. [🗄️ 데이터베이스 설계 전략 (Persistence Layer)](#4-데이터베이스-설계-전략-persistence-layer)
-5. [🛡️ 보안 및 방어적 설계 (Security & Integrity)](#5-보안-및-방어적-설계-security--integrity)
+1. [🏢 물리 인프라 아키텍처 (Docker & Container)](#-1-물리-인프라-아키텍처-docker--container)
+2. [📦 소프트웨어 아키텍처 (Domain-First Package)](#-2-소프트웨어-아키텍처-domain-first-package)
+3. [📊 데이터 흐름 및 계층 (3-Tier MVC Layer)](#-3-데이터-흐름-및-계층-3-tier-mvc-layer)
+4. [🗄️ 데이터베이스 설계 전략 (Persistence Layer)](#-4-데이터베이스-설계-전략-persistence-layer)
+5. [🛡️ 보안 및 방어적 설계 (Security & Integrity)](#-5-보안-및-방어적-설계-security--integrity)
 
 ---
 
